@@ -1,7 +1,6 @@
 package edu.uottawa.seg2105_final_grp12;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
