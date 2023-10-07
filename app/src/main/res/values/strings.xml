@@ -7,4 +7,6 @@
     <string name="hint_email">Email...</string>
     <string name="button_sign_up">Sign Up</string>
     <string name="text_sign_in">Sign In</string>
+    <string name="radio_button_participant">Participant</string>
+    <string name="radio_button_club">Cycling Club</string>
 </resources>
