@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioGroup;
+
+import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -44,13 +49,18 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (register(username, password, email,role)) {
                 Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
-                User registeredUser = new User("1", username, email, role);
-
-                intent.putExtra("UID", registeredUser.getUid());
-                intent.putExtra("USERNAME", registeredUser.getUsername());
-                intent.putExtra("EMAIL", registeredUser.getEmail());
-                intent.putExtra("ROLE", registeredUser.getRole());
-                startActivity(intent);
+                AuthModel.getInstance().registerUser(username, email, password, role)
+                        .addOnCompleteListener(new OnCompleteListener<User>() { // Account has been added to FB
+                            public void onComplete(Task<User> task) {
+                                User registeredUser = task.getResult();
+                                intent.putExtra("UID", registeredUser.getUid());
+                                intent.putExtra("USERNAME", registeredUser.getUsername());
+                                intent.putExtra("EMAIL", registeredUser.getEmail());
+                                intent.putExtra("ROLE", registeredUser.getRole());
+                                startActivity(intent);
+                            }
+                        }
+                );
 
             } else {
                 // TODO show error to user when registration goes wrong
