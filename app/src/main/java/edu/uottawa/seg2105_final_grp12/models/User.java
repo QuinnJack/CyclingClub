@@ -9,17 +9,17 @@ public class User {
     // userID, unique identifier from Firebase
     private String uid;
     private String username;
-    private String firstName;
+    private String email;
     private String role;
 
     // private FirebaseAuth mAuth;
 
     public User() {
     }
-    public User(String uid, String username, String firstName, String role) {
+    public User(String uid, String username, String email, String role) {
         this.uid = uid;
         this.username = username;
-        this.firstName = firstName;
+        this.email = email;
         this.role = role;
         // this.mAuth = FirebaseAuth.getInstance();
     }
@@ -31,8 +31,8 @@ public class User {
         return username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getEmail() {
+        return email;
     }
 
     public String getRole() {

@@ -24,53 +24,55 @@ public class ExampleUnitTest {
 
     @Test
     public void userCreationTest() {
-        User user = new User("12345", "testUser", "Test", "user");
+        User user = new User("12345", "testUser", "test@gmail.com", "user");
         assertEquals("testUser", user.getUsername());
-        assertEquals("Test", user.getFirstName());
+        assertEquals("test@gmail.com", user.getEmail());
         assertEquals("user", user.getRole());
         assertEquals("12345", user.getUid());
     }
 
     @Test
     public void adminCreationTest() {
-        Admin admin = new Admin("12345");
+        Admin admin = new Admin("12345", "admin@test.com");
         assertEquals("admin", admin.getUsername());
-        assertEquals("Admin", admin.getFirstName());
+        assertEquals("admin@test.com", admin.getEmail());
         assertEquals("admin", admin.getRole());
     }
 
     @Test
     public void cyclingClubCreationTest() {
-        CyclingClub club = new CyclingClub("12345", "MyClub");
+        CyclingClub club = new CyclingClub("12345", "MyClub", "club@gmail.com");
         assertEquals("MyClub", club.getUsername());
+        assertEquals("club@gmail.com", club.getEmail());
+
     }
 
     @Test
     public void participantCreationTest() {
-        Participant participant = new Participant("12345", "testUser", "Test");
+        Participant participant = new Participant("12345", "testUser", "test@test.com");
         assertEquals("testUser", participant.getUsername());
-        assertEquals("Test", participant.getFirstName());
+        assertEquals("test@test.com", participant.getEmail());
         assertEquals("12345", participant.getUid());
 
     }
 
      @Test
      public void signUpTest() {
-         User user = new User("12345", "testUser", "Test", "participant");
+         User user = new User("12345", "testUser", "test@test.com", "participant");
          boolean result = user.createAccount("test@example.com", "password123");
          assertTrue(result);
      }
-
     @Test
      public void signInTest() {
-        User user = new User("12345", "testUser", "Test", "participant");
+        User user = new User("12345", "testUser", "test@test.com", "participant");
         boolean loggedIn = user.login("test@example.com", "passwordzzzz");
         assertTrue(loggedIn);
     }
     @Test
     public void wrongPasswordTest() {
-        User user = new User("12345", "testUser", "Test", "participant");
+        User user = new User("12345", "testUser", "test@test.com", "participant");
         boolean loggedIn = user.login("test@example.com", "theWrongPassword");
         assertFalse(loggedIn);
     }
+    // TODO Sanitize user inputs tests
 }
