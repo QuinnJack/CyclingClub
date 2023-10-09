@@ -36,6 +36,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.firebase:firebase-database:20.2.2")
     dependencies {
         implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
         implementation("com.google.firebase:firebase-analytics")

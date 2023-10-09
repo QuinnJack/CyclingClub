@@ -1,10 +1,10 @@
 package edu.uottawa.seg2105_final_grp12;
 
 import org.junit.Test;
-import edu.uottawa.seg2105_final_grp12.models.User;
-import edu.uottawa.seg2105_final_grp12.models.Admin;
-import edu.uottawa.seg2105_final_grp12.models.CyclingClub;
-import edu.uottawa.seg2105_final_grp12.models.Participant;
+import edu.uottawa.seg2105_final_grp12.models.data.User;
+import edu.uottawa.seg2105_final_grp12.models.data.Admin;
+import edu.uottawa.seg2105_final_grp12.models.data.CyclingClub;
+import edu.uottawa.seg2105_final_grp12.models.data.Participant;
 
 
 import static org.junit.Assert.*;
