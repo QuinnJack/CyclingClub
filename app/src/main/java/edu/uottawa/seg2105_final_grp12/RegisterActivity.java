@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import edu.uottawa.seg2105_final_grp12.models.User;
+import android.widget.Toast;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -52,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             } else {
                 // TODO show error to user when registration goes wrong
+                Toast.makeText(RegisterActivity.this, "Sign up failed!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -61,8 +64,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean register(String username, String password,String email, String role) {
-        // TODO: Implement registration logic with fb
-        //TODO sanitize user input
+
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            return false;
+        }
+        // TODO Add firebase auth lookup instead of hard coded.
+        // TODO sanitize user input
         return true;
     }
 }

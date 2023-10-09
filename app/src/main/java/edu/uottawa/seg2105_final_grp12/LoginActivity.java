@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.Toast;
+
+
 import edu.uottawa.seg2105_final_grp12.models.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -46,11 +49,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
 
             } else {
-                // TODO show error to user when sign in unsuccesful
+                Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
     private boolean signIn(String username, String password) {
+        // Check if username or password is null or empty
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            return false;
+        }
         // TODO Add firebase auth lookup instead of hard coded.
         // TODO sanitize user input
         return true;

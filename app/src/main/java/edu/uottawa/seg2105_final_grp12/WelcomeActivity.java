@@ -16,7 +16,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // TODO Change hardcoded user to fetch from FB database
+        // TODO fetch from FB database?
         Intent intent = getIntent();
         String uid = intent.getStringExtra("UID");
         String username = intent.getStringExtra("USERNAME");
