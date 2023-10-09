@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.uottawa.seg2105_final_grp12.models.User;
+import android.content.Intent;
+
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -15,7 +17,13 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         // TODO Change hardcoded user to fetch from FB database
-        User user = new User("12345", "testUser", "test@test.com", "participant");
+        Intent intent = getIntent();
+        String uid = intent.getStringExtra("UID");
+        String username = intent.getStringExtra("USERNAME");
+        String email = intent.getStringExtra("EMAIL");
+        String role = intent.getStringExtra("ROLE");
+
+        User user = new User(uid, username, email, role);
 
         TextView tvUsername = findViewById(R.id.tv_username);
         TextView tvRole = findViewById(R.id.tv_role);
