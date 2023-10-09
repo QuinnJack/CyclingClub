@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import edu.uottawa.seg2105_final_grp12.models.User;
+import edu.uottawa.seg2105_final_grp12.models.data.User;
 import android.content.Intent;
 
 

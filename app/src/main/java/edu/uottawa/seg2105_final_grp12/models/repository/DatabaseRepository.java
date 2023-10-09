@@ -53,16 +53,14 @@ public class DatabaseRepository {
         throw new NotImplementedError();
     }
 
-    public Task<DataSnapshot> singleValueQuery(String ref, String key, String value) {
-        TaskCompletionSource<DataSnapshot> queryComletionSource = new TaskCompletionSource<>();
-        Query filterQuery = databaseRef.child("users/");
-        databaseRef.child(ref).orderByChild("key").equalTo(value);
+    public Task<DataSnapshot> singleValueQuery(String ref, String key, String filterKey, String filterValue) {
+        TaskCompletionSource<DataSnapshot> queryCompletionSource = new TaskCompletionSource<>();
+        Query filterQuery = databaseRef.child(ref).orderByChild(filterKey).equalTo(filterValue);
 
         filterQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.e(TAG, "onDataChange: " + snapshot.getRef());
-                queryComletionSource.setResult(snapshot);
+                queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));//snapshot.child(key).getValue(value.getClass()));
             }
 
             @Override
@@ -70,6 +68,6 @@ public class DatabaseRepository {
 
             }
         });
-        return queryComletionSource.getTask();
+        return queryCompletionSource.getTask();
     }
 }

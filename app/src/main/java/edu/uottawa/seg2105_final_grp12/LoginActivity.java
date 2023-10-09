@@ -3,15 +3,13 @@ package edu.uottawa.seg2105_final_grp12;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
 
-import edu.uottawa.seg2105_final_grp12.models.User;
+
+import edu.uottawa.seg2105_final_grp12.models.data.User;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername;

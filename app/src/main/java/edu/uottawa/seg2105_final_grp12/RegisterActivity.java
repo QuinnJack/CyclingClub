@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import edu.uottawa.seg2105_final_grp12.models.User;
+import edu.uottawa.seg2105_final_grp12.models.data.User;
 import android.widget.Toast;
 
 
