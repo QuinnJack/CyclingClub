@@ -40,7 +40,7 @@ public class User {
     }
 
     // TODO
-    public boolean login(String email, String password) {
+    public boolean login(String username, String password) {
         return true;
     }
 
@@ -48,7 +48,7 @@ public class User {
         //mAuth.signOut();
     }
 
-    public boolean createAccount(String email, String password) {
+    public boolean createAccount(String username, String password) {
         return true;
     }
 }
