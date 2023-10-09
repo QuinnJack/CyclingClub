@@ -35,9 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
             String role = "";
             int selectedId = radioAccountType.getCheckedRadioButtonId();
             if (selectedId == R.id.radio_button_participant) {
-                role = "participant";
+                role = "Participant";
             } else if (selectedId == R.id.radio_button_club) {
-                role = "club";
+                role = "Cycling Club";
             }
 
             if (register(username, password, email,role)) {
