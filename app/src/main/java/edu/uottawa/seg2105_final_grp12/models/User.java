@@ -43,7 +43,6 @@ public class User {
     public boolean login(String username, String password) {
         return true;
     }
-
     public void logout() {
         //mAuth.signOut();
     }
