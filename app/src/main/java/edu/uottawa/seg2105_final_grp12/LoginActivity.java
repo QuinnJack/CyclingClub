@@ -47,9 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // TODO: split below onComplete failures into "boolean signIn"
             if (cleanInputs(username, password)) {
-
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-
                 AuthModel.getInstance().login(username, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             public void onComplete(Task<AuthResult> authTask) {
@@ -58,17 +56,23 @@ public class LoginActivity extends AppCompatActivity {
                                             .singleValueQuery("users", "role", "username", username)
                                             .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                                 public void onComplete(Task<DataSnapshot> task) {
-                                                    String role = task.getResult().getValue().toString();
 
-                                                    User signedInUser = new User(authTask.getResult().getUser(), username, role);
-                                                    intent.putExtra("UID", signedInUser.getUid());
-                                                    intent.putExtra("USERNAME", signedInUser.getUsername());
-                                                    intent.putExtra("EMAIL", signedInUser.getEmail());
-                                                    intent.putExtra("ROLE", signedInUser.getRole());
-                                                    startActivity(intent);
+                                                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getValue() != null) {
+                                                        String role = task.getResult().getValue().toString();
+                                                        User signedInUser = new User(authTask.getResult().getUser(), username, role);
+                                                        intent.putExtra("UID", signedInUser.getUid());
+                                                        intent.putExtra("USERNAME", signedInUser.getUsername());
+                                                        intent.putExtra("EMAIL", signedInUser.getEmail());
+                                                        intent.putExtra("ROLE", signedInUser.getRole());
+                                                        startActivity(intent);
+                                                    }
+                                                    if (task.getException() != null) {
+                                                        Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
                                             });
 
+                                    // TODO add error message when account does not exist
                                 } else {
                                     Log.d("error", "signinwithEmail:failure", authTask.getException());
                                     Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
@@ -78,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
     private boolean cleanInputs(String username, String password) {
@@ -85,8 +90,13 @@ public class LoginActivity extends AppCompatActivity {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
         }
+
+
         // TODO Add firebase auth lookup instead of hard coded.
         // TODO sanitize user input
         return true;
     }
-}
+    //private boolean signIn(String username, String password) {
+   // return true;
+   // }
+    }

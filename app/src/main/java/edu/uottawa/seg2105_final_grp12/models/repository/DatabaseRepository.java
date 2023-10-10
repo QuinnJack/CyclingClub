@@ -60,7 +60,13 @@ public class DatabaseRepository {
         filterQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));//snapshot.child(key).getValue(value.getClass()));
+
+                if (snapshot.exists()) {
+                    queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));//snapshot.child(key).getValue(value.getClass()));
+                }
+             else {
+                queryCompletionSource.setException(new Exception("User not found in database"));
+            }
             }
 
             @Override
