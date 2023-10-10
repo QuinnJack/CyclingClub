@@ -62,7 +62,7 @@ public class DatabaseRepository {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if (snapshot.exists()) {
-                    queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));//snapshot.child(key).getValue(value.getClass()));
+                    queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));
                 }
              else {
             return;            }

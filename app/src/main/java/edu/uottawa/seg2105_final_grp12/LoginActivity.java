@@ -15,9 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DataSnapshot;
 
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
-
-
-
+import edu.uottawa.seg2105_final_grp12.models.data.Admin;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.models.repository.DatabaseRepository;
 
@@ -45,6 +43,14 @@ public class LoginActivity extends AppCompatActivity {
             String username = inputUsername.getText().toString();
             String password = inputPassword.getText().toString();
 
+            if (username.equals("admin") && (password.equals("admin"))) {
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                User signedInUser = new Admin("111","admin@admin.com" );
+                intent.putExtra("USERNAME", signedInUser.getUsername());
+                intent.putExtra("ROLE", signedInUser.getRole());
+                startActivity(intent);
+            }
+
             // TODO: split below onComplete failures into "boolean signIn"
             if (cleanInputs(username, password)) {
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
@@ -57,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                                             .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                                 public void onComplete(Task<DataSnapshot> task) {
 
-                                                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getValue() != null) {
+                                                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getValue() != null ) {
                                                         String role = task.getResult().getValue().toString();
                                                         User signedInUser = new User(authTask.getResult().getUser(), username, role);
                                                         intent.putExtra("UID", signedInUser.getUid());
@@ -69,10 +75,11 @@ public class LoginActivity extends AppCompatActivity {
                                                     if (task.getException() != null) {
                                                         Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
                                                     }
+
                                                 }
+
                                             });
 
-                                    // TODO add error message when account does not exist
                                 } else {
                                     Log.d("error", "signinwithEmail:failure", authTask.getException());
                                     Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
@@ -90,13 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
         }
-
-
-        // TODO Add firebase auth lookup instead of hard coded.
-        // TODO sanitize user input
         return true;
     }
-    //private boolean signIn(String username, String password) {
-   // return true;
-   // }
+
     }

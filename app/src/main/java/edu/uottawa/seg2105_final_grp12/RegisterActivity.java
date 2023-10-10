@@ -9,12 +9,14 @@ import android.widget.RadioGroup;
 
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
+import edu.uottawa.seg2105_final_grp12.models.repository.AuthRepository;
+
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -74,11 +76,30 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean register(String username, String password, String email, String role) {
 
+        AtomicBoolean valid = new AtomicBoolean(true);
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
         }
+
+        if (password.length() < 5) {
+            Toast.makeText(RegisterActivity.this, "Password must be at least 5 characters", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        AuthRepository.getInstance().emailExists(email).addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult()) {
+                        Toast.makeText(this, "Email in use", Toast.LENGTH_SHORT).show();
+                        valid.set(false);
+                    }});
+
         // TODO Add firebase auth lookup instead of hard coded.
         // TODO sanitize user input
-        return true;
+        return valid.get();
     }
 }
