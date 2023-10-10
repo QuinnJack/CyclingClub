@@ -6,7 +6,7 @@ public class CyclingClub extends User {
     public CyclingClub() {}
 
     public CyclingClub(String uid, String clubName, String email) {
-        super(uid, clubName, email, "club");
+        super(uid, clubName, email, "Club");
     }
 
 

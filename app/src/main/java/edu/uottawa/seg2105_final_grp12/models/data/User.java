@@ -31,7 +31,7 @@ public class User implements Serializable {
 
     public String getUid() {
         return firebaseUser.getUid();
-    }
+    }   
     public String getUsername() {
         return username;
     }
@@ -46,16 +46,16 @@ public class User implements Serializable {
         return role;
     }
 
-    // TODO
-    public boolean login(String username, String password) {
-        return true;
-    }
+//     // TODO
+//     public boolean login(String username, String password) {
+//         return true;
+//     }
 
-    public void logout() {
-        //mAuth.signOut();
-    }
+//     public void logout() {
+//         //mAuth.signOut();
+//     }
 
-    public boolean createAccount(String username, String password) {
-        return true;
-    }
+//     public boolean createAccount(String username, String password) {
+//         return true;
+//     }
 }

@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = inputPassword.getText().toString();
 
             // TODO: split below onComplete failures into "boolean signIn"
-            if (signIn(username, password)) {
+            if (cleanInputs(username, password)) {
 
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
 
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean signIn(String username, String password) {
+    private boolean cleanInputs(String username, String password) {
         // Check if username or password is null or empty
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
