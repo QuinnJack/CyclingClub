@@ -2,7 +2,9 @@ package edu.uottawa.seg2105_final_grp12;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = inputUsername.getText().toString();
             String password = inputPassword.getText().toString();
 
+            // TODO: split below onComplete failures into "boolean signIn"
             if (signIn(username, password)) {
 
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
@@ -50,25 +53,28 @@ public class LoginActivity extends AppCompatActivity {
                 AuthModel.getInstance().login(username, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             public void onComplete(Task<AuthResult> authTask) {
+                                if (authTask.isSuccessful()) {
+                                    DatabaseRepository.getInstance()
+                                            .singleValueQuery("users", "role", "username", username)
+                                            .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                                public void onComplete(Task<DataSnapshot> task) {
+                                                    String role = task.getResult().getValue().toString();
 
-                                DatabaseRepository.getInstance()
-                                        .singleValueQuery("users", "role", "username", username)
-                                        .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                            public void onComplete(Task<DataSnapshot> task) {
-                                                String role = task.getResult().getValue().toString();
+                                                    User signedInUser = new User(authTask.getResult().getUser(), username, role);
+                                                    intent.putExtra("UID", signedInUser.getUid());
+                                                    intent.putExtra("USERNAME", signedInUser.getUsername());
+                                                    intent.putExtra("EMAIL", signedInUser.getEmail());
+                                                    intent.putExtra("ROLE", signedInUser.getRole());
+                                                    startActivity(intent);
+                                                }
+                                            });
 
-                                                User signedInUser = new User(authTask.getResult().getUser(), username, role);
-                                                intent.putExtra("UID", signedInUser.getUid());
-                                                intent.putExtra("USERNAME", signedInUser.getUsername());
-                                                intent.putExtra("EMAIL", signedInUser.getEmail());
-                                                intent.putExtra("ROLE", signedInUser.getRole());
-                                                startActivity(intent);
-                                            }
-                                        });
-
+                                } else {
+                                    Log.d("error", "signinwithEmail:failure", authTask.getException());
+                                    Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                        );
+                        });
             } else {
                 Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
