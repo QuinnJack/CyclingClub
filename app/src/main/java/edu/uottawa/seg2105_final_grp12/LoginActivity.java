@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DataSnapshot;
 
+
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 
 
@@ -89,4 +90,4 @@ public class LoginActivity extends AppCompatActivity {
         // TODO sanitize user input
         return true;
     }
-}
+} 

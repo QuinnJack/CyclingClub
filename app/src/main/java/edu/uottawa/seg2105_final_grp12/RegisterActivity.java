@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                 role = "Cycling Club";
             }
 
-            if (register(username, password, email,role)) {
+            if (register(username, password, email, role)) {
                 Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
                 AuthModel.getInstance().registerUser(username, email, password, role)
                         .addOnCompleteListener(new OnCompleteListener<User>() { // Account has been added to FB
@@ -63,11 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                         );
-
-            } else {
                 // TODO show error to user when registration goes wrong
-                Toast.makeText(RegisterActivity.this, "Sign up failed!", Toast.LENGTH_SHORT).show();
-            }
+            } else Toast.makeText(RegisterActivity.this, "Sign up failed!", Toast.LENGTH_SHORT).show();
         });
 
         findViewById(R.id.tv_login).setOnClickListener(view -> {
@@ -75,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private boolean register(String username, String password,String email, String role) {
+    private boolean register(String username, String password, String email, String role) {
 
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
