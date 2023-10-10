@@ -65,8 +65,7 @@ public class DatabaseRepository {
                     queryCompletionSource.setResult(snapshot.getChildren().iterator().next().child(key));//snapshot.child(key).getValue(value.getClass()));
                 }
              else {
-                queryCompletionSource.setException(new Exception("User not found in database"));
-            }
+            return;            }
             }
 
             @Override
