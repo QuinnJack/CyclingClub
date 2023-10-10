@@ -21,7 +21,7 @@ public class User implements Serializable {
         this.role = role;
     }
     public User(String uid, String username, String firstName, String role) {
-        this.username = firstName;
+        this.username = username;
         this.role = role;
         // this.mAuth = FirebaseAuth.getInstance();
     }

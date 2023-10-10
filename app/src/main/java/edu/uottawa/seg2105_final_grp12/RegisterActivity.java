@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.Serializable;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -60,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         }
-                );
+                        );
 
             } else {
                 // TODO show error to user when registration goes wrong

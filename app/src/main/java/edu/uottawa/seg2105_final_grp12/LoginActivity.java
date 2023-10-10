@@ -7,9 +7,17 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.database.DataSnapshot;
+
+import edu.uottawa.seg2105_final_grp12.models.AuthModel;
+
 
 
 import edu.uottawa.seg2105_final_grp12.models.data.User;
+import edu.uottawa.seg2105_final_grp12.models.repository.DatabaseRepository;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername;
@@ -38,14 +46,29 @@ public class LoginActivity extends AppCompatActivity {
             if (signIn(username, password)) {
 
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                // TODO firebase auth
-                User signedInUser = new User("1", username, "test@test.com", "user");
-                intent.putExtra("UID", signedInUser.getUid());
-                intent.putExtra("USERNAME", signedInUser.getUsername());
-                intent.putExtra("EMAIL", signedInUser.getEmail());
-                intent.putExtra("ROLE", signedInUser.getRole());
-                startActivity(intent);
 
+                AuthModel.getInstance().login(username, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            public void onComplete(Task<AuthResult> authTask) {
+
+                                DatabaseRepository.getInstance()
+                                        .singleValueQuery("users", "role", "username", username)
+                                        .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            public void onComplete(Task<DataSnapshot> task) {
+                                                String role = task.getResult().getValue().toString();
+
+                                                User signedInUser = new User(authTask.getResult().getUser(), username, role);
+                                                intent.putExtra("UID", signedInUser.getUid());
+                                                intent.putExtra("USERNAME", signedInUser.getUsername());
+                                                intent.putExtra("EMAIL", signedInUser.getEmail());
+                                                intent.putExtra("ROLE", signedInUser.getRole());
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                            }
+                        }
+                        );
             } else {
                 Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
