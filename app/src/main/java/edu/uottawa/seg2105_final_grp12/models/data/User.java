@@ -23,7 +23,6 @@ public class User implements Serializable {
     public User(String uid, String username, String firstName, String role) {
         this.username = username;
         this.role = role;
-        // this.mAuth = FirebaseAuth.getInstance();
     }
 
     public User() {
@@ -45,17 +44,4 @@ public class User implements Serializable {
     public String getRole() {
         return role;
     }
-
-//     // TODO
-//     public boolean login(String username, String password) {
-//         return true;
-//     }
-
-//     public void logout() {
-//         //mAuth.signOut();
-//     }
-
-//     public boolean createAccount(String username, String password) {
-//         return true;
-//     }
 }

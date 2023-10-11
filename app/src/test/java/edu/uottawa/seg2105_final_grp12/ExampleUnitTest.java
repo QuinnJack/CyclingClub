@@ -1,13 +1,21 @@
 package edu.uottawa.seg2105_final_grp12;
 
 import org.junit.Test;
+
+import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.models.data.Admin;
 import edu.uottawa.seg2105_final_grp12.models.data.CyclingClub;
 import edu.uottawa.seg2105_final_grp12.models.data.Participant;
+import kotlin.random.Random;
 
 
 import static org.junit.Assert.*;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -58,21 +66,21 @@ public class ExampleUnitTest {
 
      @Test
      public void signUpTest() {
-         User user = new User("12345", "testUser", "test@test.com", "participant");
-         boolean result = user.createAccount("test@example.com", "password123");
-         assertTrue(result);
+        String testId = "signUpTest" + Random.Default.nextInt(1000000);
+        AuthModel.getInstance().registerUser(testId, testId + "@test.test", "password", "participant")
+                .addOnCompleteListener(task -> assertTrue(task.isSuccessful()));
      }
     @Test
      public void signInTest() {
         User user = new User("12345", "testUser", "test@test.com", "participant");
-        boolean loggedIn = user.login("test@example.com", "passwordzzzz");
-        assertTrue(loggedIn);
+        AuthModel.getInstance().login("test5", "password")
+                .addOnCompleteListener(task -> assertTrue(task.isSuccessful()));
     }
     @Test
     public void wrongPasswordTest() {
         User user = new User("12345", "testUser", "test@test.com", "participant");
-        boolean loggedIn = user.login("test@example.com", "theWrongPassword");
-        assertFalse(loggedIn);
+        AuthModel.getInstance().login("test5", "wrongPassword")
+                .addOnCompleteListener(task -> assertFalse(task.isSuccessful()));
     }
     // TODO Sanitize user inputs tests
 }
