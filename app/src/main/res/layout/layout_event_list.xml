@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- within the guillemets the attributes for the Linear layouts are defined -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- When this layout is inflated inside getView, the below text views can: -->
+    <!--     1) be assigned to a TextView object using findViewById(id) -->
+    <!--     2) have their text edited with .setText(element) -->
+    <!-- After this, the inflated layout, being a view, can be returned for the adapter -->
+    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:id="@+id/textViewEventName" android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=""/>
+    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:id="@+id/textViewEventType" android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text=""/>
+
+    <!-- The specific attributes for any SubEvent are broken off into seperate layouts-->
+    <!-- The inflatedId attribute below can be changed, and then when the ViewStub is inflated, that layout will be shown -->
+    <ViewStub
+        android:id="@+id/eventTypeLayout"
+        android:inflatedId="@+id/event_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!-- The following are attributes that can be applied to any event. -->
+    <!-- Where an attribute == null, use TextView.setVisibility(View.GONE) -->
+    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:id="@+id/textViewMinAge" android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="" android:visibility="visible"/>
+    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:id="@+id/textViewMaxAge" android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="" android:visibility="visible"/>
+    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:id="@+id/textViewPace" android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="" android:visibility="visible"/>
+
+</LinearLayout>
