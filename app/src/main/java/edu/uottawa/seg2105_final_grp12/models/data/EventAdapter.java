@@ -48,11 +48,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         Event event = events.get(listPosition);
         textViewEventName.setText(event.getEventName());
-        textViewEventType.setText("NOT IMPLEMENTED"); // TODO: display instance class
+        textViewEventType.setText("EVENT TYPE NOT IMPLEMENTED"); // TODO: display instance class
             // eventTypeLayout.setInflatedId(R.layout.eventTypeID); // TODO: change sub-layout with eventType
-        textViewMinAge.setText(event.getMinAge());
-        textViewMaxAge.setText(event.getMaxAge());
-        textViewPace.setText(event.getPace());
+        if (event.getMinAge() == null ) { textViewMinAge.setVisibility(View.GONE); } // TODO: this null doesn't work? user shouldn't have to enter certain attributes
+            else { textViewMinAge.setText("Minimum age: " + event.getMinAge().toString()); }
+        textViewMaxAge.setText("Maximum age: " + event.getMaxAge().toString());
+        textViewPace.setText("Recommended Pace: " + event.getPace());
 
         return listViewEvent; // Returns this singular
     }

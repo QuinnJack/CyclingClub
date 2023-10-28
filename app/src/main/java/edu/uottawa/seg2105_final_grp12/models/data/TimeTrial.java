@@ -4,7 +4,8 @@ public class TimeTrial extends Event {
 
     private int numberOfIntevals;
 
-    public TimeTrial() {
+    public TimeTrial(String id) {
+        super(id);
         // Without defining what requirements an admin MUST specify, its a bit hard to define the constructor
     }
 
