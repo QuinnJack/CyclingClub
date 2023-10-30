@@ -4,10 +4,3 @@ Deval Chovatia 300312824 <br>
 Xander Fleury 300300186 <br>
 Andrew Horgan 300199610 <br>
 Quinn Jackson 300297356
-
-
-TODO: add CircleCI build button
-Build Status
-[![Build
-Status](https://circleci.com/gh/SEG2105F18/ProductCatalog.png?branch=master)](https://circle
-ci.com/gh/SEG2105F18/ProductCatalog)
