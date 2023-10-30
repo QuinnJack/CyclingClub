@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername;
     private EditText inputPassword;
     private Button btnLogin;
+
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -33,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
 
+
+        sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
 
         inputUsername = findViewById(R.id.et_username);
         inputPassword = findViewById(R.id.et_password);
@@ -46,8 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             if (username.equals("admin") && (password.equals("admin"))) {
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
                 User signedInUser = new Admin("111","admin@admin.com" );
-                intent.putExtra("USERNAME", signedInUser.getUsername());
-                intent.putExtra("ROLE", signedInUser.getRole());
+
+                sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("UID", "111");
+                editor.putString("USERNAME", "Admin");
+                editor.putString("EMAIL", "admin@admin.com");
+                editor.putString("ROLE", "Admin");
+                editor.apply();
                 startActivity(intent);
             }
 
@@ -66,10 +78,15 @@ public class LoginActivity extends AppCompatActivity {
                                                     if (task.isSuccessful() && task.getResult() != null && task.getResult().getValue() != null ) {
                                                         String role = task.getResult().getValue().toString();
                                                         User signedInUser = new User(authTask.getResult().getUser(), username, role);
-                                                        intent.putExtra("UID", signedInUser.getUid());
-                                                        intent.putExtra("USERNAME", signedInUser.getUsername());
-                                                        intent.putExtra("EMAIL", signedInUser.getEmail());
-                                                        intent.putExtra("ROLE", signedInUser.getRole());
+
+                                                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                                        editor.putString("UID", signedInUser.getUid());
+                                                        editor.putString("USERNAME", signedInUser.getUsername());
+                                                        editor.putString("EMAIL", signedInUser.getEmail());
+                                                        editor.putString("ROLE", signedInUser.getRole());
+                                                        editor.apply();
                                                         startActivity(intent);
                                                     }
                                                     if (task.getException() != null) {

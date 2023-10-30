@@ -14,4 +14,11 @@
     <string name="hint_max_age">Please enter maximum age...</string>
     <string name="hint_min_age">Please enter minimum age...</string>
     <string name="hint_event_name">Please enter the event name...</string>
+    <string-array name="event_types">
+        <item>Time Trial</item>
+        <item>Hill Climb</item>
+        <item>Road Stage Race</item>
+        <item>Road Race</item>
+        <item>Group Rides</item>
+    </string-array>
 </resources>
