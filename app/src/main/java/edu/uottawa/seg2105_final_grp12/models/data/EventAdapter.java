@@ -8,10 +8,21 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.view.MenuItem;
+
+import android.widget.Spinner;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import android.widget.Toast;
+import android.widget.AdapterView;
+
 
 import java.util.List;
 
 import edu.uottawa.seg2105_final_grp12.R;
+import edu.uottawa.seg2105_final_grp12.EventManagementActivity;
 
 
 /**
@@ -48,12 +59,56 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         Event event = events.get(listPosition);
         textViewEventName.setText(event.getEventName());
-        textViewEventType.setText("EVENT TYPE NOT IMPLEMENTED"); // TODO: display instance class
-            // eventTypeLayout.setInflatedId(R.layout.eventTypeID); // TODO: change sub-layout with eventType
+        textViewEventType.setText(event.getType() + " "); // TODO: display instance class
+        //eventTypeLayout.setInflatedId(R.layout.eventTypeID); // TODO: change sub-layout with eventType
         if (event.getMinAge() == null ) { textViewMinAge.setVisibility(View.GONE); } // TODO: this null doesn't work? user shouldn't have to enter certain attributes
             else { textViewMinAge.setText("Minimum age: " + event.getMinAge().toString()); }
         textViewMaxAge.setText("Maximum age: " + event.getMaxAge().toString());
         textViewPace.setText("Recommended Pace: " + event.getPace());
+
+
+
+        Button btnEditType = (Button) listViewEvent.findViewById(R.id.button_edit);
+        Button btnDelete = (Button) listViewEvent.findViewById(R.id.button_del);
+        int position = listPosition; // This captures the current position
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events");
+                Event event = events.get(position);
+
+                events.remove(position);
+                String eventID = event.getId();
+                if (eventID != null) {
+                    mDatabase.child(eventID).removeValue();
+                    notifyDataSetChanged();
+                } else {
+                    Toast.makeText(context, "Error: Invalid event ID", Toast.LENGTH_SHORT).show();
+                }
+            }});
+
+        btnEditType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseEvents = FirebaseDatabase.getInstance().getReference("events");
+                PopupMenu popup = new PopupMenu(context, btnEditType);
+                // Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.menu_event_type, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String newType = item.getTitle().toString();
+
+                        event.setType(newType);
+                        databaseEvents.child(event.getId()).child("type").setValue(newType);
+                        notifyDataSetChanged();
+                        return true;
+                    }
+                });
+                popup.show(); // showing popup menu
+            }
+        });
+
+
 
         return listViewEvent; // Returns this singular
     }

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/type1" android:title="Time Trial" />
+    <item android:id="@+id/type2" android:title="Hill Climb" />
+    <item android:id="@+id/type3" android:title="Road Stage Race" />
+    <item android:id="@+id/type4" android:title="Road Race" />
+    <item android:id="@+id/type5" android:title="Group Rides" />
+
+    <!-- Add other event types here -->
+</menu>

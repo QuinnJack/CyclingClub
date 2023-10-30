@@ -17,6 +17,8 @@ public class Event {
     private String pace;
     private Integer distance;
 
+    private String type;
+
     public Event() {
 
     }
@@ -39,6 +41,10 @@ public class Event {
 
     public void setPace(String pace) { this.pace = pace; }
     public String getPace() { return pace; }
+    public void setType(String type) { this.type = type; }
+    public String getType() { return type; }
+
+    public String getId() { return id;}
 
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
     //public String getDifficulty() { return difficulty; }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import android.content.SharedPreferences;
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,9 @@ public class EventManagementActivity extends AppCompatActivity {
     ListView listViewEvents;
     DatabaseReference databaseEvents;
     List<Event> events;
-    EventAdapter eventsAdapter; // Declare the adapter at the class level
+    EventAdapter eventsAdapter;
+    Spinner eventTypeSpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,6 @@ public class EventManagementActivity extends AppCompatActivity {
         // Firebase database
         databaseEvents = FirebaseDatabase.getInstance().getReference("events");
 
-        // View elements initialization
         editTextEventName = findViewById(R.id.et_event_name);
         editTextMinAge = findViewById(R.id.et_min_age);
         editTextMaxAge = findViewById(R.id.et_max_age);
@@ -55,7 +57,7 @@ public class EventManagementActivity extends AppCompatActivity {
         listViewEvents = findViewById(R.id.list_events);
         buttonAddEvent = findViewById(R.id.btn_add_event);
 
-        Spinner eventTypeSpinner = findViewById(R.id.spinner_event_type);
+        eventTypeSpinner = findViewById(R.id.spinner_event_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventTypeSpinner.setAdapter(adapter);
@@ -66,6 +68,7 @@ public class EventManagementActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+
 
         events = new ArrayList<>();
         eventsAdapter = new EventAdapter(EventManagementActivity.this, events);
@@ -107,11 +110,13 @@ public class EventManagementActivity extends AppCompatActivity {
 
     private void addEvent() {
 
+        eventTypeSpinner = findViewById(R.id.spinner_event_type);
+        String type = eventTypeSpinner.getSelectedItem().toString();
+
         String name = editTextEventName.getText().toString().trim();
         String minAgeString = editTextMinAge.getText().toString().trim();
         String maxAgeString = editTextMaxAge.getText().toString().trim();
         String pace = editTextPace.getText().toString().trim();
-
         if (name.isEmpty() || minAgeString.isEmpty() || maxAgeString.isEmpty() || pace.isEmpty()) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_LONG).show();
             return;
@@ -126,6 +131,7 @@ public class EventManagementActivity extends AppCompatActivity {
         event.setMinAge(minAge);
         event.setMaxAge(maxAge);
         event.setPace(pace);
+        event.setType(type);
 
         databaseEvents.child(id).setValue(event);
 
@@ -136,7 +142,14 @@ public class EventManagementActivity extends AppCompatActivity {
 
         //Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
 
-
+    }
+    public void deleteEvent(Event eventToDelete) {
+        if (eventToDelete.getId() != null) {
+            databaseEvents.child(eventToDelete.getId()).removeValue();
+            Toast.makeText(this, "Event deleted", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error: Unable to delete event", Toast.LENGTH_LONG).show();
+        }
     }
 
 
