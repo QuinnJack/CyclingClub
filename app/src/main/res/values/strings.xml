@@ -12,6 +12,6 @@
     <string name="button_add_event">+ Add Event</string>
     <string name="hint_pace">Please enter event pace...</string>
     <string name="hint_max_age">Please enter maximum age...</string>
-    <string name="hint_min_age">Enter minimum age (optional)...</string>
+    <string name="hint_min_age">Please enter minimum age...</string>
     <string name="hint_event_name">Please enter the event name...</string>
 </resources>

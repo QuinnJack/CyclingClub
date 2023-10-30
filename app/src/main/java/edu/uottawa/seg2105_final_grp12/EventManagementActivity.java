@@ -82,11 +82,19 @@ public class EventManagementActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
+
         String name = editTextEventName.getText().toString().trim();
-        Integer minAge = Integer.parseInt(String.valueOf(editTextMinAge.getText().toString()));
-        Integer maxAge = Integer.parseInt(String.valueOf(editTextMaxAge.getText().toString()));
+        String minAgeString = editTextMinAge.getText().toString().trim();
+        String maxAgeString = editTextMaxAge.getText().toString().trim();
         String pace = editTextPace.getText().toString().trim();
 
+        if (name.isEmpty() || minAgeString.isEmpty() || maxAgeString.isEmpty() || pace.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Integer minAge = Integer.parseInt(minAgeString);
+        Integer maxAge = Integer.parseInt(maxAgeString);
         String id = databaseEvents.push().getKey();
 
         Event event = new Event(id);
