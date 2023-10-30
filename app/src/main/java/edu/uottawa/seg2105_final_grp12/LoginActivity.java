@@ -67,35 +67,20 @@ public class LoginActivity extends AppCompatActivity {
             if (cleanInputs(username, password)) {
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
                 AuthModel.getInstance().login(username, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            public void onComplete(Task<AuthResult> authTask) {
+                        .addOnCompleteListener(new OnCompleteListener<User>() {
+                            public void onComplete(Task<User> authTask) {
                                 if (authTask.isSuccessful()) {
-                                    DatabaseRepository.getInstance()
-                                            .singleValueQuery("users", "role", "username", username)
-                                            .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                                public void onComplete(Task<DataSnapshot> task) {
+                                    User signedInUser = authTask.getResult();
 
-                                                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getValue() != null ) {
-                                                        String role = task.getResult().getValue().toString();
-                                                        User signedInUser = new User(authTask.getResult().getUser(), username, role);
+                                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                                                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
-                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                                                        editor.putString("UID", signedInUser.getUid());
-                                                        editor.putString("USERNAME", signedInUser.getUsername());
-                                                        editor.putString("EMAIL", signedInUser.getEmail());
-                                                        editor.putString("ROLE", signedInUser.getRole());
-                                                        editor.apply();
-                                                        startActivity(intent);
-                                                    }
-                                                    if (task.getException() != null) {
-                                                        Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
-                                                    }
-
-                                                }
-
-                                            });
+                                    editor.putString("UID", signedInUser.getUid());
+                                    editor.putString("USERNAME", signedInUser.getUsername());
+                                    editor.putString("EMAIL", signedInUser.getEmail());
+                                    editor.putString("ROLE", signedInUser.getRole());
+                                    editor.apply();
+                                    startActivity(intent);
 
                                 } else {
                                     Log.d("error", "signinwithEmail:failure", authTask.getException());

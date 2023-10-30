@@ -9,7 +9,6 @@ import android.widget.RadioGroup;
 
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
-import edu.uottawa.seg2105_final_grp12.models.repository.AuthRepository;
 
 import android.widget.Toast;
 
@@ -92,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        AuthRepository.getInstance().emailExists(email).addOnCompleteListener(task -> {
+        AuthModel.getInstance().emailExists(email).addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult()) {
                         Toast.makeText(this, "Email in use", Toast.LENGTH_SHORT).show();
                         valid.set(false);
