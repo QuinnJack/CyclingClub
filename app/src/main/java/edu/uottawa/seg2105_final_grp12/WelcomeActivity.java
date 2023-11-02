@@ -32,16 +32,22 @@ public class WelcomeActivity extends AppCompatActivity {
 
         TextView tvUsername = findViewById(R.id.tv_username);
         TextView tvRole = findViewById(R.id.tv_role);
-        Button btnEventManagement = findViewById(R.id.btn_event_management);
 
         tvUsername.setText("Username: " + user.getUsername());
         tvRole.setText("Role: " + user.getRole());
 
-        // Access event management screen
-        btnEventManagement.setOnClickListener(view -> {
-            startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
+        Button btnEventManagement = findViewById(R.id.btn_event_management);
+            // Access event management screen
+            btnEventManagement.setOnClickListener(view -> {
+                startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
+
         });
 
 
+        Button btnUsers = findViewById(R.id.btn_users);
+        // Access event management screen
+        btnUsers.setOnClickListener(view -> {
+            startActivity(new Intent(WelcomeActivity.this, UsersActivity.class));
+        });
     }
 }

@@ -6,47 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
-<TextView
-    android:id="@+id/tv_greeting"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Welcome!"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    android:layout_marginTop="120dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv_greeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="208dp"
+        android:text="Welcome!"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<TextView
-    android:id="@+id/tv_username"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Username: "
-    android:textSize="24sp"
-    android:textColor="#555555"
-    android:layout_marginTop="30dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tv_greeting" />
+    <TextView
+        android:id="@+id/tv_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Role: "
+        android:textColor="#555555"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_username" />
 
-<TextView
-    android:id="@+id/tv_role"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Role: "
-    android:textSize="24sp"
-    android:textColor="#555555"
-    android:layout_marginTop="10dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tv_username" />
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Username: "
+        android:textColor="#555555"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_greeting" />
 
     <Button
         android:id="@+id/btn_event_management"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="[TESTING] Event management" />
+        android:text="[TESTING] Event management"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btn_event_types"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[TESTING] Event Types"
+        app:layout_constraintTop_toBottomOf="@id/btn_event_management"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[TESTING] Users"
+        app:layout_constraintTop_toBottomOf="@id/btn_event_types"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
