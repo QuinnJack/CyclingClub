@@ -145,7 +145,7 @@ public class EventManagementActivity extends AppCompatActivity {
         //Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
 
     }
-    public void editEvent(Event evenToEdit){
+    public void editEvent(Event evenToEdit){ // REMOVE COMMENT AFTER
         if(evenToEdit != null){
 
         }
