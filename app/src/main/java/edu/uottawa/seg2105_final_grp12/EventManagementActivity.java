@@ -101,12 +101,6 @@ public class EventManagementActivity extends AppCompatActivity {
             }
         });
     }
-    public void onCancelled(DatabaseError databaseError) {
-
-
-        }
-
-
 
     private void addEvent() {
 
@@ -141,6 +135,9 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextPace.setText("");
 
         //Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+
+    }
+    public void editEvent(Event evenToEdit){
 
     }
     public void deleteEvent(Event eventToDelete) {

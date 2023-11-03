@@ -47,13 +47,13 @@
             android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Type" />
+            android:text="@string/button_edit_event" />
 
         <Button
             android:id="@+id/button_del"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete" />
+            android:text="@string/button_delete_event" />
 
     </LinearLayout>
 </LinearLayout>
