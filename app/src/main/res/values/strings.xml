@@ -16,6 +16,7 @@
     <string name="hint_event_name">Please enter the event name...</string>
     <string name="button_edit_event">Edit</string>
     <string name="button_delete_event">Delete</string>
+    <string name="button_delete_user">Delete</string>
     <string-array name="event_types">
         <item>Time Trial</item>
         <item>Hill Climb</item>

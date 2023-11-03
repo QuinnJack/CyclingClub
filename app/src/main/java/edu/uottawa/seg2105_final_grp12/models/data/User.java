@@ -24,7 +24,9 @@ public class User implements Serializable {
         this.role = userData.get("role");
     }
     public User(String uid, String username, String firstName, String role) {
+        this.uid = uid;
         this.username = username;
+        this.firstName = firstName;
         this.role = role;
     }
 
@@ -43,7 +45,6 @@ public class User implements Serializable {
     public String getFirstName() {
         return firstName;
     }
-
     public String getRole() {
         return role;
     }

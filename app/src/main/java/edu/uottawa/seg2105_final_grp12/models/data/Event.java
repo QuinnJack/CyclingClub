@@ -9,7 +9,8 @@ public class Event {
     // *** Participant Requirements
     private Integer minAge;
     private Integer maxAge;
-    private Integer minSkillLevel; //?? hard to tell if this AND difficulty are needed
+    private Integer minSkillLevel; //?? hard to tell if this AND difficulty are needed --> add on --> skill level based on scale of 1-10
+                                                                                                        // Difficulty Easy/Medium/Hard?
 
     // *** Event Specifications
     private String name;
@@ -36,16 +37,22 @@ public class Event {
     public void setMaxAge(int age) { maxAge = age; }
     public Integer getMaxAge() { return maxAge; }
 
-    public void setDistance(int distance) { this.distance = distance; }
-    //public Integer getDistance() { return distance; }
 
     public void setPace(String pace) { this.pace = pace; }
     public String getPace() { return pace; }
+
     public void setType(String type) { this.type = type; }
     public String getType() { return type; }
 
+    public void setId(String id) {this.id = id;}
     public String getId() { return id;}
 
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
-    //public String getDifficulty() { return difficulty; }
+    public String getDifficulty() {return difficulty;}
+
+    public void setDistance(Integer distance) {this.distance = distance;}
+    public Integer getDistance() {return distance;}
+
+    public Integer getMinSkillLevel() {return minSkillLevel;}
+    public void setMinSkillLevel(int minSkillLevel) {this.minSkillLevel = minSkillLevel;}
 }

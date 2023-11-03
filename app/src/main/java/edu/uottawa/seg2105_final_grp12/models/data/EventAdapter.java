@@ -56,15 +56,21 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView textViewMinAge = (TextView) listViewEvent.findViewById(R.id.textViewMinAge);
         TextView textViewMaxAge = (TextView) listViewEvent.findViewById(R.id.textViewMaxAge);
         TextView textViewPace = (TextView) listViewEvent.findViewById(R.id.textViewPace);
+        TextView textViewMinSkillLevel = (TextView) listViewEvent.findViewById(R.id.textViewMinSkillLevel);
+        TextView textViewDifficulty = (TextView) listViewEvent.findViewById(R.id.textViewDifficulty);
+
 
         Event event = events.get(listPosition);
         textViewEventName.setText(event.getEventName());
         textViewEventType.setText(event.getType() + " "); // TODO: display instance class
         //eventTypeLayout.setInflatedId(R.layout.eventTypeID); // TODO: change sub-layout with eventType
         if (event.getMinAge() == null ) { textViewMinAge.setVisibility(View.GONE); } // TODO: this null doesn't work? user shouldn't have to enter certain attributes
-            else { textViewMinAge.setText("Minimum age: " + event.getMinAge().toString()); }
-        textViewMaxAge.setText("Maximum age: " + event.getMaxAge().toString());
+            else { textViewMinAge.setText("Minimum Age: " + event.getMinAge().toString()); }
+        textViewMaxAge.setText("Maximum Age: " + event.getMaxAge().toString());
         textViewPace.setText("Recommended Pace: " + event.getPace());
+        textViewMinSkillLevel.setText("Recommended Skill Level: " + event.getMinSkillLevel());
+        textViewDifficulty.setText("Difficulty Level: " + event.getDifficulty());
+
 
 
 

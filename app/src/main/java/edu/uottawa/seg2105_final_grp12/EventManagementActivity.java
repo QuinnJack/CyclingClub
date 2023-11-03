@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import android.content.SharedPreferences;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +21,7 @@ import java.util.List;
 
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
-import android.os.Bundle;
+
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -34,6 +31,8 @@ public class EventManagementActivity extends AppCompatActivity {
     EditText editTextMinAge;
     EditText editTextMaxAge;
     EditText editTextPace;
+    EditText editTextMinSkillLevel;
+    EditText editTextDifficulty;
     Button buttonAddEvent;
     ListView listViewEvents;
     DatabaseReference databaseEvents;
@@ -54,6 +53,8 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextMinAge = findViewById(R.id.et_min_age);
         editTextMaxAge = findViewById(R.id.et_max_age);
         editTextPace = findViewById(R.id.et_pace);
+        editTextMinSkillLevel = findViewById(R.id.et_min_skill_level);
+        editTextDifficulty = findViewById(R.id.et_difficulty);
         listViewEvents = findViewById(R.id.list_events);
         buttonAddEvent = findViewById(R.id.btn_add_event);
 
@@ -111,13 +112,16 @@ public class EventManagementActivity extends AppCompatActivity {
         String minAgeString = editTextMinAge.getText().toString().trim();
         String maxAgeString = editTextMaxAge.getText().toString().trim();
         String pace = editTextPace.getText().toString().trim();
-        if (name.isEmpty() || minAgeString.isEmpty() || maxAgeString.isEmpty() || pace.isEmpty()) {
+        String minSkillLevelString = editTextMinSkillLevel.getText().toString().trim();
+        String difficulty = editTextDifficulty.getText().toString().trim();
+        if (name.isEmpty() || minAgeString.isEmpty() || maxAgeString.isEmpty() || pace.isEmpty() || minSkillLevelString.isEmpty() || difficulty.isEmpty()) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_LONG).show();
             return;
         }
 
         Integer minAge = Integer.parseInt(minAgeString);
         Integer maxAge = Integer.parseInt(maxAgeString);
+        Integer minSkillLevel = Integer.parseInt(minSkillLevelString);
         String id = databaseEvents.push().getKey();
 
         Event event = new Event(id);
@@ -126,6 +130,8 @@ public class EventManagementActivity extends AppCompatActivity {
         event.setMaxAge(maxAge);
         event.setPace(pace);
         event.setType(type);
+        event.setMinSkillLevel(minSkillLevel);
+        event.setDifficulty(difficulty);
 
         databaseEvents.child(id).setValue(event);
 
@@ -133,11 +139,17 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextMinAge.setText("");
         editTextMaxAge.setText("");
         editTextPace.setText("");
+        editTextMinSkillLevel.setText("");
+        editTextDifficulty.setText("");
 
         //Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
 
     }
     public void editEvent(Event evenToEdit){
+        if(evenToEdit != null){
+
+        }
+
 
     }
     public void deleteEvent(Event eventToDelete) {
