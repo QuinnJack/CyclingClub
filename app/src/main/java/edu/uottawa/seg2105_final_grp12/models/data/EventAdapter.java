@@ -68,7 +68,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             else { textViewMinAge.setText("Minimum Age: " + event.getMinAge().toString()); }
         textViewMaxAge.setText("Maximum Age: " + event.getMaxAge().toString());
         textViewPace.setText("Recommended Pace: " + event.getPace());
-        textViewMinSkillLevel.setText("Recommended Skill Level: " + event.getMinSkillLevel());
+        textViewMinSkillLevel.setText("Minimum Skill Level: " + event.getMinSkillLevel());
         textViewDifficulty.setText("Difficulty Level: " + event.getDifficulty());
 
 
