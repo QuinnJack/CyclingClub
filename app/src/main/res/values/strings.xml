@@ -10,6 +10,7 @@
     <string name="radio_button_participant">Participant</string>
     <string name="radio_button_club">Cycling Club</string>
     <string name="button_add_event">+ Add Event</string>
+    <string name="button_add_event_type">+ Add Event Type</string>
     <string name="hint_pace">Please enter event pace...</string>
     <string name="hint_max_age">Please enter maximum age...</string>
     <string name="hint_min_age">Please enter minimum age...</string>

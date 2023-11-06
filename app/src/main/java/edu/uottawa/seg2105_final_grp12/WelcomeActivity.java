@@ -42,7 +42,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
 
         });
+        Button btnEventTypes = findViewById(R.id.btn_event_types);
+        // Access event management screen
+        btnEventTypes.setOnClickListener(view -> {
+            startActivity(new Intent(WelcomeActivity.this, EventTypesActivity.class));
 
+        });
 
         Button btnUsers = findViewById(R.id.btn_users);
         // Access event management screen

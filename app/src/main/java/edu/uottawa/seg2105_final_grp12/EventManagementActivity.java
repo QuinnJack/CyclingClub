@@ -142,7 +142,6 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextMinSkillLevel.setText("");
         editTextDifficulty.setText("");
 
-        //Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
 
     }
     public void editEvent(Event evenToEdit){ // REMOVE COMMENT AFTER
