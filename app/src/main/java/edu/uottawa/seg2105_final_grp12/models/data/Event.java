@@ -11,12 +11,17 @@ public class Event {
     private Integer maxAge;
     private Integer minSkillLevel; //?? hard to tell if this AND difficulty are needed --> add on --> skill level based on scale of 1-10
                                                                                                         // Difficulty Easy/Medium/Hard?
-
     // *** Event Specifications
     private String name;
     private String difficulty;
     private String pace;
+    private String duration;
     private Integer distance;
+    private Integer partcipants;
+    private Integer maxPartcipants;
+
+    private String fee;
+
 
     private String type;
 
@@ -55,4 +60,5 @@ public class Event {
 
     public Integer getMinSkillLevel() {return minSkillLevel;}
     public void setMinSkillLevel(int minSkillLevel) {this.minSkillLevel = minSkillLevel;}
+
 }
