@@ -10,7 +10,7 @@
         android:id="@+id/btn_back"
         android:layout_width="151dp"
         android:layout_height="37dp"
-        android:text="back"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,21 +25,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_event_type_name"
-        app:layout_constraintVertical_bias="0.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/et_event_type_name">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -48,7 +41,6 @@
             android:columnCount="2"
             android:rowCount="9"
             android:useDefaultMargins="true">
-
             <Switch
                 android:id="@+id/switch_min_age"
                 android:layout_width="0dp"
@@ -113,7 +105,7 @@
                 android:text="Maximum Participants" />
 
             <Switch
-                android:id="@+id/switch_max_participants"
+                android:id="@+id/switch_fee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
@@ -127,17 +119,13 @@
                 android:text="@string/button_add_event_type" />
 
         </GridLayout>
-            <ListView
-                android:id="@+id/list_event_types"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
+        <ListView
+            android:id="@+id/list_event_types"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            </ListView>
-        </LinearLayout>
-
-    </ScrollView>
-
-
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

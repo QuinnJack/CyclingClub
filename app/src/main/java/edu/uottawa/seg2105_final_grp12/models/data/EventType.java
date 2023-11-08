@@ -78,43 +78,43 @@ public class EventType {
         this.hasFee = hasFee;
     }
 
-    public boolean hasMinAge() {
+    public boolean getHasMinAge() {
         return hasMinAge;
     }
 
-    public boolean hasMaxAge() {
+    public boolean getHasMaxAge() {
         return hasMaxAge;
     }
 
-    public boolean hasMinSkillLevel() {
+    public boolean getHasMinSkillLevel() {
         return hasMinSkillLevel;
     }
 
-    public boolean hasDifficulty() {
+    public boolean getHasDifficulty() {
         return hasDifficulty;
     }
 
-    public boolean hasPace() {
+    public boolean getHasPace() {
         return hasPace;
     }
 
-    public boolean hasDuration() {
+    public boolean getHasDuration() {
         return hasDuration;
     }
 
-    public boolean hasDistance() {
+    public boolean getHasDistance() {
         return hasDistance;
     }
 
-    public boolean hasParticipants() {
+    public boolean getHasParticipants() {
         return hasParticipants;
     }
 
-    public boolean hasMaxParticipants() {
+    public boolean getHasMaxParticipants() {
         return hasMaxParticipants;
     }
 
-    public boolean hasFee() {
+    public boolean getHasFee() {
         return hasFee;
     }
 

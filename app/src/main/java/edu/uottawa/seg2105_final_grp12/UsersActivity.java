@@ -11,6 +11,7 @@ import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.models.data.UserAdapter;
 
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +58,7 @@ public class UsersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(UsersActivity.this, "Database Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
