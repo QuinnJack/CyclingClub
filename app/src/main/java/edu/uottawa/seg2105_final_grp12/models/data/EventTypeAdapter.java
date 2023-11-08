@@ -89,10 +89,10 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
             // Update Firebase database
             databaseEventTypes.child(eventType.getId()).setValue(eventType)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this.getContext(), "success", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.getContext(), "EventType Edited", Toast.LENGTH_LONG).show();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this.getContext(), "fail", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
                     });
 
             notifyDataSetChanged(); // Update the ListView

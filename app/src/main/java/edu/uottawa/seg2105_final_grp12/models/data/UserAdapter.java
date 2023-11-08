@@ -10,6 +10,7 @@ import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DatabaseReference;
@@ -50,8 +51,19 @@ public class UserAdapter  extends ArrayAdapter<User> {
         tvUserRole.setText(user.getRole());
 
         btnDeleteUser.setOnClickListener(view -> {
-            DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-            databaseUsers.removeValue(); // Deletes the user from Firebase
+            if (user.getUid() != null) {
+                DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+                databaseUsers.removeValue()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(context, "User deleted successfully.", Toast.LENGTH_SHORT).show();
+                            // You might want to update your local 'users' list and notify the adapter here as well
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(context, "Failed to delete user.", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                Toast.makeText(context, "Error: User ID is null.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return listViewItem;
