@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.uottawa.seg2105_final_grp12.models.data.EventStyle;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 import edu.uottawa.seg2105_final_grp12.models.data.EventTypeAdapter;
 
@@ -41,6 +45,7 @@ public class EventTypesActivity extends AppCompatActivity {
     Switch switchParticipants;
     Switch switchMaxParticipants;
     Switch switchFee;
+    Spinner eventStyleSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,11 @@ public class EventTypesActivity extends AppCompatActivity {
         switchParticipants = findViewById(R.id.switch_participants);
         switchMaxParticipants = findViewById(R.id.switch_max_participants);
         switchFee = findViewById(R.id.switch_fee);
+
+        eventStyleSpinner = findViewById(R.id.spinner_event_style);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.event_styles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eventStyleSpinner.setAdapter(adapter);
 
         databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
 
@@ -102,6 +112,27 @@ public class EventTypesActivity extends AppCompatActivity {
 
     public void addEventType() {
 
+        String styleString = eventStyleSpinner.getSelectedItem().toString();
+
+        EventStyle style = null;
+        switch(styleString) {
+            case "Time Trial":
+                style = EventStyle.TIME_TRIAL;
+                break;
+            case "Hill Climb":
+                style = EventStyle.HILL_CLIMB;
+                break;
+            case "Road Stage Race":
+                style = EventStyle.ROAD_STAGE_RACE;
+                break;
+            case "Road Race":
+                style = EventStyle.ROAD_RACE;
+                break;
+            case "Group Rides":
+                style = EventStyle.GROUP_RIDE;
+                break;
+        }
+
         String name = editTextEventTypeName.getText().toString().trim();
         if (name.isEmpty()) {
             editTextEventTypeName.setError("Event type name is required.");
@@ -112,6 +143,7 @@ public class EventTypesActivity extends AppCompatActivity {
         String id = databaseEventTypes.push().getKey();
         EventType eventType = new EventType(id, name);
 
+        eventType.setEventStyle(style);
 
         eventType.setHasMinAge(switchMinAge.isChecked());
         eventType.setHasMaxAge(switchMaxAge.isChecked());

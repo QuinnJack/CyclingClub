@@ -26,4 +26,11 @@
         <item>Road Race</item>
         <item>Group Rides</item>
     </string-array>
+    <string-array name="event_styles">
+        <item>Time Trial</item>
+        <item>Hill Climb</item>
+        <item>Road Stage Race</item>
+        <item>Road Race</item>
+        <item>Group Rides</item>
+    </string-array>
 </resources>
