@@ -56,7 +56,6 @@ public class UserAdapter  extends ArrayAdapter<User> {
                 databaseUsers.removeValue()
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(context, "User deleted successfully.", Toast.LENGTH_SHORT).show();
-                            // You might want to update your local 'users' list and notify the adapter here as well
                         })
                         .addOnFailureListener(e -> {
                             Toast.makeText(context, "Failed to delete user.", Toast.LENGTH_SHORT).show();

@@ -30,14 +30,14 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
     private DatabaseReference databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
 
     public EventTypeAdapter(Activity context, List<EventType> eventTypes) {
-        super(context, R.layout.layout_event_type_list, eventTypes); // Pass eventTypes to the superclass constructor
+        super(context, R.layout.layout_event_type_list, eventTypes);
         this.context = context;
         this.eventTypes = eventTypes;
     }
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) { // 'final' is important here
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listViewItem = convertView;
         if (listViewItem == null) {
             LayoutInflater inflater = context.getLayoutInflater();
@@ -95,7 +95,7 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
                         Toast.makeText(this.getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
                     });
 
-            notifyDataSetChanged(); // Update the ListView
+            notifyDataSetChanged();
         });
 
         btnDelete.setOnClickListener(v -> {
@@ -103,7 +103,6 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
 
             databaseEventTypes.child(idToDelete).removeValue()
                     .addOnSuccessListener(aVoid -> {
-                        // Do not manually update the local list. Let the ValueEventListener handle this.
                         Toast.makeText(context, "EventType deleted successfully.", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {

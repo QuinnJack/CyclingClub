@@ -25,10 +25,10 @@ import edu.uottawa.seg2105_final_grp12.models.data.EventTypeAdapter;
 
 public class EventTypesActivity extends AppCompatActivity {
 
-    ListView listViewEventTypes;
-    DatabaseReference databaseEventTypes;
-    List<EventType> eventTypes;
-    EventTypeAdapter eventTypesAdapter;
+    private ListView listViewEventTypes;
+    public DatabaseReference databaseEventTypes;
+    private List<EventType> eventTypes;
+    private EventTypeAdapter eventTypesAdapter;
     EditText editTextEventTypeName;
 
     Switch switchMinAge;
