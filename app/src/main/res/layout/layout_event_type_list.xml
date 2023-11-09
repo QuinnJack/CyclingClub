@@ -19,18 +19,6 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_event_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Event Type"
-            android:textSize="12sp" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <Switch
             android:id="@+id/switch_min_age"
             android:layout_width="0dp"

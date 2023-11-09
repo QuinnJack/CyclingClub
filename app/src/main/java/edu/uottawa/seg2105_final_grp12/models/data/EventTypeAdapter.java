@@ -46,7 +46,6 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
 
 
         TextView textEventTypeLabel = listViewItem.findViewById(R.id.tvEventTypeLabel);
-        TextView textEventStyle = listViewItem.findViewById(R.id.tv_event_style);
         Switch switchMinAge = listViewItem.findViewById(R.id.switch_min_age);
         Switch switchMaxAge = listViewItem.findViewById(R.id.switch_max_age);
         Switch switchMinSkillLevel = listViewItem.findViewById(R.id.switch_min_skill_level);
@@ -64,7 +63,6 @@ public class EventTypeAdapter extends ArrayAdapter<EventType> {
         EventType eventType = eventTypes.get(position);
 
         textEventTypeLabel.setText(eventType.getName());
-        textEventStyle.setText(eventType.getEventStyle().toString());
         switchMinAge.setChecked(eventType.getHasMinAge());
         switchMaxAge.setChecked(eventType.getHasMaxAge());
         switchMinSkillLevel.setChecked(eventType.getHasMinSkillLevel());

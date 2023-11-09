@@ -1,5 +1,6 @@
 package edu.uottawa.seg2105_final_grp12;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +24,7 @@ import java.util.List;
 
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -39,6 +43,9 @@ public class EventManagementActivity extends AppCompatActivity {
     List<Event> events;
     EventAdapter eventsAdapter;
     Spinner eventTypeSpinner;
+    DatabaseReference databaseEventTypes;
+    List<EventType> eventTypes;
+    List<String> eventTypeNames;
 
 
     @Override
@@ -48,6 +55,27 @@ public class EventManagementActivity extends AppCompatActivity {
 
         // Firebase database
         databaseEvents = FirebaseDatabase.getInstance().getReference("events");
+        databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
+
+        eventTypes = new ArrayList<EventType>();
+        eventTypeNames = new ArrayList<String>(); // TODO: this is a bad workaround, but the eventType's name will have the same index as the event type, so we can pull event fields that way
+        // just pull the existing event types once whenever the activity opens
+        databaseEventTypes.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> dataSnapshot) {
+                eventTypes.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getResult().getChildren()) {
+                    EventType eventType = postSnapshot.getValue(EventType.class);
+                    eventTypes.add(eventType);
+                    eventTypeNames.add(eventType.getName());
+                }
+
+                eventTypeSpinner = findViewById(R.id.spinner_event_type);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EventManagementActivity.this, android.R.layout.simple_spinner_item, eventTypeNames);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                eventTypeSpinner.setAdapter(adapter);
+            }
+        });
 
         editTextEventName = findViewById(R.id.et_event_name);
         editTextMinAge = findViewById(R.id.et_min_age);
@@ -57,11 +85,6 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextDifficulty = findViewById(R.id.et_difficulty);
         listViewEvents = findViewById(R.id.list_events);
         buttonAddEvent = findViewById(R.id.btn_add_event);
-
-        eventTypeSpinner = findViewById(R.id.spinner_event_type);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventTypeSpinner.setAdapter(adapter);
 
         Button btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(view -> {

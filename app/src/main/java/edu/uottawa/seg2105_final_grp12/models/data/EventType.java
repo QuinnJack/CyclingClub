@@ -1,7 +1,6 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
 public class EventType {
-    private EventStyle eventStyle;
     private String id;
     private String name;
     private boolean hasMinAge;
@@ -39,8 +38,6 @@ public class EventType {
     public void setName(String name) {
         this.name = name;
     }
-    public EventStyle getEventStyle() { return eventStyle; }
-    public void setEventStyle(EventStyle eventStyle) { this.eventStyle = eventStyle;}
     public void setHasMinAge(boolean hasMinAge) {
         this.hasMinAge = hasMinAge;
     }

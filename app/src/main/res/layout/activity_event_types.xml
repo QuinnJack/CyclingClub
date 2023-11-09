@@ -34,11 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_event_type_name">
 
-        <Spinner
-            android:id="@+id/spinner_event_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

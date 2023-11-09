@@ -41,7 +41,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
     }
 
     /**
-     * This getView is the method by which a singlular item is displayed in the list!
+     * This getView is the method by which a singular item is displayed in the list!
      * Not how the list itself is displayed!
      */
     @Override // Will generate an error if ArrayAdapter method isn't properly overridden
