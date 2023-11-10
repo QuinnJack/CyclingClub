@@ -10,14 +10,14 @@
         android:id="@+id/tv_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="20dp"
         android:text="Welcome!"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btn_find_clubs"
+        />
 
     <TextView
         android:id="@+id/tv_role"
@@ -48,7 +48,7 @@
         android:id="@+id/btn_event_management"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="[TESTING] Event management"
+        android:text="[TESTING] Create Events"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -64,7 +64,7 @@
         android:id="@+id/btn_users"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="[TESTING] Users"
+        android:text="[TESTING] Manage Users"
         app:layout_constraintTop_toBottomOf="@id/btn_event_types"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -75,4 +75,14 @@
         android:text="[TESTING] Profile"
         app:layout_constraintTop_toBottomOf="@id/btn_users"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_find_clubs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[TESTING] Find Clubs"
+        app:layout_constraintTop_toBottomOf="@id/btn_profile"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -176,6 +177,11 @@ public class EventManagementActivity extends AppCompatActivity {
         event.setType(type);
         event.setMinSkillLevel(minSkillLevel);
         event.setDifficulty(difficulty);
+
+        event.setParticipants(new ArrayList<String>());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        event.setCyclingClub(sharedPreferences.getString("USERNAME", ""));
 
         databaseEvents.child(id).setValue(event);
 
