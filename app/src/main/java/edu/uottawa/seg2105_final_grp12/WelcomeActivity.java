@@ -3,6 +3,7 @@ package edu.uottawa.seg2105_final_grp12;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,17 +43,27 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
 
         });
+        if (role.equals("Participant")) {
+            btnEventManagement.setVisibility(View.GONE);
+        }
+
         Button btnEventTypes = findViewById(R.id.btn_event_types);
         // Access event management screen
         btnEventTypes.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, EventTypesActivity.class));
 
         });
+        if (!role.equals("Admin")) {
+            btnEventTypes.setVisibility(View.GONE);
+        }
 
         Button btnUsers = findViewById(R.id.btn_users);
         // Access event management screen
         btnUsers.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, UsersActivity.class));
         });
+        if (!role.equals("Admin")) {
+            btnUsers.setVisibility(View.GONE);
+        }
     }
 }
