@@ -30,6 +30,7 @@
         <activity android:name=".EventTypesActivity"/>
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".UsersActivity" />
+        <activity android:name=".ProfileActivity" />
 
     </application>
 

@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="151dp"
+        android:layout_height="37dp"
+        android:text="back" />
+
+    <!-- TODO Add strings to strings.xml  -->
+    <TextView
+        android:id="@+id/socialMediaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_back"
+        android:text="Social Media Link (Mandatory)" />
+
+    <EditText
+        android:id="@+id/socialMediaInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/socialMediaLabel"
+        android:hint="Enter Link"
+        android:inputType="textUri"/>
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/socialMediaInput"
+        android:text="Name of Main Contact" />
+
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameLabel"
+        android:hint="Enter Name" />
+
+
+    <TextView
+        android:id="@+id/phoneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameInput"
+        android:text="Phone Number (Mandatory)" />
+
+    <EditText
+        android:id="@+id/phoneInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneLabel"
+        android:hint="Enter Phone Number"
+        android:inputType="phone"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneInput"
+        android:text="Save"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/eventsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSave"
+        android:text="Select Event Type"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+
+
+    <Spinner
+        android:id="@+id/spinner_event_types"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventsLabel" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_event_types"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/yourEventTypesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout"
+        android:text="Your Event Types"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+<ListView
+    android:id="@+id/user_event_types"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/yourEventTypesLabel"/>
+
+
+</RelativeLayout>

@@ -65,5 +65,9 @@ public class WelcomeActivity extends AppCompatActivity {
         if (!role.equals("Admin")) {
             btnUsers.setVisibility(View.GONE);
         }
+        Button btnProfile = findViewById(R.id.btn_profile);
+        btnProfile.setOnClickListener(view -> {
+            startActivity(new Intent(WelcomeActivity.this, ProfileActivity.class));
+        });
     }
 }
