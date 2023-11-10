@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,9 +143,29 @@ public class EventManagementActivity extends AppCompatActivity {
             return;
         }
 
-        Integer minAge = Integer.parseInt(minAgeString);
-        Integer maxAge = Integer.parseInt(maxAgeString);
-        Integer minSkillLevel = Integer.parseInt(minSkillLevelString);
+        Integer minAge;
+        Integer maxAge;
+        try {
+            minAge = Integer.parseInt(minAgeString);
+            maxAge = Integer.parseInt(maxAgeString);
+
+            if (maxAge < minAge) {
+                Toast.makeText(this, "Maximum age is lower than minimum age!", Toast.LENGTH_LONG).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Ages must be integers!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Integer minSkillLevel = null;
+        try {
+            minSkillLevel = Integer.parseInt(minSkillLevelString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Skill Level must be an integer!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String id = databaseEvents.push().getKey();
 
         Event event = new Event(id);
