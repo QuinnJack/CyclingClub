@@ -11,19 +11,29 @@
     <string name="radio_button_club">Cycling Club</string>
     <string name="button_add_event">+ Add Event</string>
     <string name="button_add_event_type">+ Add Event Type</string>
-    <string name="hint_pace">Please enter event pace...</string>
-    <string name="hint_max_age">Please enter maximum age...</string>
-    <string name="hint_min_age">Please enter minimum age...</string>
+    <string name="hint_pace">0:00 /km</string>
+    <string name="hint_max_age">99</string>
+    <string name="hint_min_age">0</string>
+    <string name="hint_duration">00:00:00</string>
+    <string name="hint_distance">0.0 km</string>
+    <string name="hint_max_participants">100</string>
+    <string name="hint_fee">$0.00</string>
     <string name="hint_event_name">Please enter the event name...</string>
     <string name="hint_event_type_name">Please enter the event type name...</string>
+
     <string name="button_edit_event">Edit</string>
     <string name="button_delete_event">Delete</string>
     <string name="button_delete_user">Delete</string>
-    <string-array name="event_types">
-        <item>Time Trial</item>
-        <item>Hill Climb</item>
-        <item>Road Stage Race</item>
-        <item>Road Race</item>
-        <item>Group Rides</item>
+    <string-array name="min_skill_level_entries">
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+        <item>Expert</item>
+    </string-array>
+    <string-array name="difficulty_entries">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Extreme</item>
     </string-array>
 </resources>
