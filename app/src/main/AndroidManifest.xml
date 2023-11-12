@@ -30,7 +30,8 @@
         <activity android:name=".EventTypesActivity"/>
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".UsersActivity" />
-
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".FindClubActivity" />
     </application>
 
 </manifest>

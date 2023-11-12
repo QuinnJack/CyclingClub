@@ -38,7 +38,6 @@ public class WelcomeActivity extends AppCompatActivity {
         tvRole.setText("Role: " + user.getRole());
 
         Button btnEventManagement = findViewById(R.id.btn_event_management);
-            // Access event management screen
             btnEventManagement.setOnClickListener(view -> {
                 startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
 
@@ -48,7 +47,6 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         Button btnEventTypes = findViewById(R.id.btn_event_types);
-        // Access event management screen
         btnEventTypes.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, EventTypesActivity.class));
 
@@ -58,12 +56,20 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         Button btnUsers = findViewById(R.id.btn_users);
-        // Access event management screen
         btnUsers.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, UsersActivity.class));
         });
         if (!role.equals("Admin")) {
             btnUsers.setVisibility(View.GONE);
         }
+        Button btnProfile = findViewById(R.id.btn_profile);
+        btnProfile.setOnClickListener(view -> {
+            startActivity(new Intent(WelcomeActivity.this, ProfileActivity.class));
+        });
+
+        Button btnFindClubs = findViewById(R.id.btn_find_clubs);
+        btnFindClubs.setOnClickListener(view -> {
+            startActivity(new Intent(WelcomeActivity.this, FindClubActivity.class));
+        });
     }
 }

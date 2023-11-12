@@ -1,5 +1,7 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
+import java.util.ArrayList;
+
 // TODO: make class abstract once event types are implemented
 public class Event {
 
@@ -17,11 +19,13 @@ public class Event {
     private String pace;
     private String duration;
     private Integer distance;
-    private Integer participants;
+    private Integer currentParticipants;
     private Integer maxParticipants;
 
+    private ArrayList<String> participants;
     private String fee;
 
+    private String cyclingClub;
 
     private String type;
 
@@ -63,12 +67,12 @@ public class Event {
     public Integer getMinSkillLevel() {return minSkillLevel;}
     public void setMinSkillLevel(int minSkillLevel) {this.minSkillLevel = minSkillLevel;}
 
-    public void setParticipants(Integer participants) {
-        this.participants = participants;
+    public void setCurrentParticipants(Integer participants) {
+        this.currentParticipants = participants;
     }
 
-    public Integer getParticipants() {
-        return participants;
+    public Integer getCurrentParticipants() {
+        return currentParticipants;
     }
 
     public void setMaxParticipants(Integer maxParticipants) {
@@ -79,6 +83,11 @@ public class Event {
         return maxParticipants;
     }
 
+    public void setParticipants(ArrayList<String> participants) {this.participants = participants; }
+
+    public ArrayList<String>  getParticipants() {
+        return participants;
+    }
     public void setDuration(String duration) {
         this.duration = duration;
     }
@@ -95,6 +104,13 @@ public class Event {
         return fee;
     }
 
+    public void setCyclingClub(String cyclingClub) {
+        this.cyclingClub = cyclingClub;
+    }
+
+    public String getCyclingClub() {
+        return cyclingClub;
+    }
 
 
 }

@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:ignore="ExtraText">
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="151dp"
+        android:layout_height="37dp"
+        android:text="back"/>
+
+
+    <TextView
+        android:id="@+id/searchLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search for a Cycling Club"
+        android:textSize="18dp"
+        android:layout_below="@id/btn_back"
+        android:textStyle="bold"/>
+
+
+    <EditText
+        android:id="@+id/eventTypeField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchLabel"
+        android:hint="Type of event"/>
+
+    <EditText
+        android:id="@+id/eventNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventTypeField"
+        android:hint="Event name"/>
+
+    <EditText
+        android:id="@+id/clubNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventNameField"
+        android:hint="Club name"/>
+
+
+    <ListView
+        android:id="@+id/searchResultsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="202dp"
+        android:layout_below="@id/clubNameField"
+        android:maxHeight="10dp" />
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchResultsListView"
+        android:text="Join Event"/>
+
+    <TextView
+        android:id="@+id/reviewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/joinButton"
+        android:text="Review Cycling Club: "
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reviewLabel"
+        android:numStars="5"
+        android:stepSize="1.0"/>
+
+    <EditText
+        android:id="@+id/commentField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ratingBar"
+        android:hint="Write a comment"/>
+
+    <Button
+        android:id="@+id/rateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentField"
+        android:text="Rate Club"/>
+
+</RelativeLayout>
