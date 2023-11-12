@@ -12,6 +12,7 @@
         "android_client_info": {
           "package_name": "edu.uottawa.seg2105_final_grp12"
         }
+      },
       "oauth_client": [],
       "api_key": [
         {
@@ -19,3 +20,11 @@
         }
       ],
       "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
