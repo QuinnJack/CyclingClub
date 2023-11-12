@@ -9,6 +9,9 @@ android {
     namespace = "edu.uottawa.seg2105_final_grp12"
     compileSdk = 33
 
+    buildFeatures {
+        dataBinding = true
+    }
     defaultConfig {
         applicationId = "edu.uottawa.seg2105_final_grp12"
         minSdk = 28
@@ -32,6 +35,8 @@ android {
 }
 
 dependencies {
+    // to resolve conflicting dependency versions
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.10"))
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

@@ -5,71 +5,13 @@
     </style>
 
     <style name="event_field">
-        <item name="android:name">Event Field</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:padding">10dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textAlignment">textEnd</item>
         <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="min_age" parent="event_field">
-        <item name="android:name">Minimum Age</item>
-        <item name="android:hint">0</item>
-        <item name="android:inputType">number</item>
-    </style>
-
-    <style name="max_age" parent="event_field">
-        <item name="android:name">Maximum Age</item>
-        <item name="android:hint">99</item>
-        <item name="android:inputType">number</item>
-    </style>
-
-    <style name="min_skill_level" parent="event_field">
-        <item name="android:name">Minimum Skill Level</item>
-        <item name="android:entries">@array/min_skill_level_entries</item>
-        <item name="android:padding">5dp</item>
-    </style>
-
-    <style name="difficulty" parent="event_field">
-        <item name="android:name">Difficulty</item>
-        <item name="android:entries">@array/difficulty_entries</item>
-        <item name="android:padding">5dp</item>
-    </style>
-
-    <style name="pace" parent="event_field">
-        <item name="android:name">Pace</item>
-        <item name="android:hint">@string/hint_pace</item>
-        <item name="android:inputType">time</item>
-    </style>
-
-    <style name="duration" parent="event_field">
-        <item name="android:name">Duration</item>
-        <item name="android:hint">@string/hint_duration</item>
-        <item name="android:inputType">time</item>
-    </style>
-
-    <style name="distance" parent="event_field">
-        <item name="android:name">Distance</item>
-        <item name="android:hint">@string/hint_distance</item>
-        <item name="android:inputType">numberDecimal</item>
-    </style>
-
-    <style name="participants" parent="event_field">
-        <item name="android:name">Participants</item>
-        <item name="android:hint">what does this mean</item>
-    </style>
-
-    <style name="max_participants" parent="event_field">
-        <item name="android:name">Maximum Participants</item>
-        <item name="android:hint">@string/hint_max_participants</item>
-        <item name="android:inputType">number</item>
-    </style>
-
-    <style name="fee" parent="event_field">
-        <item name="android:name">Fee</item>
-        <item name="android:hint">@string/hint_fee</item>
-        <item name="android:inputType">numberDecimal</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
     </style>
 </resources>

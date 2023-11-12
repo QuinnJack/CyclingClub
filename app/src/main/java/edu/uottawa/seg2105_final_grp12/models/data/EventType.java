@@ -2,35 +2,38 @@ package edu.uottawa.seg2105_final_grp12.models.data;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
+
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Switch;
+
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.InverseBindingAdapter;
 
 import com.google.common.base.CaseFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EventType {
+public class EventType extends HashMap<EventField, Boolean> {
     private String id;
     private String name;
-    private boolean hasMinAge;
-    private boolean hasMaxAge;
-    private boolean hasMinSkillLevel;
-    private boolean hasDifficulty;
-    private boolean hasPace;
-    private boolean hasDuration;
-    private boolean hasDistance;
-    private boolean hasParticipants;
-    private boolean hasMaxParticipants;
-    private boolean hasFee;
 
     public EventType() {
+        for (EventField f : EventField.values())
+            put(f, false);
         // Default constructor required for calls to DataSnapshot.getValue(EventType.class)
     }
 
     public EventType(String id, String name) {
+        this();
         this.id = id;
         this.name = name;
     }
@@ -50,96 +53,87 @@ public class EventType {
     public void setName(String name) {
         this.name = name;
     }
+
+
+
+
     public void setHasMinAge(boolean hasMinAge) {
-        this.hasMinAge = hasMinAge;
+        put(MIN_AGE, hasMinAge);
     }
 
     public void setHasMaxAge(boolean hasMaxAge) {
-        this.hasMaxAge = hasMaxAge;
+        put(MAX_AGE, hasMaxAge);
     }
 
     public void setHasMinSkillLevel(boolean hasMinSkillLevel) {
-        this.hasMinSkillLevel = hasMinSkillLevel;
+        put(MIN_SKILL_LEVEL, hasMinSkillLevel);
     }
 
     public void setHasDifficulty(boolean hasDifficulty) {
-        this.hasDifficulty = hasDifficulty;
+        put(DIFFICULTY, hasDifficulty);
     }
 
     public void setHasPace(boolean hasPace) {
-        this.hasPace = hasPace;
+        put(PACE, hasPace);
     }
 
     public void setHasDuration(boolean hasDuration) {
-        this.hasDuration = hasDuration;
+        put(DURATION, hasDuration);
     }
 
     public void setHasDistance(boolean hasDistance) {
-        this.hasDistance = hasDistance;
+        put(DISTANCE, hasDistance);
     }
 
     public void setHasParticipants(boolean hasParticipants) {
-        this.hasParticipants = hasParticipants;
+        put(PARTICIPANTS, hasParticipants);
     }
 
     public void setHasMaxParticipants(boolean hasMaxParticipants) {
-        this.hasMaxParticipants = hasMaxParticipants;
+        put(MAX_PARTICIPANTS, hasMaxParticipants);
     }
 
     public void setHasFee(boolean hasFee) {
-        this.hasFee = hasFee;
+        put(FEE, hasFee);
     }
 
     public boolean getHasMinAge() {
-        return hasMinAge;
+        return get(MIN_AGE);
     }
 
     public boolean getHasMaxAge() {
-        return hasMaxAge;
+        return get(MAX_AGE);
     }
 
     public boolean getHasMinSkillLevel() {
-        return hasMinSkillLevel;
+        return get(MIN_SKILL_LEVEL);
     }
 
     public boolean getHasDifficulty() {
-        return hasDifficulty;
+        return get(DIFFICULTY);
     }
 
     public boolean getHasPace() {
-        return hasPace;
+        return get(PACE);
     }
 
     public boolean getHasDuration() {
-        return hasDuration;
+        return get(DURATION);
     }
 
     public boolean getHasDistance() {
-        return hasDistance;
+        return get(DISTANCE);
     }
 
     public boolean getHasParticipants() {
-        return hasParticipants;
+        return get(PARTICIPANTS);
     }
 
     public boolean getHasMaxParticipants() {
-        return hasMaxParticipants;
+        return get(MAX_PARTICIPANTS);
     }
 
     public boolean getHasFee() {
-        return hasFee;
-    }
-
-    public List<Integer> getFieldStyles(Context context) {
-        // temporary workaround to convert to a list of style resources
-        return Arrays.stream(EventType.class.getDeclaredFields()).filter(f -> {
-                    try {
-                        return f.getType() == boolean.class && (boolean) f.get(this);
-                    } catch (IllegalAccessException e) {
-                        return false;
-                    }
-                })
-                .map(f -> context.getResources().getIdentifier(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,
-                        f.getName().substring(3)), "style", context.getPackageName())).collect(Collectors.toList());
+        return get(FEE);
     }
 }

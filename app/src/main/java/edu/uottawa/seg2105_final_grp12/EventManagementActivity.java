@@ -1,15 +1,22 @@
 package edu.uottawa.seg2105_final_grp12;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,12 +35,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.EventField;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 
 import android.widget.Spinner;
@@ -56,18 +69,22 @@ public class EventManagementActivity extends AppCompatActivity {
     List<EventType> eventTypes;
     List<String> eventTypeNames;
 
+    ActivityEventManagementBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_management);
+
+        binding = DataBindingUtil.setContentView(EventManagementActivity.this, R.layout.activity_event_management);
+        binding.setLifecycleOwner(this);
+        binding.setEventType(new EventType());
+        setContentView(binding.getRoot());
 
         // Firebase database
         databaseEvents = FirebaseDatabase.getInstance().getReference("events");
         databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
 
         eventTypes = new ArrayList<EventType>();
-        eventTypeNames = new ArrayList<String>(); // TODO: this is a bad workaround, but the eventType's name will have the same index as the event type, so we can pull event fields that way
         eventTypeSpinner = findViewById(R.id.spinner_event_type);
         // just pull the existing event types once whenever the activity opens
         databaseEventTypes.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -77,9 +94,9 @@ public class EventManagementActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: dataSnapshot.getResult().getChildren()) {
                     EventType eventType = postSnapshot.getValue(EventType.class);
                     eventTypes.add(eventType);
-                    eventTypeNames.add(eventType.getName());
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EventManagementActivity.this, android.R.layout.simple_spinner_item, eventTypeNames);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(EventManagementActivity.this, android.R.layout.simple_spinner_item,
+                        eventTypes.stream().map(EventType::getName).collect(Collectors.toList()));
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 eventTypeSpinner.setAdapter(adapter);
             }
@@ -88,7 +105,7 @@ public class EventManagementActivity extends AppCompatActivity {
         eventTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                populateFields(eventTypes.get(position));
+                binding.setEventType(eventTypes.get(position));
             }
 
             @Override
@@ -106,7 +123,6 @@ public class EventManagementActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
-
 
         events = new ArrayList<>();
         eventsAdapter = new EventAdapter(EventManagementActivity.this, events);
@@ -214,46 +230,6 @@ public class EventManagementActivity extends AppCompatActivity {
             Toast.makeText(this, "Event deleted", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Error: Unable to delete event", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    private void populateFields(EventType eventType) {
-        LinearLayout layout = findViewById(R.id.field_layout);
-        layout.removeAllViews();
-
-        for (Integer id : eventType.getFieldStyles(this)) {
-            if (id == 0) id = R.style.event_field;
-            layout.addView(new EventField(this, id));
-        }
-    }
-
-    // defines a field with a textview label (only in code right now to test - could have its own explicit layout(s))
-    private class EventField extends LinearLayout {
-        public EventField(Context context, int id) {
-            super(context, null, R.style.event_field);
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-            setLayoutParams(params);
-
-            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(context, id);
-
-            TextView tvLabel = new TextView(contextThemeWrapper);
-            TypedArray ta = obtainStyledAttributes(id, new int[]{android.R.attr.name, android.R.attr.entries});
-
-            tvLabel.setText(ta.getString(0));
-            tvLabel.setLayoutParams(params);
-            addView(tvLabel);
-
-            View inputView = ta.getTextArray(1) != null
-                    ? new Spinner(contextThemeWrapper)
-                    : new EditText(contextThemeWrapper);
-
-            inputView.setLayoutParams(params);
-            inputView.setTextAlignment(TEXT_ALIGNMENT_VIEW_START);
-            addView(inputView);
-
-            ta.recycle();
         }
     }
 }

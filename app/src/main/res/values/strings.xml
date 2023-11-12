@@ -11,13 +11,24 @@
     <string name="radio_button_club">Cycling Club</string>
     <string name="button_add_event">+ Add Event</string>
     <string name="button_add_event_type">+ Add Event Type</string>
+
+    <string name="label_pace">Pace</string>
     <string name="hint_pace">0:00 /km</string>
+    <string name="label_max_age">Maximum Age</string>
     <string name="hint_max_age">99</string>
+    <string name="label_min_age">Minimum Age</string>
     <string name="hint_min_age">0</string>
+    <string name="label_duration">Duration</string>
     <string name="hint_duration">00:00:00</string>
+    <string name="label_distance">Distance</string>
     <string name="hint_distance">0.0 km</string>
+    <string name="label_max_participants">Max Participants</string>
     <string name="hint_max_participants">100</string>
+    <string name="label_fee">Fee</string>
     <string name="hint_fee">$0.00</string>
+    <string name="label_min_skill_level">Minimum Skill Level</string>
+    <string name="label_difficulty">Difficulty</string>
+    <string name="label_participants">Participants</string>
     <string name="hint_event_name">Please enter the event name...</string>
     <string name="hint_event_type_name">Please enter the event type name...</string>
 
