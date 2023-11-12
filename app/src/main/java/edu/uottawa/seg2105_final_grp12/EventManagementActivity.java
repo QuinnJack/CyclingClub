@@ -2,7 +2,16 @@ package edu.uottawa.seg2105_final_grp12;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
+<<<<<<< Updated upstream
+=======
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.Context;
+>>>>>>> Stashed changes
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +32,36 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uottawa.seg2105_final_grp12.models.data.Event;
+import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.EventType;
+
+import android.widget.Spinner;
 
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
