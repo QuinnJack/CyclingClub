@@ -1,5 +1,17 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.common.base.CaseFormat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EventType {
     private String id;
     private String name;
@@ -118,4 +130,16 @@ public class EventType {
         return hasFee;
     }
 
+    public List<Integer> getFieldStyles(Context context) {
+        // temporary workaround to convert to a list of style resources
+        return Arrays.stream(EventType.class.getDeclaredFields()).filter(f -> {
+                    try {
+                        return f.getType() == boolean.class && (boolean) f.get(this);
+                    } catch (IllegalAccessException e) {
+                        return false;
+                    }
+                })
+                .map(f -> context.getResources().getIdentifier(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,
+                        f.getName().substring(3)), "style", context.getPackageName())).collect(Collectors.toList());
+    }
 }

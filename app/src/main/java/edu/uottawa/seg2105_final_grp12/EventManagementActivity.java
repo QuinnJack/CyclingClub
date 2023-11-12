@@ -1,14 +1,24 @@
 package edu.uottawa.seg2105_final_grp12;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +36,6 @@ import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class EventManagementActivity extends AppCompatActivity {
@@ -60,6 +68,7 @@ public class EventManagementActivity extends AppCompatActivity {
 
         eventTypes = new ArrayList<EventType>();
         eventTypeNames = new ArrayList<String>(); // TODO: this is a bad workaround, but the eventType's name will have the same index as the event type, so we can pull event fields that way
+        eventTypeSpinner = findViewById(R.id.spinner_event_type);
         // just pull the existing event types once whenever the activity opens
         databaseEventTypes.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -70,20 +79,24 @@ public class EventManagementActivity extends AppCompatActivity {
                     eventTypes.add(eventType);
                     eventTypeNames.add(eventType.getName());
                 }
-
-                eventTypeSpinner = findViewById(R.id.spinner_event_type);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(EventManagementActivity.this, android.R.layout.simple_spinner_item, eventTypeNames);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 eventTypeSpinner.setAdapter(adapter);
             }
         });
 
-        editTextEventName = findViewById(R.id.et_event_name);
-        editTextMinAge = findViewById(R.id.et_min_age);
-        editTextMaxAge = findViewById(R.id.et_max_age);
-        editTextPace = findViewById(R.id.et_pace);
-        editTextMinSkillLevel = findViewById(R.id.et_min_skill_level);
-        editTextDifficulty = findViewById(R.id.et_difficulty);
+        eventTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                populateFields(eventTypes.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         listViewEvents = findViewById(R.id.list_events);
         buttonAddEvent = findViewById(R.id.btn_add_event);
 
@@ -205,5 +218,42 @@ public class EventManagementActivity extends AppCompatActivity {
     }
 
 
+    private void populateFields(EventType eventType) {
+        LinearLayout layout = findViewById(R.id.field_layout);
+        layout.removeAllViews();
 
+        for (Integer id : eventType.getFieldStyles(this)) {
+            if (id == 0) id = R.style.event_field;
+            layout.addView(new EventField(this, id));
+        }
+    }
+
+    // defines a field with a textview label (only in code right now to test - could have its own explicit layout(s))
+    private class EventField extends LinearLayout {
+        public EventField(Context context, int id) {
+            super(context, null, R.style.event_field);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            setLayoutParams(params);
+
+            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(context, id);
+
+            TextView tvLabel = new TextView(contextThemeWrapper);
+            TypedArray ta = obtainStyledAttributes(id, new int[]{android.R.attr.name, android.R.attr.entries});
+
+            tvLabel.setText(ta.getString(0));
+            tvLabel.setLayoutParams(params);
+            addView(tvLabel);
+
+            View inputView = ta.getTextArray(1) != null
+                    ? new Spinner(contextThemeWrapper)
+                    : new EditText(contextThemeWrapper);
+
+            inputView.setLayoutParams(params);
+            inputView.setTextAlignment(TEXT_ALIGNMENT_VIEW_START);
+            addView(inputView);
+
+            ta.recycle();
+        }
+    }
 }
