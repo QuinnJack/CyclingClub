@@ -47,4 +47,7 @@
         <item>Hard</item>
         <item>Extreme</item>
     </string-array>
+
+    <string name="error_empty">Field is empty</string>
+    <string name="error_too_short">Minimum 6 characters</string>
 </resources>

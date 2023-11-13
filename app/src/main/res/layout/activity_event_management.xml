@@ -7,6 +7,8 @@
     <data>
         <variable name="eventType"
             type="edu.uottawa.seg2105_final_grp12.models.data.EventType"/>
+        <variable name="viewModel"
+            type="edu.uottawa.seg2105_final_grp12.viewmodel.EventManagementViewModel"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -56,7 +58,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/field_layout"
+                        android:id="@+id/event_fields_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?attr/colorOnSurfaceInverse"
@@ -67,42 +69,50 @@
                         <LinearLayout android:id="@+id/field_min_age"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_min_age"/>
-                            <EditText android:hint="@string/hint_min_age"/>
+                            <EditText android:hint="@string/hint_min_age"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_max_age"
                             android:visibility="@{eventType}">
-                        <TextView android:text="@string/label_max_age"/>
-                            <EditText android:hint="@string/hint_max_age"/>
+                            <TextView android:text="@string/label_max_age"/>
+                            <EditText android:hint="@string/hint_max_age"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_pace"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_pace"/>
-                            <EditText android:hint="@string/hint_pace"/>
+                            <EditText android:hint="@string/hint_pace"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_duration"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_duration"/>
-                            <EditText android:hint="@string/hint_duration"/>
+                            <EditText android:hint="@string/hint_duration"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_distance"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_distance"/>
-                            <EditText android:hint="@string/hint_distance"/>
+                            <EditText android:hint="@string/hint_distance"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_max_participants"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_max_participants"/>
-                            <EditText android:hint="@string/hint_max_participants"/>
+                            <EditText android:hint="@string/hint_max_participants"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_fee"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_fee"/>
-                            <EditText android:hint="@string/hint_fee"/>
+                            <EditText android:hint="@string/hint_fee"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_participants"
                             android:visibility="@{eventType}">
                             <TextView android:text="@string/label_participants"/>
-                            <EditText android:hint="\?\?\?"/>
+                            <EditText android:hint="\?\?\?"
+                                app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}"/>
                         </LinearLayout>
                         <LinearLayout android:id="@+id/field_min_skill_level"
                             android:visibility="@{eventType}">

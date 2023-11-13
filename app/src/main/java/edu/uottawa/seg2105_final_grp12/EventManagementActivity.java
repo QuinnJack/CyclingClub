@@ -1,32 +1,23 @@
 package edu.uottawa.seg2105_final_grp12;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,21 +26,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
-import edu.uottawa.seg2105_final_grp12.models.data.EventField;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
-
-import android.widget.Spinner;
+import edu.uottawa.seg2105_final_grp12.viewmodel.EventManagementViewModel;
 
 public class EventManagementActivity extends AppCompatActivity {
 
@@ -70,14 +56,17 @@ public class EventManagementActivity extends AppCompatActivity {
     List<String> eventTypeNames;
 
     ActivityEventManagementBinding binding;
+    EventManagementViewModel eventManagementViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        eventManagementViewModel = new ViewModelProvider(this).get(EventManagementViewModel.class);
 
         binding = DataBindingUtil.setContentView(EventManagementActivity.this, R.layout.activity_event_management);
         binding.setLifecycleOwner(this);
         binding.setEventType(new EventType());
+        binding.setViewModel(eventManagementViewModel);
         setContentView(binding.getRoot());
 
         // Firebase database
@@ -132,6 +121,8 @@ public class EventManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { addEvent(); }
         });
+
+        addListeners();
     }
 
     @Override
@@ -154,6 +145,27 @@ public class EventManagementActivity extends AppCompatActivity {
                 Toast.makeText(EventManagementActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void addListeners() {
+        LinearLayout fields = binding.eventFieldsLayout;
+
+        for (int i = 0; i < fields.getChildCount(); i++) {
+            ViewGroup fieldLayout = (ViewGroup) fields.getChildAt(i);
+
+            // only EditTexts need validation for now
+            if (fieldLayout.getChildAt(1).getClass() != AppCompatEditText.class)
+                continue;
+
+            fieldLayout.getChildAt(1).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        ((EditText) v).setError(eventManagementViewModel.getErrorLiveData(v).getValue());
+                    }
+                }
+            });
+        }
     }
 
     private void addEvent() {
