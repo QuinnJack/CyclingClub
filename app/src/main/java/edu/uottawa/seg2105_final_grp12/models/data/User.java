@@ -6,6 +6,7 @@ package edu.uottawa.seg2105_final_grp12.models.data;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public class User implements Serializable {
@@ -14,6 +15,12 @@ public class User implements Serializable {
     private String email;
     private String firstName;
     private String role;
+
+    private String socialMediaLink;
+    private String mainContactName;
+    private String phoneNumber;
+    private List<String> eventTypes;
+
 
     // private FirebaseAuth mAuth;
 
@@ -47,5 +54,37 @@ public class User implements Serializable {
     }
     public String getRole() {
         return role;
+    }
+
+    public String getSocialMediaLink() {
+        return socialMediaLink;
+    }
+
+    public void setSocialMediaLink(String socialMediaLink) {
+        this.socialMediaLink = socialMediaLink;
+    }
+
+    public String getMainContactName() {
+        return mainContactName;
+    }
+
+    public void setMainContactName(String mainContactName) {
+        this.mainContactName = mainContactName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public List<String> getEventTypes() {
+        return eventTypes;
+    }
+
+    public void setEventTypes(List<String> eventTypes) {
+        this.eventTypes = eventTypes;
     }
 }
