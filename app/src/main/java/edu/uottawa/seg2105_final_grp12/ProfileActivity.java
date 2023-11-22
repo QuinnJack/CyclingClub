@@ -58,7 +58,6 @@ public class ProfileActivity extends Activity {
 
     // TODO: onClick listeners for Add and Delete buttons, methods and onValue change listeners
     // TODO: add and deleting event types updates fb
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,18 +183,18 @@ public class ProfileActivity extends Activity {
             }
         });
     }
-
-
     private void saveProfile() {
-
 
         String socialMediaLink = socialMediaInput.getText().toString().trim();
         String mainContactName = nameInput.getText().toString().trim();
         String phoneNumber = phoneInput.getText().toString().trim();
 
-        if (socialMediaLink.isEmpty() || phoneNumber.isEmpty()) {
-            Toast.makeText(ProfileActivity.this, "These fields are mandatory", Toast.LENGTH_SHORT).show();
-            return;
+        boolean check =validateInfo(mainContactName, socialMediaLink, phoneNumber);
+        if(check==true){
+            Toast.makeText(getApplicationContext(), "Data is Valid.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Check information again.", Toast.LENGTH_SHORT).show();
         }
 
         databaseUser.child("socialMediaLink").setValue(socialMediaLink);
@@ -214,4 +213,33 @@ public class ProfileActivity extends Activity {
 
     }
 
+    private Boolean validateInfo(String mainContactName, String socialMediaLink, String phoneNumber) {
+        if (mainContactName.length() == 0) {
+            nameInput.requestFocus();
+            nameInput.setError("FIELD CANNOT BE EMPTY");
+            return false;
+        } else if (!mainContactName.matches("[a-zA-Z]+")) {
+            nameInput.requestFocus();
+            nameInput.setError("ENTER ONLY ALPHABETICAL CHARACTERS");
+            return false;
+        } else if (socialMediaLink.length() == 0) {
+            socialMediaInput.requestFocus();
+            socialMediaInput.setError("FIELD CANNOT BE EMPTY");
+        } else if (!socialMediaLink.matches("[https://]+[a-zA-Z0-9._-]+.[com]+")) {
+            socialMediaInput.requestFocus();
+            socialMediaInput.setError("Correct format: https://xxxxxxxxxx.com");
+            return false;
+
+        } else if (phoneNumber.length() == 0) {
+            phoneInput.requestFocus();
+            nameInput.setError("FIELD CANNOT BE EMPTY");
+            return false;
+        } else if (!phoneNumber.matches("^[+][0-9]{10,12}$")) {
+            phoneInput.requestFocus();
+            phoneInput.setError("Correct format: +1xxxxxxxxxx");
+        }
+        else{return true;}
+        return null;
+    }
 }
+

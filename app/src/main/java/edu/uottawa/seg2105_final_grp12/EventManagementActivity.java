@@ -217,7 +217,7 @@ public class EventManagementActivity extends AppCompatActivity {
 
 
     }
-    public void editEvent(Event evenToEdit){ // REMOVE COMMENT AFTER
+    public void editEvent(Event evenToEdit){
         if(evenToEdit != null){
 
         }

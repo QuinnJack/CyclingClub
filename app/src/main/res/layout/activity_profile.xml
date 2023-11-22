@@ -23,15 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/socialMediaLabel"
-        android:hint="Enter Link"
-        android:inputType="textUri"/>
+        android:hint="Enter Link" />
 
     <TextView
         android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/socialMediaInput"
-        android:text="Name of Main Contact" />
+        android:text="Name of Main Contact"/>
 
     <EditText
         android:id="@+id/nameInput"
