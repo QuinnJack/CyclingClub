@@ -55,11 +55,23 @@
         android:hint="Enter Phone Number"
         android:inputType="phone"/>
 
+    <TextView
+        android:id="@+id/logoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneInput"
+        android:text="Club Logo" />
+    <Spinner
+        android:id="@+id/logoSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoLabel"
+        />
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/phoneInput"
+        android:layout_below="@id/logoSpinner"
         android:text="Save"
         android:layout_centerHorizontal="true"
         android:textSize="14sp" />

@@ -1,11 +1,14 @@
 package edu.uottawa.seg2105_final_grp12;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.app.Activity;
 import android.widget.Spinner;
@@ -34,8 +37,9 @@ import edu.uottawa.seg2105_final_grp12.models.data.User;
 
 public class ProfileActivity extends Activity {
 
+    private ImageView logoImageView;
+    private Spinner logoSpinner;
     private DatabaseReference databaseEventTypes;
-
     private FirebaseUser currentUser;
 
     private ListView listViewEventTypes;
@@ -43,6 +47,8 @@ public class ProfileActivity extends Activity {
     private List<EventType> eventTypes;
     Spinner eventTypeSpinner;
     private Spinner spinnerEventTypes;
+    private String selectedLogoTemp;
+
     private ArrayAdapter<String> eventTypesArrayAdapter;
     private List<String> eventTypeNames;
 
@@ -182,7 +188,37 @@ public class ProfileActivity extends Activity {
                 Toast.makeText(ProfileActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        logoSpinner = findViewById(R.id.logoSpinner);
+
+        String[] logos = {
+                "fast_logo",
+                "basic_logo",
+                "competitive_logo",
+                "default_logo",
+                "dirtbike_logo",
+                "mountain_logo",
+                "old_logo"
+        };       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, logos);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        logoSpinner.setAdapter(adapter);
+        SharedPreferences sharedPref = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String currentLogo = sharedPref.getString("selectedLogo", "default_logo");
+
+        int spinnerPosition = adapter.getPosition(currentLogo);
+        logoSpinner.setSelection(spinnerPosition);
+        logoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedLogoTemp = logos[position];
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
+
     private void saveProfile() {
 
         String socialMediaLink = socialMediaInput.getText().toString().trim();
@@ -190,6 +226,12 @@ public class ProfileActivity extends Activity {
         String phoneNumber = phoneInput.getText().toString().trim();
 
         if (validateInfo(mainContactName, socialMediaLink, phoneNumber)) {
+
+            SharedPreferences sharedPref = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("selectedLogo", selectedLogoTemp);
+            editor.apply();
+
             databaseUser.child("socialMediaLink").setValue(socialMediaLink);
             databaseUser.child("mainContactName").setValue(mainContactName);
             databaseUser.child("phoneNumber").setValue(phoneNumber)
@@ -216,7 +258,7 @@ public class ProfileActivity extends Activity {
 
         // added spaces to regex
         // todo: is this needed? special characters like acute accents?
-        if (!mainContactName.matches("[a-zA-Z\\s]+")) {
+        if (!mainContactName.matches("[a-zA-Z\\s]+") && mainContactName.length() != 0) {
             nameInput.requestFocus();
             Toast.makeText(getApplicationContext(), "Name can only have alphabetical characters.", Toast.LENGTH_SHORT).show();
             return false;

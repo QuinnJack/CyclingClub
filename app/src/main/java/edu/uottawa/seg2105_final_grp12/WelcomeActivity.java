@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
@@ -29,6 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("EMAIL", "");
         String role = sharedPreferences.getString("ROLE", "");
 
+        ImageView logoImageView = findViewById(R.id.logoImageView);
+        String selectedLogo = sharedPreferences.getString("selectedLogo", "default_logo");
+        int resourceId = getResources().getIdentifier(selectedLogo, "drawable", getPackageName());
+        logoImageView.setImageResource(resourceId);
         User user = new User(uid, username, email, role);
 
         TextView tvUsername = findViewById(R.id.tv_username);
