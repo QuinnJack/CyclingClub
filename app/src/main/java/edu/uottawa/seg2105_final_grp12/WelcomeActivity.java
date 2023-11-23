@@ -42,26 +42,21 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
 
         });
-        if (role.equals("Participant")) {
-            btnEventManagement.setVisibility(View.GONE);
-        }
+
 
         Button btnEventTypes = findViewById(R.id.btn_event_types);
         btnEventTypes.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, EventTypesActivity.class));
 
         });
-        if (!role.equals("Admin")) {
-            btnEventTypes.setVisibility(View.GONE);
-        }
+
 
         Button btnUsers = findViewById(R.id.btn_users);
         btnUsers.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, UsersActivity.class));
         });
-        if (!role.equals("Admin")) {
-            btnUsers.setVisibility(View.GONE);
-        }
+
+
         Button btnProfile = findViewById(R.id.btn_profile);
         btnProfile.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, ProfileActivity.class));
@@ -71,5 +66,19 @@ public class WelcomeActivity extends AppCompatActivity {
         btnFindClubs.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, FindClubActivity.class));
         });
+
+        if (!role.equals("Admin")) {
+            btnEventTypes.setVisibility(View.GONE);
+            btnUsers.setVisibility(View.GONE);
+
+        }
+        if (!role.equals("Cycling Club")) {
+            btnEventManagement.setVisibility(View.GONE);
+            btnProfile.setVisibility(View.GONE);
+        }
+
+        if (!role.equals("Participant")) {
+            btnFindClubs.setVisibility(View.GONE);
+        }
     }
 }

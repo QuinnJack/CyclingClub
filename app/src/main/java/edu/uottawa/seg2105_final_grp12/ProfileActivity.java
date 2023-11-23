@@ -189,57 +189,62 @@ public class ProfileActivity extends Activity {
         String mainContactName = nameInput.getText().toString().trim();
         String phoneNumber = phoneInput.getText().toString().trim();
 
-        boolean check =validateInfo(mainContactName, socialMediaLink, phoneNumber);
-        if(check==true){
-            Toast.makeText(getApplicationContext(), "Data is Valid.", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Check information again.", Toast.LENGTH_SHORT).show();
-        }
-
-        databaseUser.child("socialMediaLink").setValue(socialMediaLink);
-        databaseUser.child("mainContactName").setValue(mainContactName);
-        databaseUser.child("phoneNumber").setValue(phoneNumber)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(ProfileActivity.this, "Failed to update profile.", Toast.LENGTH_LONG).show();
+        if (validateInfo(mainContactName, socialMediaLink, phoneNumber)) {
+            databaseUser.child("socialMediaLink").setValue(socialMediaLink);
+            databaseUser.child("mainContactName").setValue(mainContactName);
+            databaseUser.child("phoneNumber").setValue(phoneNumber)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(ProfileActivity.this, "Failed to update profile.", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        else {
+            return;
+        }
 
     }
 
-    private Boolean validateInfo(String mainContactName, String socialMediaLink, String phoneNumber) {
-        if (mainContactName.length() == 0) {
+    private boolean validateInfo(String mainContactName, String socialMediaLink, String phoneNumber) {
+
+
+
+        // added spaces to regex
+        // todo: is this needed? special characters like acute accents?
+        if (!mainContactName.matches("[a-zA-Z\\s]+")) {
             nameInput.requestFocus();
-            nameInput.setError("FIELD CANNOT BE EMPTY");
-            return false;
-        } else if (!mainContactName.matches("[a-zA-Z]+")) {
-            nameInput.requestFocus();
-            nameInput.setError("ENTER ONLY ALPHABETICAL CHARACTERS");
-            return false;
-        } else if (socialMediaLink.length() == 0) {
-            socialMediaInput.requestFocus();
-            socialMediaInput.setError("FIELD CANNOT BE EMPTY");
-        } else if (!socialMediaLink.matches("[https://]+[a-zA-Z0-9._-]+.[com]+")) {
-            socialMediaInput.requestFocus();
-            socialMediaInput.setError("Correct format: https://xxxxxxxxxx.com");
+            Toast.makeText(getApplicationContext(), "Name can only have alphabetical characters.", Toast.LENGTH_SHORT).show();
             return false;
 
-        } else if (phoneNumber.length() == 0) {
-            phoneInput.requestFocus();
-            nameInput.setError("FIELD CANNOT BE EMPTY");
+        } else if (socialMediaLink.length() == 0) {
+            socialMediaInput.requestFocus();
+            Toast.makeText(getApplicationContext(), "Social media link is mandatory", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!phoneNumber.matches("^[+][0-9]{10,12}$")) {
-            phoneInput.requestFocus();
-            phoneInput.setError("Correct format: +1xxxxxxxxxx");
         }
-        else{return true;}
-        return null;
+        // loosened regex. not all websites end in .com or are http(s)
+         else if (!socialMediaLink.matches("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}(/.*)?$")) {
+            socialMediaInput.requestFocus();
+            Toast.makeText(getApplicationContext(), "Link is invalid.", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+         else if (phoneNumber.length() == 0) {
+            phoneInput.requestFocus();
+            Toast.makeText(getApplicationContext(), "Phone number is mandatory", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if (!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+            phoneInput.requestFocus();
+            phoneInput.setError("Correct format: xxx-xxx-xxxx");
+            return false;
+
+        }
+        return true;
     }
 }
 
