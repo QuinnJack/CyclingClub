@@ -169,10 +169,17 @@ public class EventManagementActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-
+        String type;
         eventTypeSpinner = findViewById(R.id.spinner_event_type);
-        String type = eventTypeSpinner.getSelectedItem().toString();
 
+        Object selectedItem = eventTypeSpinner.getSelectedItem();
+        if (selectedItem != null) {
+            type = selectedItem.toString();
+        } else {
+            Toast.makeText(this, "No event type selected", Toast.LENGTH_LONG).show();
+            type = null;
+            return;
+        }
         String name = editTextEventName.getText().toString().trim();
         String minAgeString = editTextMinAge.getText().toString().trim();
         String maxAgeString = editTextMaxAge.getText().toString().trim();
@@ -229,7 +236,7 @@ public class EventManagementActivity extends AppCompatActivity {
 
 
     }
-    public void editEvent(Event evenToEdit){ // REMOVE COMMENT AFTER
+    public void editEvent(Event evenToEdit){
         if(evenToEdit != null){
 
         }

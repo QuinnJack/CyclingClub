@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
@@ -29,6 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("EMAIL", "");
         String role = sharedPreferences.getString("ROLE", "");
 
+        ImageView logoImageView = findViewById(R.id.logoImageView);
+        String selectedLogo = sharedPreferences.getString("selectedLogo", "default_logo");
+        int resourceId = getResources().getIdentifier(selectedLogo, "drawable", getPackageName());
+        logoImageView.setImageResource(resourceId);
         User user = new User(uid, username, email, role);
 
         TextView tvUsername = findViewById(R.id.tv_username);
@@ -42,26 +47,21 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, EventManagementActivity.class));
 
         });
-        if (role.equals("Participant")) {
-            btnEventManagement.setVisibility(View.GONE);
-        }
+
 
         Button btnEventTypes = findViewById(R.id.btn_event_types);
         btnEventTypes.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, EventTypesActivity.class));
 
         });
-        if (!role.equals("Admin")) {
-            btnEventTypes.setVisibility(View.GONE);
-        }
+
 
         Button btnUsers = findViewById(R.id.btn_users);
         btnUsers.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, UsersActivity.class));
         });
-        if (!role.equals("Admin")) {
-            btnUsers.setVisibility(View.GONE);
-        }
+
+
         Button btnProfile = findViewById(R.id.btn_profile);
         btnProfile.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, ProfileActivity.class));
@@ -71,5 +71,19 @@ public class WelcomeActivity extends AppCompatActivity {
         btnFindClubs.setOnClickListener(view -> {
             startActivity(new Intent(WelcomeActivity.this, FindClubActivity.class));
         });
+
+        if (!role.equals("Admin")) {
+            btnEventTypes.setVisibility(View.GONE);
+            btnUsers.setVisibility(View.GONE);
+
+        }
+        if (!role.equals("Cycling Club")) {
+            btnEventManagement.setVisibility(View.GONE);
+            btnProfile.setVisibility(View.GONE);
+        }
+
+        if (!role.equals("Participant")) {
+            btnFindClubs.setVisibility(View.GONE);
+        }
     }
 }

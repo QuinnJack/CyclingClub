@@ -35,6 +35,7 @@
     <string name="button_edit_event">Edit</string>
     <string name="button_delete_event">Delete</string>
     <string name="button_delete_user">Delete</string>
+    <string name="mediaLink">Media Link</string>
     <string-array name="min_skill_level_entries">
         <item>Beginner</item>
         <item>Intermediate</item>

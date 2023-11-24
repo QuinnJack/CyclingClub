@@ -23,15 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/socialMediaLabel"
-        android:hint="Enter Link"
-        android:inputType="textUri"/>
+        android:hint="Enter Link" />
 
     <TextView
         android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/socialMediaInput"
-        android:text="Name of Main Contact" />
+        android:text="Name of Main Contact"/>
 
     <EditText
         android:id="@+id/nameInput"
@@ -56,11 +55,23 @@
         android:hint="Enter Phone Number"
         android:inputType="phone"/>
 
+    <TextView
+        android:id="@+id/logoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneInput"
+        android:text="Club Logo" />
+    <Spinner
+        android:id="@+id/logoSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoLabel"
+        />
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/phoneInput"
+        android:layout_below="@id/logoSpinner"
         android:text="Save"
         android:layout_centerHorizontal="true"
         android:textSize="14sp" />
