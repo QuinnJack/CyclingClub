@@ -1,28 +1,24 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
 import android.app.Activity;
-import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.view.MenuItem;
+import android.widget.Toast;
 
-import android.widget.Spinner;
+import androidx.databinding.DataBindingUtil;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import android.widget.Toast;
-import android.widget.AdapterView;
-
 
 import java.util.List;
 
 import edu.uottawa.seg2105_final_grp12.R;
-import edu.uottawa.seg2105_final_grp12.EventManagementActivity;
+import edu.uottawa.seg2105_final_grp12.databinding.LayoutEventListBinding;
 
 
 /**
@@ -47,21 +43,23 @@ public class EventAdapter extends ArrayAdapter<Event> {
     @Override // Will generate an error if ArrayAdapter method isn't properly overridden
     public View getView(int listPosition, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = context.getLayoutInflater();
-        View listViewEvent = layoutInflater.inflate(R.layout.layout_event_list, null, true); //immediately makes this a child
+        //View listViewEvent = layoutInflater.inflate(R.layout.layout_event_list, null, true); //immediately makes this a child
+        LayoutEventListBinding listBinding = DataBindingUtil.inflate(layoutInflater, R.layout.layout_event_list, null, true);
+        listBinding.setEvent(events.get(listPosition));
+
+
 
         // Creating references to views within the layout
-        TextView textViewEventName = (TextView) listViewEvent.findViewById(R.id.textViewEventName);
+        /*TextView textViewEventName = (TextView) listViewEvent.findViewById(R.id.textViewEventName);
         TextView textViewEventType = (TextView) listViewEvent.findViewById(R.id.textViewEventType);
         ViewStub eventTypeLayout = (ViewStub) listViewEvent.findViewById(R.id.eventTypeLayout); // TODO: have this layout change depending on value of textViewEventType
         TextView textViewMinAge = (TextView) listViewEvent.findViewById(R.id.textViewMinAge);
         TextView textViewMaxAge = (TextView) listViewEvent.findViewById(R.id.textViewMaxAge);
         TextView textViewPace = (TextView) listViewEvent.findViewById(R.id.textViewPace);
         TextView textViewMinSkillLevel = (TextView) listViewEvent.findViewById(R.id.textViewMinSkillLevel);
-        TextView textViewDifficulty = (TextView) listViewEvent.findViewById(R.id.textViewDifficulty);
+        TextView textViewDifficulty = (TextView) listViewEvent.findViewById(R.id.textViewDifficulty);*/
 
-
-        Event event = events.get(listPosition);
-        textViewEventName.setText(event.getEventName());
+        /*textViewEventName.setText(event.getEventName());
         textViewEventType.setText(event.getType() + " "); // TODO: display instance class
         //eventTypeLayout.setInflatedId(R.layout.eventTypeID); // TODO: change sub-layout with eventType
         if (event.getMinAge() == null ) { textViewMinAge.setVisibility(View.GONE); } // TODO: this null doesn't work? user shouldn't have to enter certain attributes
@@ -69,13 +67,14 @@ public class EventAdapter extends ArrayAdapter<Event> {
         textViewMaxAge.setText("Maximum Age: " + event.getMaxAge().toString());
         textViewPace.setText("Recommended Pace: " + event.getPace());
         textViewMinSkillLevel.setText("Minimum Skill Level: " + event.getMinSkillLevel());
-        textViewDifficulty.setText("Difficulty Level: " + event.getDifficulty());
+        textViewDifficulty.setText("Difficulty Level: " + event.getDifficulty());*/
 
 
 
 
-        Button btnEditType = (Button) listViewEvent.findViewById(R.id.button_edit);
-        Button btnDelete = (Button) listViewEvent.findViewById(R.id.button_del);
+
+        Button btnEditType = listBinding.buttonEdit;
+        Button btnDelete = listBinding.buttonDel;
         int position = listPosition; // This captures the current position
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,8 +103,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     public boolean onMenuItemClick(MenuItem item) {
                         String newType = item.getTitle().toString();
 
-                        event.setType(newType);
-                        databaseEvents.child(event.getId()).child("type").setValue(newType);
+                        listBinding.getEvent().setType(newType);
+                        databaseEvents.child(listBinding.getEvent().getId()).child("type").setValue(newType);
                         notifyDataSetChanged();
                         return true;
                     }
@@ -116,7 +115,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
 
 
-        return listViewEvent; // Returns this singular
+        return listBinding.getRoot(); // Returns this singular
     }
 
 }

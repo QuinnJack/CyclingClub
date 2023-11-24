@@ -1,3 +1,6 @@
+<!DOCTYPE resources [
+<!ENTITY div ":\u0020">
+]>
 <resources>
     <string name="app_name">seg2105f23-project-project_grp_12</string>
     <string name="button_sign_in">Sign In</string>
@@ -12,6 +15,8 @@
     <string name="button_add_event">+ Add Event</string>
     <string name="button_add_event_type">+ Add Event Type</string>
 
+    <string name="label_event_type">Event Type</string>
+    <string name="hint_event_name">Event Name</string>
     <string name="label_pace">Pace</string>
     <string name="hint_pace">0:00 /km</string>
     <string name="label_max_age">Maximum Age</string>
@@ -29,7 +34,6 @@
     <string name="label_min_skill_level">Minimum Skill Level</string>
     <string name="label_difficulty">Difficulty</string>
     <string name="label_participants">Participants</string>
-    <string name="hint_event_name">Please enter the event name...</string>
     <string name="hint_event_type_name">Please enter the event type name...</string>
 
     <string name="button_edit_event">Edit</string>
@@ -49,6 +53,7 @@
         <item>Extreme</item>
     </string-array>
 
+    <string name="labelled_value">"%1$s: %2$s"</string>
     <string name="error_empty">Field is empty</string>
     <string name="error_too_short">Minimum 6 characters</string>
 </resources>

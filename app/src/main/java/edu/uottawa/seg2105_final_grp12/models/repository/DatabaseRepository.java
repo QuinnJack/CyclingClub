@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import edu.uottawa.seg2105_final_grp12.models.data.User;
-import kotlin.NotImplementedError;
 
 public class DatabaseRepository {
     private static DatabaseRepository dataRepo = new DatabaseRepository();
@@ -28,8 +27,8 @@ public class DatabaseRepository {
         return dataRepo;
     }
 
-    public Task<DataSnapshot> getSnapshot() {
-        throw new NotImplementedError();
+    public DatabaseReference getReference(String path) {
+        return database.child(path);
     }
 
     public Task<Void> updateDatabase(String ref, Map<String, Object> values) {
@@ -56,10 +55,6 @@ public class DatabaseRepository {
         return registerCompletionSource.getTask();
     }
 
-    public DatabaseReference getReference(String path) {
-        return database.child(path);
-    }
-
     public Task<DataSnapshot> singleValueQuery(String ref, String key, String filterKey, String filterValue) {
         TaskCompletionSource<DataSnapshot> queryCompletionSource = new TaskCompletionSource<>();
         Query filterQuery = database.child(ref).orderByChild(filterKey).equalTo(filterValue);
@@ -84,7 +79,7 @@ public class DatabaseRepository {
         return queryCompletionSource.getTask();
     }
 
-    public Task<DataSnapshot> queryByChild(DatabaseReference ref, String childKey, String childValue) {
-        throw new NotImplementedError();
+    public Task<DataSnapshot> queryByChild(String ref, String childKey, String childValue) {
+        return database.child(ref).orderByChild(childKey).equalTo(childValue).get();
     }
 }

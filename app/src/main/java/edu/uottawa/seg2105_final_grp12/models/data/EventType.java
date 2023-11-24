@@ -1,26 +1,8 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
 
-import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.Switch;
-
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.InverseBindingAdapter;
-
-import com.google.common.base.CaseFormat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class EventType extends HashMap<EventField, Boolean> {
     private String id;
@@ -28,7 +10,8 @@ public class EventType extends HashMap<EventField, Boolean> {
 
     public EventType() {
         for (EventField f : EventField.values())
-            put(f, false);
+            if (f.getId() != 0)
+                put(f, false);
         // Default constructor required for calls to DataSnapshot.getValue(EventType.class)
     }
 

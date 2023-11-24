@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import edu.uottawa.seg2105_final_grp12.models.Validators;
 import edu.uottawa.seg2105_final_grp12.util.ObserverUtil;
@@ -63,6 +64,20 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         errorDelay = delay;
     }
 
+    public void addDependent(View view, Function<String, Integer> onChanged, View... dependents) {
+        for (View dependent : dependents)
+            getField(view).addSource(getSource(dependent), new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    if (!isValid(view)) return;
+                    for (View v : dependents)
+                        if (!isValid(v)) return;
+
+                    getField(view).setValue(getString(onChanged.apply(s)));
+                }
+            });
+    }
+
     public MutableLiveData<String> getSource(View view) {
         return fields.containsKey(view) ? fields.get(view).getSource() : null;
     }
@@ -71,12 +86,18 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         return getField(view);
     }
 
+    public void setError(View v, String error) {
+        getField(v).setValue(error);
+    }
+
     public MutableLiveData<String> createField(View view, String... strings) {
         MutableLiveData<String> source = new MutableLiveData<>();
 
         Field field = getField(view);
         field.addSource(source, ObserverUtil.withDelay(s -> {
             for (String error : strings) {
+                if (!view.isShown()) continue;
+
                 if (Validators.get(error).apply(s)) {
                     field.setValue(error);
                     return;
@@ -99,7 +120,15 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         return isValid;
     }
 
-    protected Field getField(View view) {
+    public boolean isValid(View... views) {
+        for (View v : views)
+            if (getField(v).getValue() != null)
+                return false;
+
+        return true;
+    }
+
+    public Field getField(View view) {
        if (!fields.containsKey(view))
            fields.put(view, new Field());
        return fields.get(view);
