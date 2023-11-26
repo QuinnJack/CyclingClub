@@ -28,6 +28,7 @@ public class EventManagementViewModel extends ValidatedFormViewModel {
                 .collect(Collectors.toMap(e -> e.getKey().getKey(), e -> e.getValue())));
         databaseEvents.child(id).child("id").setValue(id);
         databaseEvents.child(id).child("type").setValue(event.getType());
+        databaseEvents.child(id).child("clubId").setValue(event.getCyclingClub()); // cycling club managing the event
     }
 }
 

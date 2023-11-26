@@ -1,7 +1,9 @@
 package edu.uottawa.seg2105_final_grp12;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -73,6 +75,11 @@ public class EventManagementActivity extends AppCompatActivity {
         binding.setViewModel(eventsViewModel);
         setContentView(binding.getRoot());
 
+        // The cycling club opening the event manager
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String uid = sharedPreferences.getString("UID", "");
+
+
         // Firebase database
         databaseEvents = FirebaseDatabase.getInstance().getReference("events");
         databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
@@ -139,14 +146,25 @@ public class EventManagementActivity extends AppCompatActivity {
     }
 
     private void updateEventsAdapter() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String uid = sharedPreferences.getString("UID", "");
+
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 events.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Event event = new Event();
+
                     Map<String, String> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, String>>() {});
                             //.forEach((key, value) -> event.setField(EventField.fromString(key), value));
+
+                    String testVal = values.remove("clubId");
+
+                    if (testVal == null || !testVal.equals(uid)) {
+                        continue;
+                    }
                     event.setId(values.remove("id"));
                     event.setType(values.remove("type"));
                     values.entrySet().stream().filter(e -> EventField.fromString(e.getKey()) != null)
@@ -209,7 +227,12 @@ public class EventManagementActivity extends AppCompatActivity {
         if (!eventsViewModel.isValid().getValue())
             return;
 
+        // Getting the cycling club making the event
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String uid = sharedPreferences.getString("UID", "");
+
         Event event = new Event();
+        event.setCyclingClub(uid);
         for (View v : getFields())
             if (v.isShown())
                 event.setField(EventField.fromId(((ViewGroup) v.getParent()).getId()), getValue(v));

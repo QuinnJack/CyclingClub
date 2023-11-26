@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                 AuthModel.getInstance().registerUser(username, email, password, role)
                         .addOnCompleteListener(new OnCompleteListener<User>() { // Account has been added to FB
                             public void onComplete(Task<User> task) {
+                                // TODO change to push data with SharedPreferences like LoginActivity
                                 User registeredUser = task.getResult();
                                 intent.putExtra("UID", registeredUser.getUid());
                                 intent.putExtra("USERNAME", registeredUser.getUsername());
