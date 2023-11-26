@@ -2,6 +2,7 @@ package edu.uottawa.seg2105_final_grp12;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
@@ -55,12 +56,15 @@ public class RegisterActivity extends AppCompatActivity {
                 AuthModel.getInstance().registerUser(username, email, password, role)
                         .addOnCompleteListener(new OnCompleteListener<User>() { // Account has been added to FB
                             public void onComplete(Task<User> task) {
-                                // TODO change to push data with SharedPreferences like LoginActivity
                                 User registeredUser = task.getResult();
-                                intent.putExtra("UID", registeredUser.getUid());
-                                intent.putExtra("USERNAME", registeredUser.getUsername());
-                                intent.putExtra("EMAIL", registeredUser.getEmail());
-                                intent.putExtra("ROLE", registeredUser.getRole());
+                                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString("UID", registeredUser.getUid());
+                                editor.putString("USERNAME", registeredUser.getUsername());
+                                editor.putString("EMAIL", registeredUser.getEmail());
+                                editor.putString("ROLE", registeredUser.getRole());
+                                editor.apply();
                                 startActivity(intent);
                             }
                         }
