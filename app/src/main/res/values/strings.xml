@@ -56,4 +56,5 @@
     <string name="labelled_value">"%1$s: %2$s"</string>
     <string name="error_empty">Field is empty</string>
     <string name="error_too_short">Minimum 6 characters</string>
+    <string name="error_invalid_age_range">Invalid age range</string>
 </resources>
