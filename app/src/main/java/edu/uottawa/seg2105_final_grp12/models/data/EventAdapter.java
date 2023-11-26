@@ -7,17 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uottawa.seg2105_final_grp12.R;
+import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.databinding.LayoutEventListBinding;
 
 
@@ -46,6 +54,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         //View listViewEvent = layoutInflater.inflate(R.layout.layout_event_list, null, true); //immediately makes this a child
         LayoutEventListBinding listBinding = DataBindingUtil.inflate(layoutInflater, R.layout.layout_event_list, null, true);
         listBinding.setEvent(events.get(listPosition));
+
 
 
 
@@ -96,6 +105,22 @@ public class EventAdapter extends ArrayAdapter<Event> {
             @Override
             public void onClick(View v) {
                 DatabaseReference databaseEvents = FirebaseDatabase.getInstance().getReference("events");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit Event");
+                LayoutInflater inflater = context.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.layout_event_edit, null));
+
+                AlertDialog alertDialog = builder.create();
+
+                alertDialog.show();
+                // TODO: add button that finishes the event Editing
+                // TODO: change visible layout fields based on eventType
+
+
+
+
+                /*
                 PopupMenu popup = new PopupMenu(context, btnEditType);
                 // Inflating the Popup using xml file
                 popup.getMenuInflater().inflate(R.menu.menu_event_type, popup.getMenu());
@@ -110,12 +135,19 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     }
                 });
                 popup.show(); // showing popup menu
+                */
             }
         });
 
 
 
         return listBinding.getRoot(); // Returns this singular
+    }
+
+    private String getValue(View v) {
+        return TextView.class.isAssignableFrom(v.getClass())
+                ? ((EditText) v).getText().toString()
+                : ((TextView) (((Spinner) v).getSelectedView())).getText().toString();
     }
 
 }
