@@ -37,6 +37,8 @@
     <string name="hint_event_type_name">Please enter the event type name...</string>
 
     <string name="button_edit_event">Edit</string>
+    <string name="button_create_event">Create Event</string>
+    <string name="button_update_event">Update Event</string>
     <string name="button_delete_event">Delete</string>
     <string name="button_delete_user">Delete</string>
     <string name="mediaLink">Media Link</string>

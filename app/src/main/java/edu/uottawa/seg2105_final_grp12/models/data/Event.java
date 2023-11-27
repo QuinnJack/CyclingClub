@@ -2,14 +2,15 @@ package edu.uottawa.seg2105_final_grp12.models.data;
 
 import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 // TODO: make class abstract once event types are implemented
-public class Event {
+public class Event implements Serializable {
     //private EventType eventType;
-    private Map<EventField, String> properties = new HashMap<>();
+    private HashMap<EventField, String> properties = new HashMap<>();
     // *** Firebase variables
     private String id;
 
@@ -57,7 +58,7 @@ public class Event {
         return properties.get(field);
     }
 
-    public Map<EventField, String> getProperties() {
+    public HashMap<EventField, String> getProperties() {
         return properties;
     }
 

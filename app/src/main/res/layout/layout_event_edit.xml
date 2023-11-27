@@ -1,206 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="eventType"
-            type="edu.uottawa.seg2105_final_grp12.models.data.EventType"/>
         <variable name="viewModel"
             type="edu.uottawa.seg2105_final_grp12.viewmodel.EventManagementViewModel"/>
     </data>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorOnSurfaceInverse">
+        android:divider="@android:drawable/divider_horizontal_textfield"
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/event_fields_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@android:drawable/divider_horizontal_textfield"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:showDividers="middle">
+            android:theme="@style/event_field"
+            android:paddingEnd="10dp">
 
-            <LinearLayout
-                android:id="@+id/field_event_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSurfaceContainerHigh"
-                android:orientation="horizontal">
+            <LinearLayout android:id="@+id/field_event_name">
 
-                <Spinner
-                    android:id="@+id/spinner_event_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/btn_add_event"
+                <EditText
+                    android:id="@+id/et_event_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="NEEDS A STRING XML" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="12"
+                    android:hint="@string/hint_event_name"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:paddingVertical="20dp"
+                    android:text="@{viewModel.getSource(etEventName)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/event_fields_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/colorOnSurfaceInverse"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:theme="@style/event_field">
+                android:id="@+id/field_min_age"
+                android:visibility="@{viewModel.eventType}">
 
-                <LinearLayout
-                    android:id="@+id/field_event_name">
+                <TextView android:text="@string/label_min_age" />
 
-                    <EditText
-                        android:id="@+id/et_event_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="40dp"
-                        android:layout_marginTop="10dp"
-                        android:ems="12"
-                        android:hint="@string/hint_event_name"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:paddingVertical="20dp"
-                        android:text="@{viewModel.getSource(etEventName)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_min_age"
+                    android:hint="@string/hint_min_age"
+                    android:inputType="number"
+                    android:text="@={viewModel.getSource(etMinAge)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_min_age"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_max_age"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_min_age" />
+                <TextView android:text="@string/label_max_age" />
 
-                    <EditText
-                        android:id="@+id/et_min_age"
-                        android:hint="@string/hint_min_age"
-                        android:inputType="number"
-                        android:text="@={viewModel.getSource(etMinAge)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_max_age"
+                    android:hint="@string/hint_max_age"
+                    android:inputType="number"
+                    android:text="@={viewModel.getSource(etMaxAge)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_max_age"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_pace"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_max_age" />
+                <TextView android:text="@string/label_pace" />
 
-                    <EditText
-                        android:id="@+id/et_max_age"
-                        android:hint="@string/hint_max_age"
-                        android:inputType="number"
-                        android:text="@={viewModel.getSource(etMaxAge)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_pace"
+                    android:hint="@string/hint_pace"
+                    android:inputType="time"
+                    android:text="@={viewModel.getSource(etPace)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_pace"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_duration"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_pace" />
+                <TextView android:text="@string/label_duration" />
 
-                    <EditText
-                        android:id="@+id/et_pace"
-                        android:hint="@string/hint_pace"
-                        android:inputType="time"
-                        android:text="@={viewModel.getSource(etPace)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_duration"
+                    android:hint="@string/hint_duration"
+                    android:inputType="time"
+                    android:text="@={viewModel.getSource(etDuration)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_duration"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_distance"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_duration" />
+                <TextView android:text="@string/label_distance" />
 
-                    <EditText
-                        android:id="@+id/et_duration"
-                        android:hint="@string/hint_duration"
-                        android:inputType="time"
-                        android:text="@={viewModel.getSource(etDuration)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_distance"
+                    android:hint="@string/hint_distance"
+                    android:inputType="numberDecimal"
+                    android:text="@={viewModel.getSource(etDistance)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_distance"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_max_participants"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_distance" />
+                <TextView android:text="@string/label_max_participants" />
 
-                    <EditText
-                        android:id="@+id/et_distance"
-                        android:hint="@string/hint_distance"
-                        android:inputType="numberDecimal"
-                        android:text="@={viewModel.getSource(etDistance)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_max_participants"
+                    android:hint="@string/hint_max_participants"
+                    android:inputType="number"
+                    android:text="@={viewModel.getSource(etMaxParticipants)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_max_participants"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_fee"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_max_participants" />
+                <TextView android:text="@string/label_fee" />
 
-                    <EditText
-                        android:id="@+id/et_max_participants"
-                        android:hint="@string/hint_max_participants"
-                        android:inputType="number"
-                        android:text="@={viewModel.getSource(etMaxParticipants)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_fee"
+                    android:hint="@string/hint_fee"
+                    android:inputType="numberDecimal"
+                    android:text="@={viewModel.getSource(etFee)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_fee"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_participants"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_fee" />
+                <TextView android:text="@string/label_participants" />
 
-                    <EditText
-                        android:id="@+id/et_fee"
-                        android:hint="@string/hint_fee"
-                        android:inputType="numberDecimal"
-                        android:text="@={viewModel.getSource(etFee)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_participants"
+                    android:hint="\?\?\?"
+                    android:text="@={viewModel.getSource(etParticipants)}"
+                    app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_participants"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_min_skill_level"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_participants" />
+                <TextView android:text="@string/label_min_skill_level" />
 
-                    <EditText
-                        android:id="@+id/et_participants"
-                        android:hint="\?\?\?"
-                        android:text="@={viewModel.getSource(etParticipants)}"
-                        app:errorEnabled="@{viewModel.validateFor(@string/error_empty)}" />
-                </LinearLayout>
+                <Spinner android:entries="@array/min_skill_level_entries" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/field_min_skill_level"
-                    android:visibility="@{eventType}">
+            <LinearLayout
+                android:id="@+id/field_difficulty"
+                android:visibility="@{viewModel.eventType}">
 
-                    <TextView android:text="@string/label_min_skill_level" />
+                <TextView android:text="@string/label_difficulty" />
 
-                    <Spinner android:entries="@array/min_skill_level_entries" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/field_difficulty"
-                    android:visibility="@{eventType}">
-
-                    <TextView android:text="@string/label_difficulty" />
-
-                    <Spinner android:entries="@array/difficulty_entries" />
-                </LinearLayout>
-
+                <Spinner android:entries="@array/difficulty_entries" />
             </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </layout>

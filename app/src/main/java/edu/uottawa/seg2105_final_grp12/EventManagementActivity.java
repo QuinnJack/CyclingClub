@@ -3,24 +3,17 @@ package edu.uottawa.seg2105_final_grp12;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,12 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
 import edu.uottawa.seg2105_final_grp12.models.data.EventField;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
-import edu.uottawa.seg2105_final_grp12.viewmodel.EventManagementViewModel;
 
 public class EventManagementActivity extends AppCompatActivity {
 
@@ -61,19 +52,15 @@ public class EventManagementActivity extends AppCompatActivity {
     List<EventType> eventTypes;
     List<String> eventTypeNames;
 
-    ActivityEventManagementBinding binding;
-    EventManagementViewModel eventsViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventsViewModel = new ViewModelProvider(this).get(EventManagementViewModel.class);
-
-        binding = DataBindingUtil.setContentView(EventManagementActivity.this, R.layout.activity_event_management);
-        binding.setLifecycleOwner(this);
-        binding.setEventType(new EventType());
-        binding.setViewModel(eventsViewModel);
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_event_management);
+        /*eventPopupBinding = DataBindingUtil.setContentView(EventManagementActivity.this, R.layout.activity_event_management);
+        eventPopupBinding.setLifecycleOwner(this);
+        eventPopupBinding.setEventType(new EventType());
+        eventPopupBinding.setViewModel(eventsViewModel);
+        setContentView(eventPopupBinding.getRoot());*/
 
         // The cycling club opening the event manager
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
@@ -104,17 +91,17 @@ public class EventManagementActivity extends AppCompatActivity {
             }
         });
 
-        eventTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*eventTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                binding.setEventType(eventTypes.get(position));
+                eventPopupBinding.setEventType(eventTypes.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         listViewEvents = findViewById(R.id.list_events);
         buttonAddEvent = findViewById(R.id.btn_add_event);
@@ -131,11 +118,12 @@ public class EventManagementActivity extends AppCompatActivity {
 
         buttonAddEvent.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { addEvent(); }
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                EditEventFragment editEventFragment = new EditEventFragment(eventTypes.get(eventTypeSpinner.getSelectedItemPosition()));
+                editEventFragment.show(fragmentManager, "fragment_create_event");
+            }
         });
-
-        addListeners();
-        observeErrorLiveData();
     }
 
     @Override
@@ -180,65 +168,6 @@ public class EventManagementActivity extends AppCompatActivity {
                 Toast.makeText(EventManagementActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void addListeners() {
-        EditText minAge = binding.etMinAge;
-        EditText maxAge = binding.etMaxAge;
-        View.OnFocusChangeListener compareMinMaxListener = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (minAge.isShown() && maxAge.isShown() && minAge.length() > 0 && maxAge.length() > 0 && !minAge.hasFocus() && !maxAge.hasFocus()) {
-                    if (Integer.parseInt(minAge.getText().toString()) > Integer.parseInt(maxAge.getText().toString())) {
-                        if (eventsViewModel.isValid(minAge, maxAge)) {
-                            eventsViewModel.setError(minAge, getString(R.string.error_invalid_age_range));
-                            eventsViewModel.setError(maxAge, getString(R.string.error_invalid_age_range));
-                        }
-                    }
-                    else {
-                        // refresh livedata
-                        minAge.setText(minAge.getText());
-                        maxAge.setText(maxAge.getText());
-                    }
-                }
-            }
-        };
-
-        minAge.setOnFocusChangeListener(compareMinMaxListener);
-        maxAge.setOnFocusChangeListener(compareMinMaxListener);
-    }
-
-    private void observeErrorLiveData() {
-        LinearLayout fields = binding.eventFieldsLayout;
-
-        for (int i = 1; i < fields.getChildCount(); i++) {
-            ViewGroup fieldLayout = (ViewGroup) fields.getChildAt(i);
-
-            // only EditTexts need validation for now
-            if (fieldLayout.getChildAt(1).getClass() != AppCompatEditText.class)
-                continue;
-
-            EditText et = (EditText) fieldLayout.getChildAt(1);
-            eventsViewModel.getErrorLiveData(et).observe(this, et::setError);
-        }
-    }
-
-    private void addEvent() {
-        if (!eventsViewModel.isValid().getValue())
-            return;
-
-        // Getting the cycling club making the event
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
-        String uid = sharedPreferences.getString("UID", "");
-
-        Event event = new Event();
-        event.setCyclingClub(uid);
-        for (View v : getFields())
-            if (v.isShown())
-                event.setField(EventField.fromId(((ViewGroup) v.getParent()).getId()), getValue(v));
-
-        eventsViewModel.createEvent(event);
-        updateEventsAdapter();
     }
 
     /*private void addEvent() {
@@ -309,23 +238,6 @@ public class EventManagementActivity extends AppCompatActivity {
         editTextMinSkillLevel.setText("");
         editTextDifficulty.setText("");
     }*/
-
-    private List<View> getFields() {
-        List<View> inputs = new ArrayList<>();
-
-        for (int i = 0; i < binding.eventFieldsLayout.getChildCount(); i++) {
-            ViewGroup fieldLayout = (ViewGroup) binding.eventFieldsLayout.getChildAt(i);
-            inputs.add(fieldLayout.getChildAt(fieldLayout.getChildCount()-1));
-        }
-
-        return inputs;
-    }
-
-    private String getValue(View v) {
-        return TextView.class.isAssignableFrom(v.getClass())
-                ? ((EditText) v).getText().toString()
-                : ((TextView) (((Spinner) v).getSelectedView())).getText().toString();
-    }
 
     public void editEvent(Event evenToEdit){
         if(evenToEdit != null){

@@ -3,6 +3,7 @@ package edu.uottawa.seg2105_final_grp12.viewmodel.base;
 import android.app.Application;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
@@ -25,6 +26,7 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
 
     private static class Field extends MediatorLiveData<String> {
         private MutableLiveData<String> source = new MutableLiveData<>();
+        protected boolean hadFocus = false;
 
         public MutableLiveData<String> getSource() {
             return source;
@@ -33,7 +35,11 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         public void addSource(@NonNull MutableLiveData<String> source, @NonNull Observer<String> onChanged) {
             super.addSource(source, onChanged);
             this.source = source;
-            onChanged.onChanged("");
+            onChanged.onChanged(source.getValue());
+        }
+
+        public boolean hadFocus() {
+            return hadFocus;
         }
     }
 
@@ -64,8 +70,8 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         errorDelay = delay;
     }
 
-    public void addDependent(View view, Function<String, Integer> onChanged, View... dependents) {
-        for (View dependent : dependents)
+    public void addDependent(View view, Function<String, Integer> onChanged, TextView... dependents) {
+        for (TextView dependent : dependents)
             getField(view).addSource(getSource(dependent), new Observer<String>() {
                 @Override
                 public void onChanged(String s) {
@@ -78,8 +84,8 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
             });
     }
 
-    public MutableLiveData<String> getSource(View view) {
-        return fields.containsKey(view) ? fields.get(view).getSource() : null;
+    public MutableLiveData<String> getSource(TextView view) {
+        return fields.containsKey(view) ? fields.get(view).getSource() : new MutableLiveData<>(view.getText().toString());
     }
 
     public LiveData<String> getErrorLiveData(View view) {
@@ -90,21 +96,29 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         getField(v).setValue(error);
     }
 
-    public MutableLiveData<String> createField(View view, String... strings) {
-        MutableLiveData<String> source = new MutableLiveData<>();
+    public MutableLiveData<String> createField(TextView view, String... strings) {
+        MutableLiveData<String> source = new MutableLiveData<>(view.getText().toString());
 
         Field field = getField(view);
         field.addSource(source, ObserverUtil.withDelay(s -> {
-            for (String error : strings) {
-                if (!view.isShown()) continue;
+                for (String error : strings) {
+                    if (!view.isShown() || !field.hadFocus) continue;
 
-                if (Validators.get(error).apply(s)) {
-                    field.setValue(error);
-                    return;
+                    if (Validators.get(error).apply(s)) {
+                        field.setValue(error);
+                        return;
+                    }
                 }
-            }
             field.setValue(null);
         }, errorDelay));
+
+        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                getField(v).hadFocus = true;
+                v.setOnFocusChangeListener(null);
+            }
+        });
 
         fields.put(view, field);
         isValid.addSource(field, s -> isValid.setValue(s == null && fields.entrySet().stream().noneMatch(entry -> entry.getValue().getValue() != null)));

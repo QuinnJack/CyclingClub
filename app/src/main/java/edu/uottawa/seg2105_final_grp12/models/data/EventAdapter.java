@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,9 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uottawa.seg2105_final_grp12.EditEventFragment;
 import edu.uottawa.seg2105_final_grp12.R;
 import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.databinding.LayoutEventListBinding;
+import edu.uottawa.seg2105_final_grp12.models.repository.DatabaseRepository;
 
 
 /**
@@ -104,7 +108,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
         btnEditType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseEvents = FirebaseDatabase.getInstance().getReference("events");
+                EditEventFragment editEventFragment = new EditEventFragment(events.get(listPosition));
+                editEventFragment.show(((FragmentActivity) getContext()).getSupportFragmentManager(), "fragment_create_event");
+
+                /*DatabaseReference databaseEvents = FirebaseDatabase.getInstance().getReference("events");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Edit Event");
@@ -113,7 +120,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
                 AlertDialog alertDialog = builder.create();
 
-                alertDialog.show();
+                alertDialog.show();*/
                 // TODO: add button that finishes the event Editing
                 // TODO: change visible layout fields based on eventType
 
