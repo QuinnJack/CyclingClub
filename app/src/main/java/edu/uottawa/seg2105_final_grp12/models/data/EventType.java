@@ -2,16 +2,16 @@ package edu.uottawa.seg2105_final_grp12.models.data;
 
 import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class EventType extends HashMap<EventField, Boolean> {
+public class EventType implements Serializable {
     private String id;
     private String name;
-
+    private final HashSet<EventField> fields = new HashSet<>();
+    
     public EventType() {
-        for (EventField f : EventField.values())
-            if (f.getId() != 0)
-                put(f, false);
         // Default constructor required for calls to DataSnapshot.getValue(EventType.class)
     }
 
@@ -36,9 +36,6 @@ public class EventType extends HashMap<EventField, Boolean> {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
 
     public void setHasMinAge(boolean hasMinAge) {
         put(MIN_AGE, hasMinAge);
@@ -81,42 +78,53 @@ public class EventType extends HashMap<EventField, Boolean> {
     }
 
     public boolean getHasMinAge() {
-        return get(MIN_AGE);
+        return fields.contains(MIN_AGE);
     }
 
     public boolean getHasMaxAge() {
-        return get(MAX_AGE);
+        return fields.contains(MAX_AGE);
     }
 
     public boolean getHasMinSkillLevel() {
-        return get(MIN_SKILL_LEVEL);
+        return fields.contains(MIN_SKILL_LEVEL);
     }
 
     public boolean getHasDifficulty() {
-        return get(DIFFICULTY);
+        return fields.contains(DIFFICULTY);
     }
 
     public boolean getHasPace() {
-        return get(PACE);
+        return fields.contains(PACE);
     }
 
     public boolean getHasDuration() {
-        return get(DURATION);
+        return fields.contains(DURATION);
     }
 
     public boolean getHasDistance() {
-        return get(DISTANCE);
+        return fields.contains(DISTANCE);
     }
 
     public boolean getHasParticipants() {
-        return get(PARTICIPANTS);
+        return fields.contains(PARTICIPANTS);
     }
 
     public boolean getHasMaxParticipants() {
-        return get(MAX_PARTICIPANTS);
+        return fields.contains(MAX_PARTICIPANTS);
     }
 
     public boolean getHasFee() {
-        return get(FEE);
+        return fields.contains(FEE);
+    }
+
+    public boolean hasField(EventField field) {
+        return fields.contains(field);
+    }
+
+    public void put(EventField field, boolean enabled) {
+        if (enabled)
+            fields.add(field);
+        else
+            fields.remove(field);
     }
 }

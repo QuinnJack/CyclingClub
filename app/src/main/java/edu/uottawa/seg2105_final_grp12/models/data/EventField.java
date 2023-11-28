@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Converter;
 
+import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map;
@@ -51,7 +52,7 @@ public enum EventField {
 
     @BindingAdapter("android:visibility")
     public static void setVisibility(View view, EventType eventType) {
-        setVisibility(view, Boolean.TRUE.equals(eventType.get(fromId(view.getId()))));
+        setVisibility(view, Boolean.TRUE.equals(eventType.hasField(fromId(view.getId()))));
     }
 
     @BindingAdapter("android:visibility")
