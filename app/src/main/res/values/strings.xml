@@ -1,6 +1,4 @@
-<!DOCTYPE resources [
-<!ENTITY div ":\u0020">
-]>
+<!DOCTYPE resources [<!ENTITY div ":\u0020">]>
 <resources>
     <string name="app_name">seg2105f23-project-project_grp_12</string>
     <string name="button_sign_in">Sign In</string>

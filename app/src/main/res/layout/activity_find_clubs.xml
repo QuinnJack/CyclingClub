@@ -22,19 +22,18 @@
         android:textStyle="bold"/>
 
 
-    <EditText
-        android:id="@+id/eventTypeField"
+    <Spinner
+        android:id="@+id/spinner_browse_event_types"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchLabel"
-        android:hint="Type of event"/>
+        android:layout_height="40dp"
+        android:layout_below="@id/searchLabel" />
 
     <EditText
         android:id="@+id/eventNameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventTypeField"
-        android:hint="Event name"/>
+        android:layout_below="@id/spinner_browse_event_types"
+        android:hint="Event name" />
 
     <EditText
         android:id="@+id/clubNameField"

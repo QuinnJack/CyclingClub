@@ -16,7 +16,6 @@
         <activity
             android:name=".EventManagementActivity"
             android:exported="false" />
-            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -29,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventTypesActivity"/>
+        <activity android:name=".EventTypesActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".UsersActivity" />
         <activity android:name=".ProfileActivity" />
