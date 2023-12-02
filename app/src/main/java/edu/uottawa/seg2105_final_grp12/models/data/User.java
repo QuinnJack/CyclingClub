@@ -19,6 +19,7 @@ public class User implements Serializable {
     private String socialMediaLink;
     private String mainContactName;
     private String phoneNumber;
+    private String logo;
     private List<String> eventTypes;
 
 
@@ -87,4 +88,7 @@ public class User implements Serializable {
     public void setEventTypes(List<String> eventTypes) {
         this.eventTypes = eventTypes;
     }
+    public String getLogo() { return logo; }
+    public void setLogo(String logo) { this.logo = logo; }
+
 }

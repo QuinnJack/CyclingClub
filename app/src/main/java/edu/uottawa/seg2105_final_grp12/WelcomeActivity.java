@@ -3,6 +3,7 @@ package edu.uottawa.seg2105_final_grp12;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +11,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import android.content.Intent;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -31,7 +38,9 @@ public class WelcomeActivity extends AppCompatActivity {
         String role = sharedPreferences.getString("ROLE", "");
 
         ImageView logoImageView = findViewById(R.id.logoImageView);
+
         String selectedLogo = sharedPreferences.getString("selectedLogo", "default_logo");
+        Log.d("test1", selectedLogo);
         int resourceId = getResources().getIdentifier(selectedLogo, "drawable", getPackageName());
         logoImageView.setImageResource(resourceId);
         User user = new User(uid, username, email, role);
