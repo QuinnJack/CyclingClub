@@ -40,7 +40,6 @@ public class WelcomeActivity extends AppCompatActivity {
         ImageView logoImageView = findViewById(R.id.logoImageView);
 
         String selectedLogo = sharedPreferences.getString("selectedLogo", "default_logo");
-        Log.d("test1", selectedLogo);
         int resourceId = getResources().getIdentifier(selectedLogo, "drawable", getPackageName());
         logoImageView.setImageResource(resourceId);
         User user = new User(uid, username, email, role);

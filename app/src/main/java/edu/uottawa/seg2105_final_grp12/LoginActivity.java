@@ -81,8 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (authTask.isSuccessful()) {
                                     User signedInUser = authTask.getResult();
 
-                                    Log.d("test2", signedInUser.getUid());
-
                                     SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
 

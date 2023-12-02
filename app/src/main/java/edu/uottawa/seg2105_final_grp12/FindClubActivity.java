@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,14 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import edu.uottawa.seg2105_final_grp12.models.data.ClubSearchAdapter;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
+import edu.uottawa.seg2105_final_grp12.models.data.User;
+import edu.uottawa.seg2105_final_grp12.models.data.UserAdapter;
 
 
 public class FindClubActivity extends AppCompatActivity {
@@ -29,7 +36,12 @@ public class FindClubActivity extends AppCompatActivity {
     DatabaseReference databaseEventTypes;
     List<EventType> eventTypes;
     Spinner eventTypeSpinner;
+    DatabaseReference databaseUsers;
+    List<User> clubs;
+    ClubSearchAdapter clubAdapter;
+    ListView listViewClubs;
 
+    //TODO add search button that trims List<User> clubs to fit desired variables
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +77,30 @@ public class FindClubActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        listViewClubs = findViewById(R.id.searchResultsListView);
+        clubs = new ArrayList<>();
+
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                clubs.clear();
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    if (user.getRole().equals("Cycling Club")) {
+                        clubs.add(user);
+                    }
+                }
+                clubAdapter = new ClubSearchAdapter(FindClubActivity.this, clubs);
+                listViewClubs.setAdapter(clubAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(FindClubActivity.this, "Database Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 }

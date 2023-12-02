@@ -73,7 +73,7 @@ public class EventManagementActivity extends AppCompatActivity {
 
         eventTypes = new ArrayList<EventType>();
         eventTypeSpinner = findViewById(R.id.spinner_event_type);
-        // just pull the existing event types once whenever the activity opens
+        // Pull the existing event types once, when the activity opens
         databaseEventTypes.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> dataSnapshot) {
