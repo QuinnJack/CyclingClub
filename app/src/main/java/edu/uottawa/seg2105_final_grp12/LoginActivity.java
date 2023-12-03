@@ -1,5 +1,6 @@
 package edu.uottawa.seg2105_final_grp12;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.nfc.Tag;
@@ -13,7 +14,13 @@ import android.content.SharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
 import edu.uottawa.seg2105_final_grp12.models.data.Admin;
@@ -24,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername;
     private EditText inputPassword;
     private Button btnLogin;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseUser;
 
     private SharedPreferences sharedPreferences;
     @Override
@@ -79,6 +88,33 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("USERNAME", signedInUser.getUsername());
                                     editor.putString("EMAIL", signedInUser.getEmail());
                                     editor.putString("ROLE", signedInUser.getRole());
+
+                                    // Setting the correct logo on the welcome screen, if the user is a cycling club
+                                    if (signedInUser.getRole().equals("Cycling Club")) {
+                                        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        if (currentUser != null) {
+                                            String userId = currentUser.getUid();
+                                            databaseUser = FirebaseDatabase.getInstance().getReference("users").child(userId);
+                                            databaseUser.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if (dataSnapshot.exists()) {
+                                                        User user = dataSnapshot.getValue(User.class);
+                                                        if (user != null && user.getLogo() != null) {
+                                                                editor.putString("selectedLogo", user.getLogo().trim());
+                                                                editor.apply();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                    Toast.makeText(LoginActivity.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+
                                     editor.apply();
                                     startActivity(intent);
 

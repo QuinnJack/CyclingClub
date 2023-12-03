@@ -79,8 +79,21 @@ public class ProfileActivity extends Activity {
         btnAdd = findViewById(R.id.btnAdd);
         btnDel = findViewById(R.id.btnDelete);
 
-
         userEventTypeNames = new ArrayList<>();
+
+        // Setting up logo spinner
+        logoSpinner = findViewById(R.id.logoSpinner);
+        String[] logos = {
+                "fast_logo",
+                "basic_logo",
+                "competitive_logo",
+                "default_logo",
+                "dirtbike_logo",
+                "mountain_logo",
+                "old_logo"
+        };       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, logos);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        logoSpinner.setAdapter(adapter);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -102,6 +115,16 @@ public class ProfileActivity extends Activity {
                                 phoneInput.setText(user.getPhoneNumber());
                             }
 
+                            if (user.getLogo() != null) {
+                                logoSpinner.setSelection(adapter.getPosition(user.getLogo()));
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString("selectedLogo", user.getLogo().trim());
+                                editor.apply();
+                            }
+
                             // Load user's event types
                             if (user.getEventTypes() != null) {
                                 userEventTypeNames.clear();
@@ -118,6 +141,14 @@ public class ProfileActivity extends Activity {
                 }
             });
         }
+
+        /*
+        SharedPreferences sharedPref = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String currentLogo = sharedPref.getString("selectedLogo", "default_logo");
+
+        int spinnerPosition = adapter.getPosition(currentLogo);
+        logoSpinner.setSelection(spinnerPosition);
+        */
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,24 +220,7 @@ public class ProfileActivity extends Activity {
             }
         });
 
-        logoSpinner = findViewById(R.id.logoSpinner);
 
-        String[] logos = {
-                "fast_logo",
-                "basic_logo",
-                "competitive_logo",
-                "default_logo",
-                "dirtbike_logo",
-                "mountain_logo",
-                "old_logo"
-        };       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, logos);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        logoSpinner.setAdapter(adapter);
-        SharedPreferences sharedPref = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
-        String currentLogo = sharedPref.getString("selectedLogo", "default_logo");
-
-        int spinnerPosition = adapter.getPosition(currentLogo);
-        logoSpinner.setSelection(spinnerPosition);
         logoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
