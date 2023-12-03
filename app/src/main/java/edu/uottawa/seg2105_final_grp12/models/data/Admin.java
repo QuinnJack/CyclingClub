@@ -19,7 +19,4 @@ public class Admin extends User {
         super(uid, predefinedUsername, email, "Admin");
     }
 
-
-
-
 }

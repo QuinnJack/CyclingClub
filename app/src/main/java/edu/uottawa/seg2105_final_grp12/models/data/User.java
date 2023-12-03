@@ -30,10 +30,10 @@ public class User implements Serializable {
         this.email = userData.get("email");
         this.role = userData.get("role");
     }
-    public User(String uid, String username, String firstName, String role) {
+    public User(String uid, String username, String email, String role) {
         this.uid = uid;
         this.username = username;
-        this.firstName = firstName;
+        this.email = email;
         this.role = role;
     }
 

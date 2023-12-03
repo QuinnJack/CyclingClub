@@ -3,6 +3,8 @@ package edu.uottawa.seg2105_final_grp12;
 import org.junit.Test;
 
 import edu.uottawa.seg2105_final_grp12.models.AuthModel;
+import edu.uottawa.seg2105_final_grp12.models.data.EventType;
+import edu.uottawa.seg2105_final_grp12.models.data.HillClimb;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.models.data.Admin;
 import edu.uottawa.seg2105_final_grp12.models.data.CyclingClub;
@@ -26,61 +28,60 @@ import com.google.android.gms.tasks.Task;
 // TODO: Account creation, login, logout test cases
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void UserCreationTest(){
+        User newUser = new User("3000", "testUsername","userTest@test.com", "User");
+        assertEquals("3000", newUser.getUid());
+        assertEquals("testUsername", newUser.getUsername());
+        assertEquals("userTest@test.com", newUser.getEmail());
+        assertEquals("User", newUser.getRole());
     }
-
     @Test
-    public void userCreationTest() {
-        User user = new User("12345", "testUser", "test@gmail.com", "user");
-        assertEquals("testUser", user.getUsername());
-        assertEquals("test@gmail.com", user.getEmail());
-        assertEquals("user", user.getRole());
-        assertEquals("12345", user.getUid());
-    }
-
-    @Test
-    public void adminCreationTest() {
-        Admin admin = new Admin("12345", "admin@test.com");
-        assertEquals("admin", admin.getUsername());
-        assertEquals("admin@test.com", admin.getEmail());
-        assertEquals("admin", admin.getRole());
+    public void AdminCreationTest() throws Exception{
+        Admin newAdmin = new Admin("3001", "admin@test.com");
+        assertEquals("3001", newAdmin.getUid());
+        assertEquals("admin@test.com", newAdmin.getEmail());
+        assertEquals("Admin", newAdmin.getRole());
     }
 
     @Test
     public void cyclingClubCreationTest() {
-        CyclingClub club = new CyclingClub("12345", "MyClub", "club@gmail.com");
-        assertEquals("MyClub", club.getUsername());
-        assertEquals("club@gmail.com", club.getEmail());
-
+        CyclingClub newClub = new CyclingClub("3002", "MyClub", "club@test.com");
+        assertEquals("3002", newClub.getUid());
+        assertEquals("MyClub", newClub.getUsername());
+        assertEquals("club@test.com", newClub.getEmail());
     }
 
     @Test
     public void participantCreationTest() {
-        Participant participant = new Participant("12345", "testUser", "test@test.com");
-        assertEquals("testUser", participant.getUsername());
-        assertEquals("test@test.com", participant.getEmail());
-        assertEquals("12345", participant.getUid());
-
+        Participant newParticipant = new Participant("3003", "testUser", "test@test.com");
+        assertEquals("testUser", newParticipant.getUsername());
+        assertEquals("test@test.com", newParticipant.getEmail());
+        assertEquals("3003", newParticipant.getUid());
+        assertEquals("Participant", newParticipant.getRole());
     }
 
+    //TODO: in Progress
      @Test
      public void signUpTest() {
         String testId = "signUpTest" + Random.Default.nextInt(1000000);
-        AuthModel.getInstance().registerUser(testId, testId + "@test.test", "password", "participant")
+        AuthModel.getInstance().registerUser(testId, "@signin.test", "password", "Participant")
                 .addOnCompleteListener(task -> assertTrue(task.isSuccessful()));
      }
     @Test
      public void signInTest() {
-        User user = new User("12345", "testUser", "test@test.com", "participant");
-        AuthModel.getInstance().login("test5", "password")
+        User userSignIn = new User("3004", "SignInTest", "SignInName", "Participant");
+        AuthModel.getInstance().login("testagainagain", "password")
                 .addOnCompleteListener(task -> assertTrue(task.isSuccessful()));
     }
     @Test
     public void wrongPasswordTest() {
-        User user = new User("12345", "testUser", "test@test.com", "participant");
-        AuthModel.getInstance().login("test5", "wrongPassword")
+        User user = new User("3005", "wrongPasswordTest", "password@test.com", "participant");
+        AuthModel.getInstance().login("testagainagain", "wrongPassword")
                 .addOnCompleteListener(task -> assertFalse(task.isSuccessful()));
+    }
+    @Test
+    public void evenTypes(){
+        EventType newEventType = new EventType();
     }
     // TODO Sanitize user inputs tests
 }
