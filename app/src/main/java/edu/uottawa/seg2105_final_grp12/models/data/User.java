@@ -21,10 +21,12 @@ public class User implements Serializable {
     private String phoneNumber;
     private String logo;
     private List<String> eventTypes;
+    private List<ClubReview> reviews;
+    private int averageRating = 0;
 
 
     // private FirebaseAuth mAuth;
-
+    //TODO have reviews come through with userData
     public User(Map<String, String> userData) {
         this.uid = userData.get("uid");
         this.username = userData.get("username");
@@ -88,7 +90,41 @@ public class User implements Serializable {
     public void setEventTypes(List<String> eventTypes) {
         this.eventTypes = eventTypes;
     }
+
     public String getLogo() { return logo; }
+
     public void setLogo(String logo) { this.logo = logo; }
+
+    public List<ClubReview> getReviews() { return reviews; }
+
+    public void addReview(ClubReview review) {
+        reviews.add(review);
+        calculateAverageRating();
+    }
+
+    public void clearReviews() {
+        if (reviews != null) {
+            reviews.clear();
+        }
+        calculateAverageRating();
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    private void calculateAverageRating() {
+
+        int ratingSum = 0;
+
+        if (reviews != null) {
+            for (ClubReview c: reviews) {
+                ratingSum += c.getRating();
+            }
+        }
+
+        this.averageRating = ratingSum / reviews.size();
+    }
+
 
 }
