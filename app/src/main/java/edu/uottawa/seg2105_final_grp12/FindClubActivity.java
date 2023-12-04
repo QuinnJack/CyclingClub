@@ -108,7 +108,12 @@ public class FindClubActivity extends AppCompatActivity {
         listViewClubs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                User chosenClub = clubs.get(i); // User associated with the club at position i of listView
+                String clubId = chosenClub.getUid();
+
                 Intent intent = new Intent(FindClubActivity.this, ClubInfoActivity.class);
+                intent.putExtra("clubId", clubId);
                 startActivity(intent);
 
                 return true; // should be irrelevant, but a boolean return is required by the method

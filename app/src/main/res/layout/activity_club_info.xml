@@ -6,16 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ClubInfoActivity">
 
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Back" />
+
     <ImageView
         android:id="@+id/image_view_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/button_back"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/default_logo"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
         android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:src="@drawable/default_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,8 +32,8 @@
         android:id="@+id/layout_club_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignTop="@id/image_view_logo"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/image_view_logo"
         android:orientation="vertical">
 
@@ -32,7 +41,8 @@
             android:id="@+id/tv_club_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_social_link"
