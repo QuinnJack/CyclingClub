@@ -4,10 +4,12 @@ public class ClubReview {
 
     private int rating; // should be 1 to 5
     private String feedback;
+    private String reviewerName;
 
-    public ClubReview(int rating, String feedback) {
+    public ClubReview(int rating, String feedback, String reviewerName) {
         this.rating = rating;
         this.feedback = feedback;
+        this.reviewerName = reviewerName;
     }
 
     public int getRating() {
@@ -29,6 +31,14 @@ public class ClubReview {
 
     public void setFeedback() {
         this.feedback = feedback;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
     }
 
 

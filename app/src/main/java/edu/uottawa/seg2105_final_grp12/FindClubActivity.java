@@ -2,6 +2,8 @@ package edu.uottawa.seg2105_final_grp12;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +102,16 @@ public class FindClubActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(FindClubActivity.this, "Database Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        listViewClubs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(FindClubActivity.this, ClubInfoActivity.class);
+                startActivity(intent);
+
+                return true; // should be irrelevant, but a boolean return is required by the method
             }
         });
     }
