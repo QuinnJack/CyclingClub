@@ -42,6 +42,7 @@ public class FindClubActivity extends AppCompatActivity {
     ListView listViewClubs;
 
     //TODO add search button that trims List<User> clubs to fit desired variables
+    //TODO clicking on a club list entry should open the events they are holding
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

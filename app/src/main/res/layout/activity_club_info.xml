@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ClubInfoActivity">
+
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@tools:sample/avatars"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_club_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/image_view_logo"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_club_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_social_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_main_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_view_logo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Club Events"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider_event_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_events"
+        android:background="?android:attr/listDivider" />
+
+    <ListView
+        android:id="@+id/list_view_events"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_below="@id/divider_event_top"
+        tools:layout_editor_absoluteX="150dp">
+
+    </ListView>
+
+    <View
+        android:id="@+id/divider_event_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/list_view_events"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/tv_club_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_event_bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Club Reviews"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_average_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_club_reviews"
+        android:layout_marginLeft="10dp"
+        android:text="[DEBUG average rating]" />
+
+    <Button
+        android:id="@+id/button_add_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_club_reviews"
+        android:layout_marginLeft="60dp"
+        android:layout_toRightOf="@id/tv_club_reviews"
+        android:text="+Add Review" />
+
+    <ListView
+        android:id="@+id/list_club_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/tv_average_rating" />
+
+</RelativeLayout>
