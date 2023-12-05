@@ -33,21 +33,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_browse_event_types"
-        android:hint="Event name" />
+        android:hint="Event name (or empty for any event)" />
 
     <EditText
         android:id="@+id/clubNameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventNameField"
-        android:hint="Club name"/>
+        android:hint="Club name (or empty for any club)" />
 
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clubNameField"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Apply Search Terms" />
 
     <ListView
         android:id="@+id/searchResultsListView"
         android:layout_width="wrap_content"
         android:layout_height="202dp"
-        android:layout_below="@id/clubNameField"
+        android:layout_below="@id/btn_search"
         android:maxHeight="10dp" />
 
     <Button

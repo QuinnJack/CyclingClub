@@ -64,5 +64,4 @@ public class ClubSearchAdapter extends ArrayAdapter<User> {
 
         return listViewItem;
     }
-
 }

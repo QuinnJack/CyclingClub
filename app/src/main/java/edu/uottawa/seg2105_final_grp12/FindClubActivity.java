@@ -2,6 +2,8 @@ package edu.uottawa.seg2105_final_grp12;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.uottawa.seg2105_final_grp12.models.data.ClubSearchAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.models.data.UserAdapter;
@@ -55,9 +58,6 @@ public class FindClubActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        EditText eventName = findViewById(R.id.eventNameField);
-
-        databaseEvents = FirebaseDatabase.getInstance().getReference("events");
         databaseEventTypes = FirebaseDatabase.getInstance().getReference("eventTypes");
 
         eventTypes = new ArrayList<EventType>();
@@ -72,37 +72,48 @@ public class FindClubActivity extends AppCompatActivity {
                     eventTypes.add(eventType);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(FindClubActivity.this, android.R.layout.simple_spinner_item,
-                        eventTypes.stream().map(EventType::getName).collect(Collectors.toList()));
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(FindClubActivity.this, android.R.layout.simple_spinner_item);
+
+                adapter.add("Any");
+                adapter.addAll(eventTypes.stream().map(EventType::getName).collect(Collectors.toList()));
 
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 eventTypeSpinner.setAdapter(adapter);
             }
         });
 
+        EditText etEventName = findViewById(R.id.eventNameField);
+        EditText etClubName = findViewById(R.id.clubNameField);
 
         listViewClubs = findViewById(R.id.searchResultsListView);
         clubs = new ArrayList<>();
+        clubAdapter = new ClubSearchAdapter(FindClubActivity.this, clubs);
+        listViewClubs.setAdapter(clubAdapter);
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
-        databaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                clubs.clear();
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class);
-                    if (user.getRole().equals("Cycling Club")) {
-                        clubs.add(user);
-                    }
-                }
-                clubAdapter = new ClubSearchAdapter(FindClubActivity.this, clubs);
-                listViewClubs.setAdapter(clubAdapter);
+        updateClubList(null, null, null);
+        clubAdapter.notifyDataSetChanged();
+
+        Button btnSearch = findViewById(R.id.btn_search);
+        btnSearch.setOnClickListener(view -> {
+            String eventName = etEventName.getText().toString().trim();
+            String clubName = etClubName.getText().toString().trim();
+            String eventType = eventTypeSpinner.getSelectedItem().toString();
+
+            if (eventType.equals("Any")) {
+                eventType = null;
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(FindClubActivity.this, "Database Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            if (eventName.isEmpty()) {
+                eventName = null;
             }
+
+            if (clubName.isEmpty()) {
+                clubName = null;
+            }
+
+            updateClubList(eventType, eventName, clubName);
+            clubAdapter.notifyDataSetChanged();
+
         });
 
         listViewClubs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -117,6 +128,42 @@ public class FindClubActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 return true; // should be irrelevant, but a boolean return is required by the method
+            }
+        });
+    }
+
+    // If null is passed as any of the input arguments, they will ignored
+    // while refining the club list to the search parameters
+    public void updateClubList(String eventType, String eventName, String clubName) {
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                clubs.clear();
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    if (user.getRole().equals("Cycling Club")) {
+
+                        // if an eventType (other than "Any") was chosen, it must exist in user.eventTypes
+                        if (eventType != null && (user.getEventTypes() == null
+                                || !user.getEventTypes().contains(eventType))) {
+                            continue;
+                        }
+                        // If a clubName was entered to the search, this username must contain it
+                        if (clubName != null && !user.getUsername().contains(clubName)) {
+                            continue;
+                        }
+
+                        //TODO Event name search
+                        clubs.add(user);
+                        clubAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(FindClubActivity.this, "Database Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

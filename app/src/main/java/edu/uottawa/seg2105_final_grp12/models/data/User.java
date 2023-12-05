@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String phoneNumber;
     private String logo;
     private List<String> eventTypes;
+    private List<String> eventNames;
     private List<ClubReview> reviews;
     private int averageRating = 0;
 
@@ -90,6 +91,12 @@ public class User implements Serializable {
     public void setEventTypes(List<String> eventTypes) {
         this.eventTypes = eventTypes;
     }
+
+    public List<String> getEventNames() {
+        return eventNames;
+    }
+
+    public void setEventNames(List<String> eventNames) { this.eventNames = eventNames; }
 
     public String getLogo() { return logo; }
 
