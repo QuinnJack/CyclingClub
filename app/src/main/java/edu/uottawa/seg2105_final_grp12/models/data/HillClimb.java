@@ -4,7 +4,7 @@ public class HillClimb extends Event{
 
     private int inclineAngle;
 
-    public HillClimb(String id){
+    public HillClimb(String id) {
         super(id);
     }
 

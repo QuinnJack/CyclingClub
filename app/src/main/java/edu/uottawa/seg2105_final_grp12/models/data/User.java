@@ -41,8 +41,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public User() {
-    }
 
     public String getUid() {
         return uid;

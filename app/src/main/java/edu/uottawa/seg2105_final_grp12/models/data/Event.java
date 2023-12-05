@@ -4,6 +4,7 @@ import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.DuplicateFormatFlagsException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class Event implements Serializable {
     }
     public Event(String id) {
         this.id = id;
+
     }
 
     public String setField(EventField field, String value) {

@@ -6,7 +6,6 @@ public class TimeTrial extends Event {
 
     public TimeTrial(String id) {
         super(id);
-        // Without defining what requirements an admin MUST specify, its a bit hard to define the constructor
     }
 
     public void setNumberOfIntervals(int intervalCount) {

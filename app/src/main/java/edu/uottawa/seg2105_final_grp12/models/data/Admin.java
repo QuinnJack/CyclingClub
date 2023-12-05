@@ -13,8 +13,6 @@ public class Admin extends User {
     }
 
 
-    public Admin() {}
-
     public Admin(String uid, String email) {
         super(uid, predefinedUsername, email, "Admin");
     }
