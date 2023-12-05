@@ -5,16 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import edu.uottawa.seg2105_final_grp12.models.data.ClubEventsAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.Event;
+import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.EventField;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 
 public class ClubInfoActivity extends AppCompatActivity {
@@ -85,6 +99,42 @@ public class ClubInfoActivity extends AppCompatActivity {
             Intent intent = new Intent(ClubInfoActivity.this, FindClubActivity.class);
             startActivity(intent);
         });
+
+        ListView listViewEvents = findViewById(R.id.list_view_events);
+        List<Event> events = new ArrayList<>();
+
+        DatabaseReference eventDatabase = FirebaseDatabase.getInstance().getReference("events");
+        eventDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                events.clear();
+
+                for (DataSnapshot postSnapshot : task.getResult().getChildren()) {
+                    Event event = new Event();
+                    Map<String, String> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, String>>() {
+                    });
+                    //.forEach((key, value) -> event.setField(EventField.fromString(key), value));
+
+                    String hostId = values.remove("clubId");
+
+                    if (hostId == null || !hostId.equals(clubId)) {
+                        continue;
+                    }
+                    event.setId(values.remove("id"));
+                    event.setType(values.remove("type"));
+                    values.entrySet().stream().filter(e -> EventField.fromString(e.getKey()) != null)
+                            .forEach(e -> event.setField(EventField.fromString(e.getKey()), e.getValue()));
+                    events.add(event);
+                }
+
+                Log.d("Test10", events.toString());
+
+                ClubEventsAdapter adapter = new ClubEventsAdapter(ClubInfoActivity.this, events);
+                listViewEvents.setAdapter(adapter);
+            }
+        });
+
+
 
     }
 }
