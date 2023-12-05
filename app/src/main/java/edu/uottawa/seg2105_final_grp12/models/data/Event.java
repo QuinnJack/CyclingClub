@@ -5,39 +5,19 @@ import static edu.uottawa.seg2105_final_grp12.models.data.EventField.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-// TODO: make class abstract once event types are implemented
 public class Event implements Serializable {
-    //private EventType eventType;
-    private HashMap<EventField, String> properties = new HashMap<>();
-    // *** Firebase variables
+
     private String id;
-
-    // *** Participant Requirements
-    private Integer minAge;
-    private Integer maxAge;
-    private String minSkillLevel; //?? hard to tell if this AND difficulty are needed --> add on --> skill level based on scale of 1-10
-                                                                                                        // Difficulty Easy/Medium/Hard?
-    // *** Event Specifications
-    private String name;
-    private String difficulty;
-    private String pace;
-    private String duration;
-    private Integer distance;
-    private Integer currentParticipants;
-    private Integer maxParticipants;
-
-    private ArrayList<String> participants;
-    private String fee;
-
     private String cyclingClub;
-
     private String type;
+    private HashMap<EventField, String> properties = new HashMap<>();
+    private ArrayList<String> participants;
 
     public Event() {
 
     }
+
     public Event(String id) {
         this.id = id;
     }
@@ -50,10 +30,6 @@ public class Event implements Serializable {
         return setField(field, String.valueOf(value));
     }
 
-    public String setField(String key, String value) {
-        return properties.put(EventField.fromString(key), value);
-    }
-
     public String getValue(EventField field) {
         return properties.get(field);
     }
@@ -62,16 +38,30 @@ public class Event implements Serializable {
         return properties;
     }
 
-    // TODO: Create a dataset that firebase can store for events
+    public void setCyclingClub(String cyclingClub) {
+        this.cyclingClub = cyclingClub;
+    }
 
-    // getters setters
+    public String getCyclingClub() {
+        return cyclingClub;
+    }
+
+    public void setParticipants(ArrayList<String> participants) {this.participants = participants; }
+
+    public ArrayList<String>  getParticipants() {
+        return participants;
+    }
+
+
+
+    // used by firebase
     public void setEventName(String name) { setField(NAME, name); }
     public String getEventName() { return getValue(NAME); }
 
-    public void setMinAge(int age) { setField(MIN_AGE, String.valueOf(age)); }
+    public void setMinAge(int age) { setField(MIN_AGE, age); }
     public String getMinAge() { return getValue(MIN_AGE); }
 
-    public void setMaxAge(int age) { setField(MAX_AGE, maxAge); }
+    public void setMaxAge(int age) { setField(MAX_AGE, age); }
     public String getMaxAge() { return getValue(MAX_AGE); }
 
     public void setPace(String pace) { setField(PACE, pace); }
@@ -97,8 +87,8 @@ public class Event implements Serializable {
     public void setDistance(Float distance) {setField(DISTANCE, distance); }
     public String getDistance() {return getValue(DISTANCE);}
 
-    public String getMinSkillLevel() {return minSkillLevel;}
-    public void setMinSkillLevel(String minSkillLevel) {this.minSkillLevel = minSkillLevel;}
+    public String getMinSkillLevel() {return getValue(MIN_SKILL_LEVEL);}
+    public void setMinSkillLevel(String minSkillLevel) {setField(MIN_SKILL_LEVEL, minSkillLevel);}
 
     public void setCurrentParticipants(Integer participants) {
         setField(PARTICIPANTS, participants);
@@ -116,11 +106,6 @@ public class Event implements Serializable {
         return getValue(MAX_PARTICIPANTS);
     }
 
-    public void setParticipants(ArrayList<String> participants) {this.participants = participants; }
-
-    public ArrayList<String>  getParticipants() {
-        return participants;
-    }
     public void setDuration(String duration) {
         setField(DURATION, duration);
     }
@@ -136,14 +121,4 @@ public class Event implements Serializable {
     public String getFee() {
         return getValue(FEE);
     }
-
-    public void setCyclingClub(String cyclingClub) {
-        this.cyclingClub = cyclingClub;
-    }
-
-    public String getCyclingClub() {
-        return cyclingClub;
-    }
-
-
 }

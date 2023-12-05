@@ -1,4 +1,4 @@
-package edu.uottawa.seg2105_final_grp12;
+package edu.uottawa.seg2105_final_grp12.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import edu.uottawa.seg2105_final_grp12.R;
 import edu.uottawa.seg2105_final_grp12.databinding.LayoutEventEditBinding;
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventField;
