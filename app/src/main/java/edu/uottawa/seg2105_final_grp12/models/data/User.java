@@ -26,6 +26,9 @@ public class User implements Serializable {
     private int averageRating = 0;
 
 
+    public User() {
+    }
+
     // private FirebaseAuth mAuth;
     //TODO have reviews come through with userData
     public User(Map<String, String> userData) {

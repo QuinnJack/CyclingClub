@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.uottawa.seg2105_final_grp12.EditEventFragment;
+import edu.uottawa.seg2105_final_grp12.fragment.EditEventFragment;
 import edu.uottawa.seg2105_final_grp12.R;
 import edu.uottawa.seg2105_final_grp12.databinding.ActivityEventManagementBinding;
 import edu.uottawa.seg2105_final_grp12.databinding.LayoutEventListBinding;
