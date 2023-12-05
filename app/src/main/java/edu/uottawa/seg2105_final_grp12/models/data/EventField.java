@@ -31,7 +31,8 @@ public enum EventField {
     FEE(R.id.field_fee, R.string.label_fee);
 
     private static Map<String, EventField> fieldMap = Arrays.stream(EventField.values())
-            .flatMap(f -> Stream.of(String.valueOf(f.id), f.label, f.key).map(s -> new AbstractMap.SimpleImmutableEntry<>(s, f)))
+            .flatMap(f -> Stream.of(String.valueOf(f.id), f.label, f.key)
+            .map(s -> new AbstractMap.SimpleImmutableEntry<>(s, f)))
             .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
     private final int id;
@@ -62,13 +63,17 @@ public enum EventField {
 
     EventField(int id, int label) {
         this.id = id;
-        this.label = App.getContext().getString(label);
+        this.label = App.getContext() != null
+                ? App.getContext().getString(label)
+                : label + " ";
         key = pathFormat.convert(this.label.replace(' ', '_').toLowerCase());
     }
 
     EventField(int id, int label, String key) {
         this.id = id;
-        this.label = App.getContext().getString(label);
+        this.label = App.getContext() != null
+                ? App.getContext().getString(label)
+                : label + " ";
         this.key = key;
     }
 
