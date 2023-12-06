@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,9 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.uottawa.seg2105_final_grp12.models.data.ClubEventsAdapter;
+import edu.uottawa.seg2105_final_grp12.models.data.ClubReview;
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
 import edu.uottawa.seg2105_final_grp12.models.data.EventAdapter;
 import edu.uottawa.seg2105_final_grp12.models.data.EventField;
+import edu.uottawa.seg2105_final_grp12.models.data.ReviewAdapter;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 
 public class ClubInfoActivity extends AppCompatActivity {
@@ -45,12 +50,20 @@ public class ClubInfoActivity extends AppCompatActivity {
         // Getting the selected club from the database
         DatabaseReference clubAccount = FirebaseDatabase.getInstance().getReference("users").child(clubId);
 
+        SharedPreferences p = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        String name = p.getString("USERNAME", "");
+
         // Basic club info TextViews
         TextView tvClubName = findViewById(R.id.tv_club_name);
         TextView tvSocialLink = findViewById(R.id.tv_social_link);
         TextView tvClubContact = findViewById(R.id.tv_main_contact);
         TextView tvPhoneNumber = findViewById(R.id.tv_phone_number);
         ImageView clubLogo = findViewById(R.id.image_view_logo);
+
+        ListView listViewReviews = findViewById(R.id.list_club_reviews);
+        List<ClubReview> reviews = new ArrayList<ClubReview>();
+        ReviewAdapter reviewsAdapter = new ReviewAdapter(ClubInfoActivity.this, reviews);
+        listViewReviews.setAdapter(reviewsAdapter);
 
         clubAccount.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,21 +83,16 @@ public class ClubInfoActivity extends AppCompatActivity {
                         if (club.getPhoneNumber() != null) {
                             tvPhoneNumber.setText(club.getPhoneNumber());
                         }
-
                         if (club.getLogo() != null) {
                             int resourceId = getResources().getIdentifier(club.getLogo(),
                                     "drawable", getPackageName());
                             clubLogo.setImageResource(resourceId);
                         }
-                        /*
-                        // Load user's event types
-                        if (user.getEventTypes() != null) {
-                            userEventTypeNames.clear();
-                            userEventTypeNames.addAll(user.getEventTypes());
-                            userEventTypesAdapter.notifyDataSetChanged();
+                        if (club.getReviews() != null) {
+                            reviews.clear();
+                            reviews.addAll(club.getReviews());
+                            reviewsAdapter.notifyDataSetChanged();
                         }
-
-                         */
                     }
                 }
             }
@@ -103,7 +111,6 @@ public class ClubInfoActivity extends AppCompatActivity {
 
         ListView listViewEvents = findViewById(R.id.list_view_events);
         List<Event> events = new ArrayList<>();
-
 
         ClubEventsAdapter adapter = new ClubEventsAdapter(ClubInfoActivity.this, events);
         DatabaseReference eventDatabase = FirebaseDatabase.getInstance().getReference("events");
@@ -128,8 +135,6 @@ public class ClubInfoActivity extends AppCompatActivity {
                     }
 
                     ArrayList<String> l = (ArrayList<String>) values.remove("participants");
-                    SharedPreferences p = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
-                    String name = p.getString("USERNAME", "");
                     if (l != null && l.contains(name)) {
                         continue;
                     }
@@ -151,6 +156,29 @@ public class ClubInfoActivity extends AppCompatActivity {
             }
         });
 
+        Button btnAddReview = findViewById(R.id.button_add_review);
+        EditText etFeedback = findViewById(R.id.et_review_feedback);
+        Spinner ratingSpinner = findViewById(R.id.spinner_rating);
+
+        String[] ratings = {"1", "2", "3", "4", "5"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ratings);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ratingSpinner.setAdapter(spinnerAdapter);
+
+        btnAddReview.setOnClickListener(view -> {
+            int rating = Integer.parseInt(ratingSpinner.getSelectedItem().toString());
+            String feedback = etFeedback.getText().toString().trim();
+
+            if (feedback.isEmpty()) {
+                Toast.makeText(ClubInfoActivity.this, "Error: Must enter feedback!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            ClubReview newReview = new ClubReview(rating, feedback, name);
+            reviews.add(newReview);
+            clubAccount.child("reviews").setValue(reviews);
+            reviewsAdapter.notifyDataSetChanged();
+        });
 
     }
 }

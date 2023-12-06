@@ -105,6 +105,8 @@ public class User implements Serializable {
 
     public List<ClubReview> getReviews() { return reviews; }
 
+    public void setReviews() {this.reviews = reviews; }
+
     public void addReview(ClubReview review) {
         reviews.add(review);
         calculateAverageRating();

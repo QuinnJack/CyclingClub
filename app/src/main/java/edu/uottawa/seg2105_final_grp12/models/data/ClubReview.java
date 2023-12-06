@@ -6,6 +6,10 @@ public class ClubReview {
     private String feedback;
     private String reviewerName;
 
+    public ClubReview() {
+
+    }
+
     public ClubReview(int rating, String feedback, String reviewerName) {
         this.rating = rating;
         this.feedback = feedback;
