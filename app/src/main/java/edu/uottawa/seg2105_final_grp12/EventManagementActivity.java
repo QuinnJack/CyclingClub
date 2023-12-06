@@ -115,24 +115,28 @@ public class EventManagementActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 events.clear();
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Event event = new Event();
 
-                    Map<String, String> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, String>>() {});
-                            //.forEach((key, value) -> event.setField(EventField.fromString(key), value));
+                    Map<String, Object> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, Object>>() {
+                    });
 
-                    String testVal = values.remove("clubId");
-
-                    if (testVal == null || !testVal.equals(uid)) {
+                    Object hostId = values.remove("clubId");
+                    if (hostId == null) {
                         continue;
                     }
-                    event.setId(values.remove("id"));
-                    event.setType(values.remove("type"));
-                    values.entrySet().stream().filter(e -> EventField.fromString(e.getKey()) != null)
-                            .forEach(e -> event.setField(EventField.fromString(e.getKey()), e.getValue()));
-                    events.add(event);
+                    if (hostId != null && !hostId.toString().equals(uid)) {
+                        continue;
+                    }
 
+                    event.setId(values.remove("id").toString());
+                    event.setType(values.remove("type").toString());
+                    values.entrySet().stream().filter(e -> EventField.fromString(e.getKey()) != null)
+                            .forEach(e -> event.setField(EventField.fromString(e.getKey()), e.getValue().toString()));
+                    events.add(event);
                 }
+
                 eventsAdapter.notifyDataSetChanged();
             }
 

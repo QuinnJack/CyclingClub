@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -103,37 +104,52 @@ public class ClubInfoActivity extends AppCompatActivity {
         ListView listViewEvents = findViewById(R.id.list_view_events);
         List<Event> events = new ArrayList<>();
 
+
+        ClubEventsAdapter adapter = new ClubEventsAdapter(ClubInfoActivity.this, events);
         DatabaseReference eventDatabase = FirebaseDatabase.getInstance().getReference("events");
-        eventDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+        eventDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 events.clear();
 
-                for (DataSnapshot postSnapshot : task.getResult().getChildren()) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Event event = new Event();
-                    Map<String, String> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, String>>() {
+
+                    Map<String, Object> values = postSnapshot.getValue(new GenericTypeIndicator<Map<String, Object>>() {
                     });
-                    //.forEach((key, value) -> event.setField(EventField.fromString(key), value));
 
-                    String hostId = values.remove("clubId");
-
-                    if (hostId == null || !hostId.equals(clubId)) {
+                    Object hostId = values.remove("clubId");
+                    if (hostId == null) {
                         continue;
                     }
-                    event.setId(values.remove("id"));
-                    event.setType(values.remove("type"));
+                    if (hostId != null && !hostId.toString().equals(clubId)) {
+                        continue;
+                    }
+
+                    ArrayList<String> l = (ArrayList<String>) values.remove("participants");
+                    SharedPreferences p = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                    String name = p.getString("USERNAME", "");
+                    if (l != null && l.contains(name)) {
+                        continue;
+                    }
+
+                    event.setId(values.remove("id").toString());
+                    event.setType(values.remove("type").toString());
                     values.entrySet().stream().filter(e -> EventField.fromString(e.getKey()) != null)
-                            .forEach(e -> event.setField(EventField.fromString(e.getKey()), e.getValue()));
+                            .forEach(e -> event.setField(EventField.fromString(e.getKey()), e.getValue().toString()));
                     events.add(event);
                 }
 
-                Log.d("Test10", events.toString());
-
-                ClubEventsAdapter adapter = new ClubEventsAdapter(ClubInfoActivity.this, events);
+                adapter.notifyDataSetChanged();
                 listViewEvents.setAdapter(adapter);
             }
-        });
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
     }

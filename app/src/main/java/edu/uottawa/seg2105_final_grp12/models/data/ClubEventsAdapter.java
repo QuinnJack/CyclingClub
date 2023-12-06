@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,6 +51,7 @@ public class ClubEventsAdapter extends ArrayAdapter<Event> {
      */
     @Override // Will generate an error if ArrayAdapter method isn't properly overridden
     public View getView(int listPosition, View convertView, ViewGroup parent) {
+
         LayoutInflater layoutInflater = context.getLayoutInflater();
         //View listViewEvent = layoutInflater.inflate(R.layout.layout_event_list, null, true); //immediately makes this a child
         LayoutClubEventsListBinding listBinding = DataBindingUtil.inflate(layoutInflater, R.layout.layout_club_events_list, null, true);
