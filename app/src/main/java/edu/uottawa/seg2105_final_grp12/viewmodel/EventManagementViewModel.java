@@ -80,9 +80,8 @@ public class EventManagementViewModel extends ValidatedFormViewModel {
 
             }
         });
-
-
     }
+
     public EventType getEventType() {
         return eventType;
     }

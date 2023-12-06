@@ -24,7 +24,7 @@ import edu.uottawa.seg2105_final_grp12.util.ObserverUtil;
 public abstract class ValidatedFormViewModel extends AndroidViewModel {
     private static ValidatedFormViewModel instance;
 
-    private static class Field extends MediatorLiveData<String> {
+    public static class Field extends MediatorLiveData<String> {
         private MutableLiveData<String> source = new MutableLiveData<>();
         protected boolean hadFocus = false;
 
@@ -56,7 +56,7 @@ public abstract class ValidatedFormViewModel extends AndroidViewModel {
         return instance.getApplication().getString(id);
     }
 
-    private final MediatorLiveData<Boolean> isValid = new MediatorLiveData<>();
+    protected final MediatorLiveData<Boolean> isValid = new MediatorLiveData<>();
     private int errorDelay = 0;
     protected final Map<View, Field> fields = new HashMap<>();
 

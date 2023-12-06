@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -113,13 +114,35 @@ public class EditEventFragment extends DialogFragment {
 
         builder.setView(binding.getRoot());
         binding.etEventName.requestFocus();
-        return builder.create();
+        AlertDialog dialog = builder.create();
+
+        eventManagementViewModel.isValid().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean valid) {
+                boolean enabled = valid;
+                LinearLayout fields = binding.eventFieldsLayout;
+
+                if (valid)
+                    for (int i = 1; i < fields.getChildCount(); i++) {
+                        LinearLayout fieldLayout = (LinearLayout) binding.eventFieldsLayout.getChildAt(i);
+                        if (!fieldLayout.isShown() || getFieldView(fieldLayout).getClass() != AppCompatEditText.class) continue;
+
+                        if (!eventManagementViewModel.getField(getFieldView(fieldLayout)).hadFocus())
+                            valid = false;
+                    }
+
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(valid);
+
+            }
+        });
+
+        return dialog;
     }
 
     private void updateFields(Event event) {
         for (Map.Entry<EventField, String> e : event.getProperties().entrySet()) {
             eventManagementViewModel.getEventType().put(e.getKey(), true);
-            setValue(getField(binding.getRoot().findViewById(e.getKey().getId())), e.getValue());
+            setValue(getFieldView(binding.getRoot().findViewById(e.getKey().getId())), e.getValue());
         }
         binding.etEventName.setText(event.getEventName());
     }
@@ -138,7 +161,6 @@ public class EditEventFragment extends DialogFragment {
                 event.setField(EventField.fromId(((ViewGroup) v.getParent()).getId()), getValue(v));
 
         eventManagementViewModel.updateEvent(event);
-        //updateEventsAdapter();
     }
 
     private String getValue(View v) {
@@ -174,7 +196,7 @@ public class EditEventFragment extends DialogFragment {
         return inputs;
     }
 
-    private View getField(LinearLayout layout) {
+    private View getFieldView(LinearLayout layout) {
         return layout.getChildAt(layout.getChildCount()-1);
     }
 
@@ -184,7 +206,8 @@ public class EditEventFragment extends DialogFragment {
         View.OnFocusChangeListener compareMinMaxListener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (minAge.isShown() && maxAge.isShown() && minAge.length() > 0 && maxAge.length() > 0 && !minAge.hasFocus() && !maxAge.hasFocus()) {
+                if (minAge.isShown() && maxAge.isShown() && minAge.length() > 0 && maxAge.length() > 0
+                        && !minAge.hasFocus() && !maxAge.hasFocus()) {
                     if (Integer.parseInt(minAge.getText().toString()) > Integer.parseInt(maxAge.getText().toString())) {
                         if (eventManagementViewModel.isValid(minAge, maxAge)) {
                             eventManagementViewModel.setError(minAge, getString(R.string.error_invalid_age_range));
