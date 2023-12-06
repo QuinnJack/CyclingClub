@@ -136,10 +136,10 @@ public class FindClubActivity extends AppCompatActivity {
     // while refining the club list to the search parameters
     public void updateClubList(String eventType, String eventName, String clubName) {
         databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        clubs.clear();
         databaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                clubs.clear();
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
                     if (user.getRole().equals("Cycling Club")) {
@@ -151,6 +151,10 @@ public class FindClubActivity extends AppCompatActivity {
                         }
                         // If a clubName was entered to the search, this username must contain it
                         if (clubName != null && !user.getUsername().contains(clubName)) {
+                            continue;
+                        }
+
+                        if (eventName != null && (user.getEventNames() == null || !user.getEventNames().contains(eventName))) {
                             continue;
                         }
 

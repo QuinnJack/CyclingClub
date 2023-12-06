@@ -1,5 +1,7 @@
 package edu.uottawa.seg2105_final_grp12.viewmodel;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 
@@ -22,7 +24,12 @@ import edu.uottawa.seg2105_final_grp12.viewmodel.base.ValidatedFormViewModel;
 
 public class EventManagementViewModel extends ValidatedFormViewModel {
 
+    SharedPreferences sharedPreferences = getApplication().getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+    String clubId = sharedPreferences.getString("UID", "");
+
     private DatabaseReference databaseEvents = FirebaseDatabase.getInstance().getReference("events");
+    private DatabaseReference databaseClub = FirebaseDatabase.getInstance().getReference("users").child(clubId);
+
     private EventType eventType = new EventType();
     private List<String> clubEventNames = new ArrayList<>();
 
@@ -43,6 +50,31 @@ public class EventManagementViewModel extends ValidatedFormViewModel {
         databaseEvents.child(id).child("id").setValue(id);
         databaseEvents.child(id).child("type").setValue(event.getType());
         databaseEvents.child(id).child("clubId").setValue(event.getCyclingClub()); // cycling club managing the event
+
+        databaseEvents.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User club = snapshot.getValue(User.class);
+                    List<String> eventNames = new ArrayList<String>();
+                    if (club.getEventNames() != null) {
+                        eventNames = club.getEventNames();
+                    }
+                    if (!eventNames.contains(event.getEventName())) {
+                        eventNames.add(event.getEventName());
+                        club.setEventNames(eventNames);
+                        databaseClub.child("eventNames").setValue(eventNames);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
     public EventType getEventType() {
         return eventType;
