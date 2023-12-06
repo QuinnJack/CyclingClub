@@ -1,11 +1,10 @@
 package edu.uottawa.seg2105_final_grp12.models.data;
 
-public class TimeTrial extends Event {
+public class RoadStageRace extends Event{
 
-
-    public TimeTrial(String id) {
+    public RoadStageRace(String id) {
         super(id);
     }
 
-
 }
+
