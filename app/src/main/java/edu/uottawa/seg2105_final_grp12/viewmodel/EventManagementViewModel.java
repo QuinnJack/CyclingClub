@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -11,13 +12,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import edu.uottawa.seg2105_final_grp12.models.data.Event;
+import edu.uottawa.seg2105_final_grp12.models.data.EventField;
 import edu.uottawa.seg2105_final_grp12.models.data.EventType;
 import edu.uottawa.seg2105_final_grp12.models.data.User;
 import edu.uottawa.seg2105_final_grp12.viewmodel.base.ValidatedFormViewModel;
@@ -50,8 +54,11 @@ public class EventManagementViewModel extends ValidatedFormViewModel {
         databaseEvents.child(id).child("id").setValue(id);
         databaseEvents.child(id).child("type").setValue(event.getType());
         databaseEvents.child(id).child("clubId").setValue(event.getCyclingClub()); // cycling club managing the event
+        ArrayList<String> a = new ArrayList<>();
+        a.add(event.getValue(EventField.PARTICIPANTS));
+        databaseEvents.child(id).child("participants").setValue(a);
 
-        databaseEvents.addValueEventListener(new ValueEventListener() {
+        databaseClub.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

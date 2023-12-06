@@ -134,7 +134,11 @@ public class ClubInfoActivity extends AppCompatActivity {
                         continue;
                     }
 
-                    ArrayList<String> l = (ArrayList<String>) values.remove("participants");
+                    ArrayList<String> l = null;
+                    Object o = values.remove("participants");
+                    if (o != null && o instanceof ArrayList) {
+                        l = (ArrayList<String>) o;
+                    }
                     if (l != null && l.contains(name)) {
                         continue;
                     }

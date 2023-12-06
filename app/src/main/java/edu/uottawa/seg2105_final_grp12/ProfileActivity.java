@@ -238,6 +238,7 @@ public class ProfileActivity extends Activity {
         String socialMediaLink = socialMediaInput.getText().toString().trim();
         String mainContactName = nameInput.getText().toString().trim();
         String phoneNumber = phoneInput.getText().toString().trim();
+        String logo = logoSpinner.getSelectedItem().toString().trim();
 
         if (validateInfo(mainContactName, socialMediaLink, phoneNumber)) {
 
@@ -248,7 +249,8 @@ public class ProfileActivity extends Activity {
 
             databaseUser.child("socialMediaLink").setValue(socialMediaLink);
             databaseUser.child("mainContactName").setValue(mainContactName);
-            databaseUser.child("phoneNumber").setValue(phoneNumber)
+            databaseUser.child("phoneNumber").setValue(phoneNumber);
+            databaseUser.child("logo").setValue(logo)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
