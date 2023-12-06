@@ -55,45 +55,11 @@
     <ListView
         android:id="@+id/searchResultsListView"
         android:layout_width="wrap_content"
-        android:layout_height="202dp"
+        android:layout_height="500dp"
         android:layout_below="@id/btn_search"
-        android:maxHeight="10dp" />
+        android:maxHeight="53dp" />
 
-    <Button
-        android:id="@+id/joinButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchResultsListView"
-        android:text="Join Event"/>
 
-    <TextView
-        android:id="@+id/reviewLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/joinButton"
-        android:text="Review Cycling Club: "
-        android:textSize="18dp"
-        android:textStyle="bold"/>
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reviewLabel"
-        android:numStars="5"
-        android:stepSize="1.0"/>
 
-    <EditText
-        android:id="@+id/commentField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ratingBar"
-        android:hint="Write a comment"/>
-
-    <Button
-        android:id="@+id/rateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/commentField"
-        android:text="Rate Club"/>
 
 </RelativeLayout>
