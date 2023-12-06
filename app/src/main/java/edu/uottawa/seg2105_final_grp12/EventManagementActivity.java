@@ -138,6 +138,11 @@ public class EventManagementActivity extends AppCompatActivity {
                 }
 
                 eventsAdapter.notifyDataSetChanged();
+
+                if (events.isEmpty())
+                    findViewById(R.id.tv_no_events).setVisibility(View.VISIBLE);
+                else
+                    findViewById(R.id.tv_no_events).setVisibility(View.GONE);
             }
 
             @Override

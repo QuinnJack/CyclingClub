@@ -127,12 +127,11 @@ public class EditEventFragment extends DialogFragment {
                         LinearLayout fieldLayout = (LinearLayout) binding.eventFieldsLayout.getChildAt(i);
                         if (!fieldLayout.isShown() || getFieldView(fieldLayout).getClass() != AppCompatEditText.class) continue;
 
-                        if (!eventManagementViewModel.getField(getFieldView(fieldLayout)).hadFocus())
+                        if (((EditText) getFieldView(fieldLayout)).getText().toString().isEmpty())
                             valid = false;
                     }
 
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(valid);
-
             }
         });
 
