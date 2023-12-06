@@ -68,10 +68,20 @@ public class EditEventFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle args = requireArguments();
 
-        EventType eventType = args.getSerializable("type", EventType.class);
+        EventType eventType;
+        Event event;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            eventType = args.getSerializable("type", EventType.class);
+
+            event = args.getSerializable("event", Event.class);
+        }
+        else {
+            eventType = (EventType) args.get("type");
+            event = (Event) args.get("event");
+        }
+
         eventManagementViewModel.setEventType(eventType);
 
-        Event event = args.getSerializable("event", Event.class);
         if (event != null) {
             builder.setTitle(event.getType());
             updateFields(event);
